@@ -1,5 +1,6 @@
 package net.antipixel.nexus.sprites;
 
+import lombok.Getter;
 import net.runelite.client.game.SpriteOverride;
 
 /**
@@ -7,20 +8,9 @@ import net.runelite.client.game.SpriteOverride;
  * from a JSON file, creating custom sprites from PNG files
  * @author Antipixel
  */
+@Getter
 public class SpriteDefinition implements SpriteOverride
 {
-	private int spriteID;
+	private int spriteId;
 	private String fileName;
-
-	@Override
-	public int getSpriteId()
-	{
-		return this.spriteID;
-	}
-
-	@Override
-	public String getFileName()
-	{
-		return this.fileName;
-	}
 }

@@ -2,6 +2,9 @@ package net.antipixel.nexus.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import net.runelite.api.ScriptEvent;
 import net.runelite.api.widgets.JavaScriptCallback;
 import net.runelite.api.widgets.Widget;
@@ -16,12 +19,16 @@ public abstract class UIComponent
 	private static final int MAX_OPACITY = 255;
 	private static final String BTN_NAME_FORMAT = "<col=ff9040>%s</col>";
 
-	/* Underlying widget */
+	@Getter
 	private Widget widget;
 
 	/* Actions and events */
 	private List<MenuAction> actions;
+
+	@Setter
 	private ComponentEventListener hoverListener;
+
+	@Setter
 	private ComponentEventListener leaveListener;
 
 	/**
@@ -57,7 +64,7 @@ public abstract class UIComponent
 	 * Triggered upon the selection of menu option
 	 * @param e the script event
 	 */
-	private void onActionSelected(ScriptEvent e)
+	protected void onActionSelected(ScriptEvent e)
 	{
 		// If there's no actions specified, ignore
 		if (this.actions.isEmpty())
@@ -140,8 +147,8 @@ public abstract class UIComponent
 	 */
 	public void setPosition(int x, int y)
 	{
-		this.widget.setOriginalX(x);
-		this.widget.setOriginalY(y);
+		this.setX(x);
+		this.setY(y);
 	}
 
 	/**
@@ -223,14 +230,5 @@ public abstract class UIComponent
 
 		// Invert the percentage
 		return 1.0f - opacity;
-	}
-
-	/**
-	 * Gets the underlying widget for this component
-	 * @return the underlying widget
-	 */
-	public Widget getWidget()
-	{
-		return this.widget;
 	}
 }

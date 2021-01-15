@@ -16,15 +16,18 @@ import net.antipixel.nexus.definition.RegionDefinition;
 import net.antipixel.nexus.definition.TeleportDefinition;
 import net.antipixel.nexus.sprites.SpriteDefinition;
 import net.antipixel.nexus.ui.UIButton;
+import net.antipixel.nexus.ui.UICheckBox;
+import net.antipixel.nexus.ui.UIComponent;
 import net.antipixel.nexus.ui.UIFadeButton;
 import net.antipixel.nexus.ui.UIGraphic;
 import net.antipixel.nexus.ui.UIPage;
 import net.runelite.api.Client;
 import net.runelite.api.SoundEffectID;
 import net.runelite.api.SpriteID;
+import net.runelite.api.events.MenuOptionClicked;
+import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.events.WidgetLoaded;
 import net.runelite.api.widgets.Widget;
-import net.runelite.api.widgets.WidgetSizeMode;
 import net.runelite.api.widgets.WidgetType;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
@@ -42,6 +45,7 @@ public class NexusMapPlugin extends Plugin
 {
 	/* Packed Widget IDs */
 	private static final int GROUP_NEXUS_PORTAL = 17;
+	private static final int ID_PORTAL_WINDOW = 0x110001;
 	private static final int ID_PORTAL_PANEL = 0x110002;
 	private static final int ID_PORTAL_MODEL = 0x110003;
 	private static final int ID_SCRY_TEXT = 0x110004;
@@ -57,8 +61,8 @@ public class NexusMapPlugin extends Plugin
 
 	/* Widget dimensions and positions */
 	private static final int TELE_ICON_SIZE = 24;
-	private static final int MAP_SPRITE_POS_X = 32;
-	private static final int MAP_SPRITE_POS_Y = 18;
+	private static final int MAP_SPRITE_POS_X = 39;
+	private static final int MAP_SPRITE_POS_Y = 53;
 	private static final int INDEX_MAP_SPRITE_WIDTH = 400;
 	private static final int INDEX_MAP_SPRITE_HEIGHT = 214;
 	private static final int REGION_MAP_SPRITE_WIDTH = 478;
@@ -69,11 +73,18 @@ public class NexusMapPlugin extends Plugin
 	/* Script, Sprite IDs */
 	private static final int SCRIPT_TRIGGER_KEY = 1437;
 	private static final int REGION_MAP_MAIN = 2721;
+	private static final int VARBIT_NEXUS_MODE = 6671;
 
 	/* Menu actions */
 	private static final String ACTION_TEXT_TELE = "Teleport";
+	private static final String ACTION_TEXT_SCRY = "Scry";
 	private static final String ACTION_TEXT_SELECT = "Select";
 	private static final String ACTION_TEXT_BACK = "Back";
+	private static final String NAME_TEXT_TOGGLE = "Map Mode";
+
+	/* Configuration Group & Keys */
+	private static final String CFG_GROUP = "nexusMapCFG";
+	private static final String CFG_KEY_STATE = "prevState";
 
 	/* Definition JSON files */
 	private static final String DEF_FILE_REGIONS = "RegionDef.json";
@@ -91,10 +102,17 @@ public class NexusMapPlugin extends Plugin
 	private NexusConfig config;
 
 	@Inject
+	private ConfigManager configManager;
+
+	@Inject
 	private SpriteManager spriteManager;
 
 	private RegionDefinition[] regionDefinitions;
 	private SpriteDefinition[] spriteDefinitions;
+
+	private boolean mapEnabled;
+	private	boolean switchingModes;
+	private String teleportAction;
 
 	private Map<String, Teleport> availableTeleports;
 
@@ -103,6 +121,7 @@ public class NexusMapPlugin extends Plugin
 	private UIGraphic mapGraphic;
 	private UIGraphic[] indexRegionGraphics;
 	private UIButton[] indexRegionIcons;
+	private UICheckBox mapToggleCheckbox;
 
 	private UIPage indexPage;
 	private List<UIPage> mapPages;
@@ -181,34 +200,49 @@ public class NexusMapPlugin extends Plugin
 	}
 
 	@Subscribe
+	public void onMenuOptionClicked(MenuOptionClicked e)
+	{
+		// When switching between Teleport and Scry mode in the standard
+		// Nexus menu, the entire interface is reloaded, triggering the
+		// WidgetLoaded event. By listening out for a menu option click
+		// event on either of the radio buttons, we can set a flag indicating
+		// that the widget reload was triggered by the switching of the mode
+		if (e.getWidgetId() == ID_SCRY_RADIO_PANE)
+			this.switchingModes = true;
+	}
+
+	@Subscribe
+	public void onVarbitChanged(VarbitChanged e)
+	{
+		// Update the action text in the menu
+		this.teleportAction = this.getModeAction();
+	}
+
+	@Subscribe
 	public void onWidgetLoaded(WidgetLoaded e)
 	{
 		if (e.getGroupId() == GROUP_NEXUS_PORTAL)
 		{
-			Widget root = this.client.getWidget(ID_PORTAL_PANEL);
-
-			// Hide the default widgets and take the root widget
-			// layer and expand it so that it takes up the entirety
-			// of the Nexus windows main content area
-			this.setDefaultWidgetVisibility(false);
-			this.expandRootWidget(root);
+			// The main window layer
+			Widget window = this.client.getWidget(ID_PORTAL_WINDOW);
 
 			// Builds a list of teleports that are
 			// actually available to the player
 			this.buildAvailableTeleportList();
+			this.updateDisplayedMenu();
 
 			// Create the page objects, onto which the UI
 			// components will be placed
 			this.createMenuPages();
 
 			// Create the custom widgets
-			this.createIndexMenu(root);
-			this.createMapGraphic(root);
-			this.createBackButton(root);
-			this.createTeleportWidgets(root);
+			this.createIndexMenu(window);
+			this.createMapGraphic(window);
+			this.createBackButton(window);
+			this.createTeleportWidgets(window);
+			this.createToggleCheckbox(window);
 
-			// Finally, display the index page
-			this.displayIndexPage();
+			this.updateMapState(window);
 		}
 	}
 
@@ -225,21 +259,6 @@ public class NexusMapPlugin extends Plugin
 			// Update their visibility
 			this.client.getWidget(packedID).setHidden(!visible);
 		}
-	}
-
-	/**
-	 * Expands the size of the root widget to fill the entirety
-	 * of the Nexus portal menu's content area
-	 * @param root the root widget
-	 */
-	private void expandRootWidget(Widget root)
-	{
-		root.setOriginalX(0);
-		root.setOriginalY(35);
-		root.setWidthMode(WidgetSizeMode.ABSOLUTE);
-		root.setHeightMode(WidgetSizeMode.ABSOLUTE);
-		root.setOriginalWidth(REGION_MAP_SPRITE_WIDTH);
-		root.setOriginalHeight(REGION_MAP_SPRITE_HEIGHT);
 	}
 
 	/**
@@ -262,6 +281,44 @@ public class NexusMapPlugin extends Plugin
 		// appending the results of both to the available teleports maps
 		this.availableTeleports.putAll(this.getTeleportsFromLabelWidget(primaryParent, false, labelPattern));
 		this.availableTeleports.putAll(this.getTeleportsFromLabelWidget(alternateParent, true, labelPattern));
+	}
+
+	/**
+	 * Updates which menu is being displayed
+	 */
+	private void updateDisplayedMenu()
+	{
+		// If the menu is currently switching modes, don't update
+		if (this.switchingModes)
+		{
+			// Reset the flag
+			this.switchingModes = false;
+		}
+		else
+		{
+			// Set the initial map state from config
+			this.mapEnabled = this.getInitialMapState();
+		}
+	}
+
+	/**
+	 * Gets the preferred initial menu to display upon
+	 * first opening the Nexus menu, as set in the config
+	 * @return true if the initial menu should be the map,
+	 * or false if the original menu should be displayed
+	 */
+	private boolean getInitialMapState()
+	{
+		switch (config.initialMode())
+		{
+			case NEXUS_MAP:
+				return true;
+			case DEFAULT_MENU:
+				return false;
+			case REMEMBER_PREVIOUS:
+				return this.getPreviousDisplayMode();
+		}
+		return false;
 	}
 
 	/**
@@ -318,12 +375,12 @@ public class NexusMapPlugin extends Plugin
 	/**
 	 * Creates the widgets and components required for the index menu,
 	 * such as the index maps and the region icons
-	 * @param root the layer on which to create the widgets
+	 * @param window the layer on which to create the widgets
 	 */
-	private void createIndexMenu(Widget root)
+	private void createIndexMenu(Widget window)
 	{
 		// Create a graphic widget for the background image of the index page
-		Widget backingWidget = root.createChild(-1, WidgetType.GRAPHIC);
+		Widget backingWidget = window.createChild(-1, WidgetType.GRAPHIC);
 
 		// Wrap in a UIGraphic, set dimensions, position and sprite
 		UIGraphic indexBackingGraphic = new UIGraphic(backingWidget);
@@ -344,7 +401,7 @@ public class NexusMapPlugin extends Plugin
 			RegionDefinition regionDef = this.regionDefinitions[i];
 
 			// Create a widget for the region sprite graphic
-			Widget regionGraphic = root.createChild(-1, WidgetType.GRAPHIC);
+			Widget regionGraphic = window.createChild(-1, WidgetType.GRAPHIC);
 
 			// Wrap in UIGraphic, update the size and position to match that of
 			// the backing graphic. Set the sprite to that of the current region
@@ -362,7 +419,7 @@ public class NexusMapPlugin extends Plugin
 				continue;
 
 			// Create the widget for the regions icon
-			Widget regionIcon = root.createChild(-1, WidgetType.GRAPHIC);
+			Widget regionIcon = window.createChild(-1, WidgetType.GRAPHIC);
 
 			// Get the definition for the regions icon
 			IconDefinition iconDef = regionDef.getIcon();
@@ -373,9 +430,9 @@ public class NexusMapPlugin extends Plugin
 			this.indexRegionIcons[i].setPosition(iconDef.getX(), iconDef.getY());
 			this.indexRegionIcons[i].setSize(MAP_ICON_WIDTH, MAP_ICON_HEIGHT);
 			this.indexRegionIcons[i].setSprites(iconDef.getSpriteStandard(), iconDef.getSpriteHover());
-			this.indexRegionIcons[i].setOnHoverListener((c) -> onIconHover(regionDef.getID()));
-			this.indexRegionIcons[i].setOnLeaveListener((c) -> onIconLeave(regionDef.getID()));
-			this.indexRegionIcons[i].addAction(ACTION_TEXT_SELECT, () -> onIconClicked(regionDef.getID()));
+			this.indexRegionIcons[i].setOnHoverListener((c) -> onIconHover(regionDef.getId()));
+			this.indexRegionIcons[i].setOnLeaveListener((c) -> onIconLeave(regionDef.getId()));
+			this.indexRegionIcons[i].addAction(ACTION_TEXT_SELECT, () -> onIconClicked(regionDef.getId()));
 
 			// Add to the index page
 			this.indexPage.add(this.indexRegionIcons[i]);
@@ -384,16 +441,16 @@ public class NexusMapPlugin extends Plugin
 
 	/**
 	 * Creates the graphic used to display the custom map sprite on each of the map pages
-	 * @param root the layer on which to create the widget
+	 * @param window the layer on which to create the widget
 	 */
-	private void createMapGraphic(Widget root)
+	private void createMapGraphic(Widget window)
 	{
 		// Create the widget for the map graphic
-		Widget mapWidget = root.createChild(-1, WidgetType.GRAPHIC);
+		Widget mapWidget = window.createChild(-1, WidgetType.GRAPHIC);
 
 		// Wrap the widget in a UIGraphic
 		this.mapGraphic = new UIGraphic(mapWidget);
-		this.mapGraphic.setPosition(0, 0);
+		this.mapGraphic.setPosition(7, 35);
 		this.mapGraphic.setSize(REGION_MAP_SPRITE_WIDTH, REGION_MAP_SPRITE_HEIGHT);
 
 		// Add the map graphic to each of the map pages
@@ -402,17 +459,17 @@ public class NexusMapPlugin extends Plugin
 
 	/**
 	 * Creates the back arrow, used to return to the index page
-	 * @param root the layer on which to create the widget
+	 * @param window the layer on which to create the widget
 	 */
-	private void createBackButton(Widget root)
+	private void createBackButton(Widget window)
 	{
 		// Create the widget for the button
-		Widget backArrowWidget = root.createChild(-1, WidgetType.GRAPHIC);
+		Widget backArrowWidget = window.createChild(-1, WidgetType.GRAPHIC);
 
 		// Wrap as a button, set the position, sprite, etc.
 		UIButton backArrowButton = new UIFadeButton(backArrowWidget);
 		backArrowButton.setSprites(SpriteID.GE_BACK_ARROW_BUTTON);
-		backArrowButton.setPosition(6, 6);
+		backArrowButton.setPosition(13, 41);
 		backArrowButton.setSize(30, 23);
 
 		// Assign the callback for the button
@@ -425,9 +482,9 @@ public class NexusMapPlugin extends Plugin
 	/**
 	 * Creates the teleport icon widgets and places them
 	 * in their correct position on the nexus widget pane
-	 * @param root the layer on which to create the widget
+	 * @param window the layer on which to create the widget
 	 */
-	private void createTeleportWidgets(Widget root)
+	private void createTeleportWidgets(Widget window)
 	{
 		// Iterate through each of the map regions
 		for (int i = 0; i < regionDefinitions.length; i++)
@@ -443,7 +500,7 @@ public class NexusMapPlugin extends Plugin
 			for (TeleportDefinition teleportDef : teleportDefs)
 			{
 				// Create the teleport icon widget
-				Widget teleportWidget = root.createChild(-1, WidgetType.GRAPHIC);
+				Widget teleportWidget = window.createChild(-1, WidgetType.GRAPHIC);
 
 				// Create a button wrapper for the teleport widget. Set the dimensions,
 				// the position and the visibility to hidden
@@ -476,8 +533,12 @@ public class NexusMapPlugin extends Plugin
 					// Assign the teleport name
 					teleportButton.setName(teleportName);
 
+					// Set the teleport action type, which will either be Teleport
+					// or Scry, depending on the value of the VarBit
+					this.teleportAction = this.getModeAction();
+
 					// Add the menu options and listener, activate listeners
-					teleportButton.addAction(ACTION_TEXT_TELE, () -> triggerTeleport(teleport));
+					teleportButton.addAction(teleportAction, () -> triggerTeleport(teleport));
 				}
 				else
 				{
@@ -487,6 +548,50 @@ public class NexusMapPlugin extends Plugin
 				}
 			}
 		}
+	}
+
+	/**
+	 * Creates the checkbox for toggling the state of the map
+	 * @param window the layer on which to create the widget
+	 */
+	private void createToggleCheckbox(Widget window)
+	{
+		// Create the graphic widget for the checkbox
+		Widget toggleWidget = window.createChild(-1, WidgetType.GRAPHIC);
+		Widget labelWidget = window.createChild(-1, WidgetType.TEXT);
+
+		// Wrap in checkbox, set size, position, etc.
+		UICheckBox mapToggle = new UICheckBox(toggleWidget, labelWidget);
+		mapToggle.setPosition(10, 10);
+		mapToggle.setName(NAME_TEXT_TOGGLE);
+		mapToggle.setEnabled(this.mapEnabled);
+		mapToggle.setText("Show Map");
+		mapToggle.setToggleListener(this::onMapStateToggled);
+	}
+
+	/**
+	 * Updates the state of the widgets depending on map state
+	 * @param window the window layer
+	 */
+	private void updateMapState(Widget window)
+	{
+		// If the map is enabled, display the custom widgets
+		if (this.mapEnabled)
+		{
+			// Hide the default widgets and display the map index map
+			this.setDefaultWidgetVisibility(false);
+			this.displayIndexPage();
+		}
+		else
+		{
+			// Hide all custom widgets and show the default widgets
+			this.indexPage.setVisibility(false);
+			this.mapPages.forEach(page -> page.setVisibility(false));
+			this.setDefaultWidgetVisibility(true);
+		}
+
+		// Save the new map mode to the config
+		this.setPreviousDisplayMode(mapEnabled);
 	}
 
 	/**
@@ -514,6 +619,25 @@ public class NexusMapPlugin extends Plugin
 
 		// Set the sprite to that of the specified region
 		this.mapGraphic.setSprite(regionDefinitions[regionID].getMapSprite());
+	}
+
+	/**
+	 * Called when the map state checkbox is toggled
+	 * @param src the checkbox component
+	 */
+	private void onMapStateToggled(UIComponent src)
+	{
+		// The checkbox component
+		UICheckBox toggleCheckbox = (UICheckBox)src;
+
+		// Update the map enabled flag
+		this.mapEnabled = toggleCheckbox.isEnabled();
+
+		// Update the map state
+		this.updateMapState(client.getWidget(ID_PORTAL_PANEL));
+
+		// *Boop*
+		this.client.playSoundEffect(SoundEffectID.UI_BOOP);
 	}
 
 	/**
@@ -602,6 +726,47 @@ public class NexusMapPlugin extends Plugin
 	private Teleport getAvailableTeleport(TeleportDefinition teleportDefinition)
 	{
 		return this.availableTeleports.get(teleportDefinition.getName());
+	}
+
+	/**
+	 * Gets the mode the menu was in at last use, this value is
+	 * stored in the config manager and persists between sessions
+	 * @return true if the last used mode was the map mode, false
+	 * if it was in the default nexus menu mode
+	 */
+	private boolean getPreviousDisplayMode()
+	{
+		// Get the stored previous display mode
+		Boolean mode = this.configManager.getConfiguration(CFG_GROUP, CFG_KEY_STATE, Boolean.class);
+
+		// If the mode has yet to be defined, return false
+		if (mode == null)
+			return false;
+
+		// Otherwise return the value pulled from config
+		return mode;
+	}
+
+	/**
+	 * Stores the display mode the menu was last in into the config
+	 * @param mode true for map mode, false for the standard menu
+	 */
+	private void setPreviousDisplayMode(boolean mode)
+	{
+		this.configManager.setConfiguration(CFG_GROUP, CFG_KEY_STATE, mode);
+	}
+
+	/**
+	 * Gets the menu action appropriate for the current nexus mode
+	 * @return the action string
+	 */
+	private String getModeAction()
+	{
+		// Get the current mode for the nexus. 0 = Teleport, 1 = Scry
+		int mode = this.client.getVarbitValue(VARBIT_NEXUS_MODE);
+
+		// Return "Teleport" or "Scry", depending on the mode
+		return (mode == 1) ? ACTION_TEXT_SCRY : ACTION_TEXT_TELE;
 	}
 
 	/**
