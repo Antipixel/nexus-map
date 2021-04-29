@@ -90,7 +90,7 @@ public class NexusMapPlugin extends Plugin
 	private static final String DEF_FILE_REGIONS = "RegionDef.json";
 	private static final String DEF_FILE_SPRITES = "SpriteDef.json";
 
-	private static final String TELE_NAME_PATTERN = "<col=ffffff>(\\S)</col> :  (.+)";
+	private static final String TELE_NAME_PATTERN = "<col=ffffff>(\\S+)</col> :  (.+)";
 
 	@Inject
 	private Client client;
