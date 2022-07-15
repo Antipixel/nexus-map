@@ -514,7 +514,7 @@ public class NexusMapPlugin extends Plugin
 				this.mapPages.get(i).add(teleportButton);
 
 				// Check that the teleport is available to the player
-				if (this.isTeleportAvailable(teleportDef))
+				if (this.isTeleportNameAvailable(teleportDef) || this.isTeleportAliasAvailable(teleportDef))
 				{
 					// Grab the teleport from the list of available teleports
 					Teleport teleport = this.getAvailableTeleport(teleportDef);
@@ -709,13 +709,23 @@ public class NexusMapPlugin extends Plugin
     }
 
 	/**
-	 * Checks if there's a teleport available for a given teleport definition
+	 * Checks if there's a teleport available for a given teleport definition by name
 	 * @param teleportDefinition the teleport definition
 	 * @return true, if the teleport is available to the player, otherwise false
 	 */
-	private boolean isTeleportAvailable(TeleportDefinition teleportDefinition)
+	private boolean isTeleportNameAvailable(TeleportDefinition teleportDefinition)
 	{
 		return this.availableTeleports.containsKey(teleportDefinition.getName());
+	}
+
+	/**
+	 * Checks if there's a teleport available for a given teleport definition by alias
+	 * @param teleportDefinition the teleport definition
+	 * @return true, if the teleport is available to the player, otherwise false
+	 */
+	private boolean isTeleportAliasAvailable(TeleportDefinition teleportDefinition)
+	{
+		return this.availableTeleports.containsKey(teleportDefinition.getAlias());
 	}
 
 	/**
@@ -725,7 +735,10 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private Teleport getAvailableTeleport(TeleportDefinition teleportDefinition)
 	{
-		return this.availableTeleports.get(teleportDefinition.getName());
+		if (isTeleportNameAvailable(teleportDefinition))
+			return this.availableTeleports.get(teleportDefinition.getName());
+		
+		return this.availableTeleports.get(teleportDefinition.getAlias());
 	}
 
 	/**
