@@ -18,7 +18,7 @@ public class Teleport
 	 *                   for this teleport option
 	 * @param key the keyboard shortcut
 	 * @param alt true if this teleport is an alternate type,
-	 *            for example the Grand Exhange is an alternate of Varrock
+	 *            for example the Grand Exchange is an alternate of Varrock
 	 */
 	public Teleport(String name, int childIndex, String key, boolean alt)
 	{

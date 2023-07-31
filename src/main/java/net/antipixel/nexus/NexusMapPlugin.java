@@ -107,6 +107,9 @@ public class NexusMapPlugin extends Plugin
 	@Inject
 	private SpriteManager spriteManager;
 
+	@Inject
+	private Gson gson;
+
 	private RegionDefinition[] regionDefinitions;
 	private SpriteDefinition[] spriteDefinitions;
 
@@ -157,9 +160,6 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private void loadDefinitions()
 	{
-		// Construct an instance of GSON
-		Gson gson = new Gson();
-
 		// Load the definitions files for the regions and sprite override
 		this.regionDefinitions = loadDefinitionResource(RegionDefinition[].class, DEF_FILE_REGIONS, gson);
 		this.spriteDefinitions = loadDefinitionResource(SpriteDefinition[].class, DEF_FILE_SPRITES, gson);
@@ -207,7 +207,7 @@ public class NexusMapPlugin extends Plugin
 		// WidgetLoaded event. By listening out for a menu option click
 		// event on either of the radio buttons, we can set a flag indicating
 		// that the widget reload was triggered by the switching of the mode
-		if (e.getWidgetId() == ID_SCRY_RADIO_PANE)
+		if (e.getWidget() != null && e.getWidget().getId() == ID_SCRY_RADIO_PANE)
 			this.switchingModes = true;
 	}
 
