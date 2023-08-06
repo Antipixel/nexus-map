@@ -1,9 +1,12 @@
-package net.antipixel.nexus;
+package net.antipixel.nexus.config;
+
+import lombok.AllArgsConstructor;
 
 /**
  * Display options for the nexus menu
  * @author Antipixel
  */
+@AllArgsConstructor
 public enum DisplayMode
 {
 	NEXUS_MAP("Map menu"),
@@ -11,11 +14,6 @@ public enum DisplayMode
 	REMEMBER_PREVIOUS("Remember previous");
 
 	private String value;
-
-	DisplayMode(String value)
-	{
-		this.value = value;
-	}
 
 	@Override
 	public String toString()

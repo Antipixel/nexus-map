@@ -2,39 +2,33 @@ package net.antipixel.nexus;
 
 import com.google.gson.Gson;
 import com.google.inject.Provides;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.inject.Inject;
+import net.antipixel.nexus.config.NexusConfig;
+import net.antipixel.nexus.config.TeleportNameMode;
 import net.antipixel.nexus.definition.IconDefinition;
 import net.antipixel.nexus.definition.RegionDefinition;
 import net.antipixel.nexus.definition.TeleportDefinition;
 import net.antipixel.nexus.sprites.SpriteDefinition;
-import net.antipixel.nexus.ui.UIButton;
-import net.antipixel.nexus.ui.UICheckBox;
-import net.antipixel.nexus.ui.UIComponent;
-import net.antipixel.nexus.ui.UIFadeButton;
-import net.antipixel.nexus.ui.UIGraphic;
-import net.antipixel.nexus.ui.UIPage;
-import net.runelite.api.Client;
-import net.runelite.api.SoundEffectID;
-import net.runelite.api.SpriteID;
-import net.runelite.api.events.MenuOptionClicked;
-import net.runelite.api.events.VarbitChanged;
-import net.runelite.api.events.WidgetLoaded;
+import net.antipixel.nexus.ui.*;
+import net.runelite.api.*;
+import net.runelite.api.events.*;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetType;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
+import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.game.SpriteManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.plugins.PluginManager;
+
+import javax.inject.Inject;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @PluginDescriptor(
         name = "Nexus Menu Map",
@@ -80,17 +74,24 @@ public class NexusMapPlugin extends Plugin
 	private static final String ACTION_TEXT_SCRY = "Scry";
 	private static final String ACTION_TEXT_SELECT = "Select";
 	private static final String ACTION_TEXT_BACK = "Back";
+	private static final String ACTION_TEXT_HOTKEY = "Set Hotkey";
 	private static final String NAME_TEXT_TOGGLE = "Map Mode";
+
+	private static final float FADE_EFFECT_MIN_OPACITY = 0.50f;
+	private static final float FADE_EFFECT_SPEED = 0.01f;
 
 	/* Configuration Group & Keys */
 	private static final String CFG_GROUP = "nexusMapCFG";
 	private static final String CFG_KEY_STATE = "prevState";
+	private static final String CFG_BTM_KEY = "keybind.telenexus";
 
 	/* Definition JSON files */
 	private static final String DEF_FILE_REGIONS = "RegionDef.json";
 	private static final String DEF_FILE_SPRITES = "SpriteDef.json";
 
-	private static final String TELE_NAME_PATTERN = "<col=ffffff>(\\S+)</col> :  (.+)";
+	private static final String TELE_NAME_PATTERN = "<col=ffffff>(.+)</col> :  (.+)";
+	private static final String SHORTCUT_COLOUR_TAG = "<col=ffffff>";
+	private static final String PLUGIN_NAME_BTM = "Better Teleport Menu";
 
 	@Inject
 	private Client client;
@@ -108,35 +109,92 @@ public class NexusMapPlugin extends Plugin
 	private SpriteManager spriteManager;
 
 	@Inject
+	private PluginManager pluginManager;
+
+	@Inject
+	private EventBus eventBus;
+
+	@Inject
 	private Gson gson;
 
 	private RegionDefinition[] regionDefinitions;
 	private SpriteDefinition[] spriteDefinitions;
+	private Map<String, TeleportDefinition> teleportDefinitions;
 
 	private boolean mapEnabled;
-	private	boolean switchingModes;
+	private boolean switchingModes;
 	private String teleportAction;
 
 	private Map<String, Teleport> availableTeleports;
+	private Map<String, UIButton> activeTeleportButtons;
 
 	/* Widgets */
 	private List<Integer> hiddenWidgetIDs;
 	private UIGraphic mapGraphic;
 	private UIGraphic[] indexRegionGraphics;
 	private UIButton[] indexRegionIcons;
-	private UICheckBox mapToggleCheckbox;
 
 	private UIPage indexPage;
 	private List<UIPage> mapPages;
 
+	private FadePulseEffect fadeEffect;
+	private Queue<Runnable> clientTickQueue;
+
 	@Override
-	protected void startUp()
+	protected void startUp() 
 	{
 		this.loadDefinitions();
+		this.buildTeleportDefinitionLookup();
 		this.createHiddenWidgetList();
 
 		// Add the custom sprites to the sprite manager
 		this.spriteManager.addSpriteOverrides(spriteDefinitions);
+
+		this.activeTeleportButtons = new HashMap<>();
+		this.clientTickQueue = new ArrayDeque<>();
+		this.fadeEffect = new FadePulseEffect(FADE_EFFECT_MIN_OPACITY, FADE_EFFECT_SPEED);
+	}
+
+	@Subscribe
+	public void onClientTick(ClientTick e)
+	{
+		// Invoke any queued methods
+		if (!this.clientTickQueue.isEmpty())
+			this.clientThread.invokeLater(this.clientTickQueue.remove());
+
+		// Update component effects
+		this.fadeEffect.onUpdate();
+		this.activeTeleportButtons.values().forEach(UIComponent::refreshEffect);
+	}
+
+	@Subscribe
+	public void onConfigChanged(ConfigChanged e)
+	{
+		switch (e.getKey()) {
+			case NexusConfig.KEY_TELEPORT_ICON_BORDER:
+				this.clientThread.invokeLater(this::updateIconBorderStyle);
+				break;
+			case NexusConfig.KEY_TELEPORT_FADE_ANIM:
+				this.clientThread.invokeLater(this::resetFadeAnimation);
+				break;
+			case NexusConfig.KEY_DISPLAY_SHORTCUTS:
+			case NexusConfig.KEY_TELEPORT_NAME:
+				this.clientThread.invokeLater(this::updateTeleportButtonNames);
+				break;
+			default:
+				// Hotkey config changes from the Better Teleport Menu plugin
+				if (e.getKey().startsWith(CFG_BTM_KEY))
+				{
+					// Unfortunately there's no way to confirm the Better Teleport Menu
+					// plugin has completed changing the shortcut key text in the vanilla
+					// teleport list, so to make sure we're updating from the *new* shortcut
+					// key value, we'll add a couple updates functions into a queue to be performed
+					// over the next client ticks
+					this.clientTickQueue.add(this::updateTeleportButtonNames);
+					this.clientTickQueue.add(this::updateTeleportButtonNames);
+				}
+				break;
+		}
 	}
 
 	@Provides
@@ -148,11 +206,13 @@ public class NexusMapPlugin extends Plugin
 	@Override
 	protected void shutDown()
 	{
-		this.regionDefinitions = null;
-		this.hiddenWidgetIDs.clear();
-
 		// Remove the custom sprites
 		this.spriteManager.removeSpriteOverrides(spriteDefinitions);
+
+		this.regionDefinitions = null;
+		this.spriteDefinitions = null;
+		this.teleportDefinitions.clear();
+		this.hiddenWidgetIDs.clear();
 	}
 
 	/**
@@ -166,11 +226,35 @@ public class NexusMapPlugin extends Plugin
 	}
 
 	/**
+	 * Builds a lookup table for teleport definitions
+	 */
+	private void buildTeleportDefinitionLookup()
+	{
+		this.teleportDefinitions = new HashMap<>();
+
+		// Iterate through all regions looking for their teleport definitions
+		for (RegionDefinition regionDef : this.regionDefinitions)
+		{
+			for (TeleportDefinition teleportDef : regionDef.getTeleportDefinitions())
+			{
+				// Place the teleport definition in the lookup table indexed by its name
+				this.teleportDefinitions.put(teleportDef.getName(), teleportDef);
+
+				// But also index it by its alias. This is for compatibility with plugins
+				// that change the vanilla name to the alias in the Nexus menu
+				if (teleportDef.hasAlias())
+					this.teleportDefinitions.put(teleportDef.getAlias(), teleportDef);
+			}
+		}
+	}
+
+	/**
 	 * Loads a definition resource from a JSON file
+	 *
 	 * @param classType the class into which the data contained in the JSON file will be read into
-	 * @param resource the name of the resource (file name)
-	 * @param gson a reference to the GSON object
-	 * @param <T> the class type
+	 * @param resource  the name of the resource (file name)
+	 * @param gson      a reference to the GSON object
+	 * @param <T>       the class type
 	 * @return the data read from the JSON definition file
 	 */
 	private <T> T loadDefinitionResource(Class<T> classType, String resource, Gson gson)
@@ -214,6 +298,9 @@ public class NexusMapPlugin extends Plugin
 	@Subscribe
 	public void onVarbitChanged(VarbitChanged e)
 	{
+		if (e.getVarbitId() != VARBIT_NEXUS_MODE)
+			return;
+
 		// Update the action text in the menu
 		this.teleportAction = this.getModeAction();
 	}
@@ -248,6 +335,7 @@ public class NexusMapPlugin extends Plugin
 
 	/**
 	 * Shows or hides the default menu widgets
+	 *
 	 * @param visible the desired visibility state of the widgets,
 	 *                true to set them to visible, false for hidden
 	 */
@@ -258,6 +346,54 @@ public class NexusMapPlugin extends Plugin
 		{
 			// Update their visibility
 			this.client.getWidget(packedID).setHidden(!visible);
+		}
+	}
+
+	/**
+	 * Updates the border style
+	 */
+	private void updateIconBorderStyle()
+	{
+		this.activeTeleportButtons.values().forEach((button) -> button.setBorder(config.borderStyle()));
+	}
+
+	/**
+	 * Resets each of the teleport buttons to fully opaque
+	 */
+	private void resetFadeAnimation()
+	{
+		this.activeTeleportButtons.values().forEach((teleButton) -> {
+			if (config.fadeAnimation())
+			{
+				teleButton.setEffect(this.fadeEffect);
+			}
+			else
+			{
+				teleButton.clearEffect();
+			}
+		});
+	}
+
+	/**
+	 * Updates the names of the teleport button widgets from the values
+	 * stored in the vanilla client menu, synchronizing any changes made
+	 * to the original text (e.g. the shortcut key changing, or location name)
+	 */
+	private void updateTeleportButtonNames()
+	{
+		// Rebuild the teleport list from the vanilla menu
+		this.buildAvailableTeleportList();
+
+		// Update only the active teleports
+		for (String teleportName : this.activeTeleportButtons.keySet())
+		{
+			// Grab the active teleport using its name
+			UIButton teleportButton = this.activeTeleportButtons.get(teleportName);
+
+			// Update the widget name
+			TeleportDefinition teleportDef = this.teleportDefinitions.get(teleportName);
+			Teleport teleport = this.getAvailableTeleport(teleportDef);
+			teleportButton.setName(this.generateTeleportName(teleport));
 		}
 	}
 
@@ -304,13 +440,13 @@ public class NexusMapPlugin extends Plugin
 	/**
 	 * Gets the preferred initial menu to display upon
 	 * first opening the Nexus menu, as set in the config
+	 *
 	 * @return true if the initial menu should be the map,
 	 * or false if the original menu should be displayed
 	 */
 	private boolean getInitialMapState()
 	{
-		switch (config.initialMode())
-		{
+		switch (config.initialMode()) {
 			case NEXUS_MAP:
 				return true;
 			case DEFAULT_MENU:
@@ -324,9 +460,10 @@ public class NexusMapPlugin extends Plugin
 	/**
 	 * Extracts information from a nexus portals teleport list and returns the information as a Teleport list,
 	 * containing the name, index, shortcut key and type of teleport (either primary or alternate)
+	 *
 	 * @param labelParent the widget containing a teleport list
-	 * @param alt true if this widget contains alternate teleports, false if primary
-	 * @param pattern a compiled pattern for matching the text contained in the list item widgets
+	 * @param alt         true if this widget contains alternate teleports, false if primary
+	 * @param pattern     a compiled pattern for matching the text contained in the list item widgets
 	 * @return a list containing all available teleports for the provided widget
 	 */
 	private Map<String, Teleport> getTeleportsFromLabelWidget(Widget labelParent, boolean alt, Pattern pattern)
@@ -340,19 +477,41 @@ public class NexusMapPlugin extends Plugin
 
 		for (Widget child : labelWidgets)
 		{
-			// Create a pattern matcher with the widgets text content
-			Matcher matcher = pattern.matcher(child.getText());
+			String shortcutKey;
+			String teleportName;
 
-			// If the text doesn't match the pattern, skip onto the next
-			if (!matcher.matches())
+			// For teleports with a shortcut defined, the teleport widget text will
+			// contain the shortcut key sandwiched between colour tags. If these tags
+			// are present, the shortcut key and teleport name will need to be extracted.
+			if (child.getText().contains(SHORTCUT_COLOUR_TAG))
+			{
+				// Create a pattern matcher with the widgets text content
+				Matcher matcher = pattern.matcher(child.getText());
+
+				// If the text doesn't match the pattern, skip onto the next
+				if (!matcher.matches())
+					continue;
+
+				// Extract the pertinent information
+				shortcutKey = matcher.group(1);
+				teleportName = matcher.group(2);
+			}
+			else
+			{
+				// No shortcut key defined
+				shortcutKey = null;
+				teleportName = child.getText();
+			}
+
+			// If a teleport by this name cannot be found in the teleport definitions,
+			// skip. This likely means a new teleport has been added to the Nexus that
+			// hasn't been updated into the definitions yet
+			if (!this.teleportDefinitions.containsKey(teleportName))
 				continue;
 
-			// Extract the pertinent information
-			String shortcutKey = matcher.group(1);
-			String teleportName =  matcher.group(2);
-
-			// Construct a new teleport object for us to add to the map of available teleports
-			teleports.put(teleportName, new Teleport(teleportName, child.getIndex(), shortcutKey, alt));
+			// Get the teleport definition from the lookup table
+			TeleportDefinition teleportDef = this.teleportDefinitions.get(teleportName);
+			teleports.put(teleportName, new Teleport(teleportDef, child, shortcutKey, alt));
 		}
 
 		return teleports;
@@ -375,6 +534,7 @@ public class NexusMapPlugin extends Plugin
 	/**
 	 * Creates the widgets and components required for the index menu,
 	 * such as the index maps and the region icons
+	 *
 	 * @param window the layer on which to create the widgets
 	 */
 	private void createIndexMenu(Widget window)
@@ -441,6 +601,7 @@ public class NexusMapPlugin extends Plugin
 
 	/**
 	 * Creates the graphic used to display the custom map sprite on each of the map pages
+	 *
 	 * @param window the layer on which to create the widget
 	 */
 	private void createMapGraphic(Widget window)
@@ -459,6 +620,7 @@ public class NexusMapPlugin extends Plugin
 
 	/**
 	 * Creates the back arrow, used to return to the index page
+	 *
 	 * @param window the layer on which to create the widget
 	 */
 	private void createBackButton(Widget window)
@@ -482,10 +644,18 @@ public class NexusMapPlugin extends Plugin
 	/**
 	 * Creates the teleport icon widgets and places them
 	 * in their correct position on the nexus widget pane
+	 *
 	 * @param window the layer on which to create the widget
 	 */
 	private void createTeleportWidgets(Widget window)
 	{
+		// Clear the current list of active teleport buttons to avoid duplicates
+		this.activeTeleportButtons.clear();
+
+		// Check for the Better Teleport Menu plugin, if installed and active,
+		// add rebind options to the teleport button menus
+		boolean betterTeleportMenuActive = this.isBetterTeleportMenuActive();
+
 		// Iterate through each of the map regions
 		for (int i = 0; i < regionDefinitions.length; i++)
 		{
@@ -493,12 +663,11 @@ public class NexusMapPlugin extends Plugin
 			RegionDefinition regionDef = this.regionDefinitions[i];
 
 			// Get the definitions for the teleports within this map region
-			TeleportDefinition[] teleportDefs = regionDef.getTeleports();
+			TeleportDefinition[] teleportDefs = regionDef.getTeleportDefinitions();
 
 			// Iterate through each of the *defined* teleports, not just
 			// the teleports that are available to the player
-			for (TeleportDefinition teleportDef : teleportDefs)
-			{
+			for (TeleportDefinition teleportDef : teleportDefs) {
 				// Create the teleport icon widget
 				Widget teleportWidget = window.createChild(-1, WidgetType.GRAPHIC);
 
@@ -509,6 +678,10 @@ public class NexusMapPlugin extends Plugin
 				teleportButton.setX(teleportDef.getSpriteX());
 				teleportButton.setY(teleportDef.getSpriteY());
 				teleportButton.setVisibility(false);
+
+				// If enabled in config, apply fade pulsing effect
+				if (config.fadeAnimation())
+					teleportButton.setEffect(this.fadeEffect);
 
 				// Add the teleport button to this regions map page
 				this.mapPages.get(i).add(teleportButton);
@@ -521,14 +694,10 @@ public class NexusMapPlugin extends Plugin
 
 					// Set the sprite to the active icon for this spell
 					teleportButton.setSprites(teleportDef.getEnabledSprite());
+					teleportButton.setBorder(config.borderStyle());
 
-					// Get the teleport name, formatted with alias
-					String teleportName = getFormattedLocationName(teleportDef);
-
-					// If enabled in the config, prepend the shortcut key for this
-					// teleport to the beginning of the teleport name
-					if (this.config.displayShortcuts())
-						teleportName = this.prependShortcutKey(teleportName, teleport.getKeyShortcut());
+					// Create the teleport name, formatted with alias and optional shortcut key
+					String teleportName = this.generateTeleportName(teleport);
 
 					// Assign the teleport name
 					teleportButton.setName(teleportName);
@@ -539,15 +708,45 @@ public class NexusMapPlugin extends Plugin
 
 					// Add the menu options and listener, activate listeners
 					teleportButton.addAction(teleportAction, () -> triggerTeleport(teleport));
-				}
-				else
-				{
+
+					// If the Better Teleport Menu plugin is active, add a rebind action
+					if (betterTeleportMenuActive)
+						teleportButton.addAction(ACTION_TEXT_HOTKEY, () -> triggerRebindDialog(teleport));
+
+					// Add to the list of active teleport buttons
+					this.activeTeleportButtons.put(teleportDef.getName(), teleportButton);
+				} else {
 					// If the spell isn't available to the player, display the
 					// deactivated spell icon instead
 					teleportButton.setSprites(teleportDef.getDisabledSprite());
 				}
 			}
 		}
+	}
+
+	private String generateTeleportName(Teleport teleport)
+	{
+		TeleportNameMode nameMode = this.config.teleportName();
+
+		String name = teleport.getName();
+
+		if (teleport.hasAlias())
+		{
+			switch (nameMode)
+			{
+				case BOTH:
+					name = String.format("%s (%s)", name, teleport.getAlias());
+					break;
+				case ALIAS:
+					name = teleport.getAlias();
+					break;
+			}
+		}
+
+		if (config.displayShortcuts() && teleport.hasShortcutKey())
+			name = String.format("[%s] %s", teleport.getKeyShortcut(), name);
+
+		return name;
 	}
 
 	/**
@@ -709,22 +908,66 @@ public class NexusMapPlugin extends Plugin
     }
 
 	/**
+	 * Triggers the rebind dialog in the Better Teleport Menu plugin
+	 * @param teleport the teleport to rebind
+	 */
+	private void triggerRebindDialog(Teleport teleport)
+	{
+		// If the Better Teleport Menu isn't active, abort
+		if (!this.isBetterTeleportMenuActive())
+			return;
+
+		// The Better Teleport Menu plugin listens for menu clicks on the event bus to
+		// detect the "Set Hotkey" option being selected on a teleport on the vanilla menu.
+		// For the plugin to detect this menu action being triggered on our custom teleport
+		// icon widgets, we need to create a fake menu entry click event containing the widget
+		// ID and index of the vanilla menu teleport widget and post it on the event bus.
+		MenuEntry spoofMenuEntry = new SpoofMenuEntry(teleport.getWidget());
+
+		this.eventBus.post(new MenuOptionClicked(spoofMenuEntry));
+	}
+
+	/**
+	 * Checks if Abex's Better Teleport Menu plugin is installed and active
+	 * @return true if active, otherwise false
+	 */
+	private boolean isBetterTeleportMenuActive()
+	{
+		// Cycle through each of the installed plugins checking for Better Teleport Menu
+		for (Plugin plugin : this.pluginManager.getPlugins())
+		{
+			boolean pluginNameMatches = plugin.getName().equals(PLUGIN_NAME_BTM);
+
+			// Check it's both installed and enabled
+			if (pluginNameMatches && this.pluginManager.isPluginEnabled(plugin))
+				return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Checks if there's a teleport available for a given teleport definition
 	 * @param teleportDefinition the teleport definition
 	 * @return true, if the teleport is available to the player, otherwise false
 	 */
 	private boolean isTeleportAvailable(TeleportDefinition teleportDefinition)
 	{
-		return this.availableTeleports.containsKey(teleportDefinition.getName());
+		return this.getAvailableTeleport(teleportDefinition) != null;
 	}
 
 	/**
 	 * Gets the teleport corresponding to the specified teleport definition
 	 * @param teleportDefinition the teleport definition
-	 * @return the teleport option
+	 * @return the teleport option, or null if no teleport exists by the given name
 	 */
 	private Teleport getAvailableTeleport(TeleportDefinition teleportDefinition)
 	{
+		// First check the teleport isn't using an alias. This can occur if the user
+		// has another plugin installed that is altering the name of the teleport.
+		if (this.availableTeleports.containsKey(teleportDefinition.getAlias()))
+			return this.availableTeleports.get(teleportDefinition.getAlias());
+
 		return this.availableTeleports.get(teleportDefinition.getName());
 	}
 
@@ -767,36 +1010,5 @@ public class NexusMapPlugin extends Plugin
 
 		// Return "Teleport" or "Scry", depending on the mode
 		return (mode == 1) ? ACTION_TEXT_SCRY : ACTION_TEXT_TELE;
-	}
-
-	/**
-	 * Prepends the shortcut key to the teleport name
-	 * @param name the teleport name
-	 * @param key the shortcut key
-	 * @return the teleport name with the shortcut key prepended
-	 */
-	private String prependShortcutKey(String name, String key)
-	{
-		return String.format("[%s] %s", key, name);
-	}
-
-	/**
-	 * Creates a formatted string which is to be used as the name
-	 * for the teleport icons. The string contains the base name of
-	 * the teleport, and the alias name of the teleport, if is applicable.
-	 * @param teleportDefinition the teleport definition
-	 * @return the formatted string
-	 */
-	private String getFormattedLocationName(TeleportDefinition teleportDefinition)
-	{
-		// Create the base name
-		String name = teleportDefinition.getName();
-
-		// If this location has an alias, append it to the
-		// end of the name string, enclosed in parenthesis
-		if (teleportDefinition.hasAlias())
-			name += String.format(" (%s)", teleportDefinition.getAlias());
-
-		return name;
 	}
 }

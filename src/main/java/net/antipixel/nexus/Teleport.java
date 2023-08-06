@@ -1,31 +1,62 @@
 package net.antipixel.nexus;
 
+import lombok.Getter;
+import net.antipixel.nexus.definition.TeleportDefinition;
+import net.runelite.api.widgets.Widget;
+
 /**
  * Represents a teleport option on the Nexus menu
  * @author Antipixel
  */
+@Getter
 public class Teleport
 {
-	private String name;
-	private int childIndex;
+	private TeleportDefinition definition;
+	private Widget widget;
 	private String keyShortcut;
-	private boolean alternate;
+	private boolean alt;
 
 	/**
 	 * Creates a new teleport instance
-	 * @param name the teleport name
-	 * @param childIndex the child index of the widget
-	 *                   for this teleport option
+	 * @param definition the teleport definition
+	 * @param widget the widget for this teleport option
 	 * @param key the keyboard shortcut
 	 * @param alt true if this teleport is an alternate type,
 	 *            for example the Grand Exchange is an alternate of Varrock
 	 */
-	public Teleport(String name, int childIndex, String key, boolean alt)
+	public Teleport(TeleportDefinition definition, Widget widget, String key, boolean alt)
 	{
-		this.name = name;
-		this.childIndex = childIndex;
+		this.definition = definition;
+		this.widget = widget;
 		this.keyShortcut = key;
-		this.alternate = alt;
+		this.alt = alt;
+	}
+
+	/**
+	 * Gets the teleport name
+	 * @return the teleport name
+	 */
+	public String getName()
+	{
+		return this.definition.getName();
+	}
+
+	/**
+	 * Gets the teleport alias
+	 * @return the alternative name for this teleport
+	 */
+	public String getAlias()
+	{
+		return this.definition.getAlias();
+	}
+
+	/**
+	 * Checks if the teleport has an alias
+	 * @return true if an alias is defined, otherwise false
+	 */
+	public boolean hasAlias()
+	{
+		return this.definition.getAlias() != null;
 	}
 
 	/**
@@ -34,27 +65,15 @@ public class Teleport
 	 */
 	public int getChildIndex()
 	{
-		return this.childIndex;
+		return this.widget.getIndex();
 	}
 
 	/**
-	 * Checks whether or not the teleport is an
-	 * alternative teleport location, such as the
-	 * Grand Exchange on the Varrock teleport spell
-	 * @return true if is alternate location, otherwise false
+	 * Checks if the teleport has a shortcut key set
+	 * @return true if a shortcut is set, otherwise false
 	 */
-	public boolean isAlt()
+	public boolean hasShortcutKey()
 	{
-		return this.alternate;
-	}
-
-
-	/**
-	 * The keyboard shortcut key used to activate this teleport
-	 * @return the shortcut key
-	 */
-	public String getKeyShortcut()
-	{
-		return this.keyShortcut;
+		return this.keyShortcut != null;
 	}
 }

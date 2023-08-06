@@ -10,6 +10,7 @@ import lombok.Getter;
 @Getter
 public class TeleportDefinition
 {
+	private int structID;
 	private String name;
 	private String alias;
 	public int spriteX;

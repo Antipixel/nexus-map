@@ -19,15 +19,6 @@ public class RegionDefinition
 	private TeleportDefinition[] teleportDefinitions;
 
 	/**
-	 * Gets the teleport definitions for this region
-	 * @return the teleport definitions
-	 */
-	public TeleportDefinition[] getTeleports()
-	{
-		return this.teleportDefinitions;
-	}
-
-	/**
 	 * Checks if this region has teleports defined for it
 	 * @return true if teleports are defined, otherwise false
 	 */

@@ -31,6 +31,10 @@ public abstract class UIComponent
 	@Setter
 	private ComponentEventListener leaveListener;
 
+	@Getter
+	@Setter
+	private ComponentEffect effect;
+
 	/**
 	 * Constructs a new UIComponent
 	 * @param widget the underlying game widget
@@ -97,6 +101,15 @@ public abstract class UIComponent
 		// If a leave event is specified, trigger it
 		if (this.leaveListener != null)
 			this.leaveListener.onComponentEvent(this);
+	}
+
+	/**
+	 * Refreshes the applied effect, applying it to the component
+	 */
+	public void refreshEffect()
+	{
+		if (this.effect != null)
+			this.effect.apply(this);
 	}
 
 	/**
@@ -230,5 +243,25 @@ public abstract class UIComponent
 
 		// Invert the percentage
 		return 1.0f - opacity;
+	}
+
+	/**
+	 * Sets the border style
+ 	 * @param state the selected border style
+	 */
+	public void setBorder(BorderStyle state)
+	{
+		this.getWidget().setBorderType(state.getId());
+	}
+
+	/**
+	 * Clears the active component effect
+	 */
+	public void clearEffect()
+	{
+		if (this.effect != null)
+			this.effect.onRemoved(this);
+
+		this.effect = null;
 	}
 }

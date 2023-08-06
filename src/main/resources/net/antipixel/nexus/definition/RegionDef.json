@@ -12,6 +12,7 @@
     "mapSprite":-18000,
     "teleportDefinitions":[
       {
+        "structID":459,
         "name":"Senntisten",
         "alias":"Digsite",
         "spriteX":281,
@@ -20,6 +21,7 @@
         "disabledSprite":392
       },
       {
+        "structID":450,
         "name":"Varrock",
         "spriteX":225,
         "spriteY":128,
@@ -27,6 +29,7 @@
         "disabledSprite":77
       },
       {
+        "structID":1246,
         "name":"Draynor Manor",
         "spriteX":172,
         "spriteY":173,
@@ -34,6 +37,7 @@
         "disabledSprite":1278
       },
       {
+        "structID":451,
         "name":"Grand Exchange",
         "spriteX":200,
         "spriteY":107,
@@ -41,6 +45,7 @@
         "disabledSprite":77
       },
       {
+        "structID":452,
         "name":"Lumbridge",
         "spriteX":221,
         "spriteY":246,
@@ -77,6 +82,7 @@
     "mapSprite":-18002,
     "teleportDefinitions":[
       {
+        "structID":467,
         "name":"Troll Stronghold",
         "spriteX":183,
         "spriteY":54,
@@ -84,6 +90,7 @@
         "disabledSprite":-18050
       },
       {
+        "structID": 1248,
         "name":"Mind Altar",
         "spriteX":248,
         "spriteY":155,
@@ -91,6 +98,7 @@
         "disabledSprite":1281
       },
       {
+        "structID": 453,
         "name":"Falador",
         "spriteX":247,
         "spriteY":216,
@@ -127,6 +135,7 @@
     "mapSprite":-18004,
     "teleportDefinitions":[
       {
+        "structID": 1250,
         "name":"Fenken\u0027 Castle",
         "spriteX":134,
         "spriteY":85,
@@ -134,6 +143,7 @@
         "disabledSprite":1284
       },
       {
+        "structID": 1249,
         "name":"Salve Graveyard",
         "spriteX":79,
         "spriteY":119,
@@ -141,6 +151,7 @@
         "disabledSprite":1279
       },
       {
+        "structID": 1252,
         "name":"Harmony Island",
         "spriteX":419,
         "spriteY":253,
@@ -148,6 +159,7 @@
         "disabledSprite":1286
       },
       {
+        "structID": 461,
         "name":"Kharyrll",
         "alias":"Canifis",
         "spriteX":99,
@@ -156,6 +168,7 @@
         "disabledSprite":393
       },
       {
+        "structID": 1254,
         "name":"Barrows",
         "spriteX":140,
         "spriteY":203,
@@ -177,6 +190,7 @@
     "mapSprite":-18005,
     "teleportDefinitions":[
       {
+        "structID": 466,
         "name":"Annakarl",
         "alias":"Demonic Ruins",
         "spriteX":297,
@@ -185,6 +199,7 @@
         "disabledSprite":397
       },
       {
+        "structID": 469,
         "name":"Ghorrock",
         "alias":"Frozen Waste Plateau",
         "spriteX":143,
@@ -193,6 +208,7 @@
         "disabledSprite":398
       },
       {
+        "structID": 470,
         "name":"Carrallanger",
         "alias":"Graveyard of Shadows",
         "spriteX":241,
@@ -201,6 +217,7 @@
         "disabledSprite":396
       },
       {
+        "structID": 1253,
         "name":"Cemetery",
         "spriteX":143,
         "spriteY":160,
@@ -222,6 +239,7 @@
     "mapSprite":-18006,
     "teleportDefinitions":[
       {
+        "structID": 465,
         "name":"Fishing Guild",
         "spriteX":194,
         "spriteY":113,
@@ -229,6 +247,7 @@
         "disabledSprite":605
       },
       {
+        "structID": 468,
         "name":"Catherby",
         "spriteX":304,
         "spriteY":87,
@@ -236,6 +255,7 @@
         "disabledSprite":606
       },
       {
+        "structID": 454,
         "name":"Camelot",
         "spriteX":278,
         "spriteY":72,
@@ -243,6 +263,7 @@
         "disabledSprite":87
       },
       {
+        "structID": 1255,
         "name":"Ape Atoll Dungeon",
         "spriteX":421,
         "spriteY":275,
@@ -250,6 +271,7 @@
         "disabledSprite":1288
       },
       {
+        "structID": 460,
         "name":"Marim",
         "alias":"Ape Atoll",
         "spriteX":431,
@@ -258,6 +280,7 @@
         "disabledSprite":407
       },
       {
+        "structID": 458,
         "name":"Yanille",
         "spriteX":188,
         "spriteY":267,
@@ -265,6 +288,7 @@
         "disabledSprite":105
       },
       {
+        "structID": 1251,
         "name":"West Ardougne",
         "spriteX":163,
         "spriteY":158,
@@ -272,6 +296,7 @@
         "disabledSprite":1285
       },
       {
+        "structID": 456,
         "name":"Ardougne",
         "spriteX":229,
         "spriteY":153,
@@ -279,6 +304,7 @@
         "disabledSprite":104
       },
       {
+        "structID": 457,
         "name":"Watchtower",
         "spriteX":173,
         "spriteY":241,
@@ -286,6 +312,7 @@
         "disabledSprite":105
       },
       {
+        "structID": 455,
         "name":"Seers\u0027 Village",
         "spriteX":256,
         "spriteY":67,
@@ -307,6 +334,7 @@
     "mapSprite":-18007,
     "teleportDefinitions":[
       {
+        "structID": 462,
         "name":"Lunar Isle",
         "spriteX":42,
         "spriteY":110,
@@ -314,6 +342,7 @@
         "disabledSprite":594
       },
       {
+        "structID": 464,
         "name":"Waterbirth Island",
         "spriteX":255,
         "spriteY":170,
@@ -321,11 +350,12 @@
         "disabledSprite":595
       },
       {
+        "structID": 592,
         "name":"Weiss",
         "spriteX":407,
         "spriteY":67,
         "enabledSprite":2418,
-        "disabledSprite":-18050
+        "disabledSprite":2419
       }
     ]
   },
@@ -357,6 +387,7 @@
     "mapSprite":-18009,
     "teleportDefinitions":[
       {
+        "structID": 463,
         "name":"Kourend Castle",
         "spriteX":203,
         "spriteY":247,
@@ -364,6 +395,7 @@
         "disabledSprite":410
       },
       {
+        "structID": 2887,
         "name":"Arceuus Library",
         "spriteX":231,
         "spriteY":247,
@@ -371,6 +403,7 @@
         "disabledSprite":1277
       },
       {
+        "structID": 1247,
         "name":"Battlefront",
         "spriteX":260,
         "spriteY":247,
