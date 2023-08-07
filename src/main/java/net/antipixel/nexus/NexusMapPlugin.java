@@ -90,6 +90,7 @@ public class NexusMapPlugin extends Plugin
 	private static final String DEF_FILE_SPRITES = "SpriteDef.json";
 
 	private static final String TELE_NAME_PATTERN = "<col=ffffff>(.+)</col> :  (.+)";
+	private static final String PARENTHESISED_ALIAS_FORMAT = "%s (%s)";
 	private static final String SHORTCUT_COLOUR_TAG = "<col=ffffff>";
 	private static final String PLUGIN_NAME_BTM = "Better Teleport Menu";
 
@@ -243,7 +244,10 @@ public class NexusMapPlugin extends Plugin
 				// But also index it by its alias. This is for compatibility with plugins
 				// that change the vanilla name to the alias in the Nexus menu
 				if (teleportDef.hasAlias())
+				{
 					this.teleportDefinitions.put(teleportDef.getAlias(), teleportDef);
+					this.teleportDefinitions.put(getParenthesisedName(teleportDef), teleportDef);
+				}
 			}
 		}
 	}
@@ -724,6 +728,11 @@ public class NexusMapPlugin extends Plugin
 		}
 	}
 
+	/**
+	 * Generates the name for the teleport button widget
+	 * @param teleport the teleport object
+	 * @return the generated teleport name
+	 */
 	private String generateTeleportName(Teleport teleport)
 	{
 		TeleportNameMode nameMode = this.config.teleportName();
@@ -735,7 +744,7 @@ public class NexusMapPlugin extends Plugin
 			switch (nameMode)
 			{
 				case BOTH:
-					name = String.format("%s (%s)", name, teleport.getAlias());
+					name = this.getParenthesisedAlias(teleport.getDefinition());
 					break;
 				case ALIAS:
 					name = teleport.getAlias();
@@ -747,6 +756,26 @@ public class NexusMapPlugin extends Plugin
 			name = String.format("[%s] %s", teleport.getKeyShortcut(), name);
 
 		return name;
+	}
+
+	/**
+	 * Gets the teleport name with the original name appended in parenthesis
+	 * @param teleportDef the teleport definition
+	 * @return the parenthesised name/alias
+	 */
+	private String getParenthesisedName(TeleportDefinition teleportDef)
+	{
+		return String.format(PARENTHESISED_ALIAS_FORMAT, teleportDef.getAlias(), teleportDef.getName());
+	}
+
+	/**
+	 * Gets the teleport name with the alias appended in parenthesis
+	 * @param teleportDef the teleport definition
+	 * @return the parenthesised name/alias
+	 */
+	private String getParenthesisedAlias(TeleportDefinition teleportDef)
+	{
+		return String.format(PARENTHESISED_ALIAS_FORMAT, teleportDef.getName(), teleportDef.getAlias());
 	}
 
 	/**
@@ -967,6 +996,9 @@ public class NexusMapPlugin extends Plugin
 		// has another plugin installed that is altering the name of the teleport.
 		if (this.availableTeleports.containsKey(teleportDefinition.getAlias()))
 			return this.availableTeleports.get(teleportDefinition.getAlias());
+
+		if (this.availableTeleports.containsKey(this.getParenthesisedName(teleportDefinition)))
+			return this.availableTeleports.get(this.getParenthesisedName(teleportDefinition));
 
 		return this.availableTeleports.get(teleportDefinition.getName());
 	}
