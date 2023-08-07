@@ -80,6 +80,6 @@ public interface NexusConfig extends Config
 	)
 	default boolean fadeAnimation()
 	{
-		return false;
+		return true;
 	}
 }
