@@ -411,5 +411,27 @@
         "disabledSprite":1280
       }
     ]
+  },
+  {
+    "id":10,
+    "name":"Varlamore",
+    "icon":{
+      "x":7,
+      "y":100,
+      "spriteStandard":-18120,
+      "spriteHover":-18121
+    },
+    "indexSprite":-1,
+    "mapSprite":-18010,
+    "teleportDefinitions":[
+      {
+        "structID": 855,
+        "name":"Civitas illa Fortis",
+        "spriteX":231,
+        "spriteY":247,
+        "enabledSprite":367,
+        "disabledSprite":417
+      }
+    ]
   }
 ]

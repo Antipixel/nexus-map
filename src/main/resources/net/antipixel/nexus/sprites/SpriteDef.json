@@ -40,6 +40,10 @@
       "fileName":"kourend.png"
    },
    {
+      "spriteId":-18010,
+      "fileName":"varlamore.png"
+   },
+   {
       "spriteId":-18050,
       "fileName":"troll_teleport_disabled.png"
    },
@@ -122,5 +126,13 @@
    {
       "spriteId":-18119,
       "fileName":"Icon_Kourend_Hover.png"
+   },
+   {
+      "spriteId":-18120,
+      "fileName":"Icon_Varlamore_Std.png"
+   },
+   {
+      "spriteId":-18121,
+      "fileName":"Icon_Varlamore_Hover.png"
    }
 ]
