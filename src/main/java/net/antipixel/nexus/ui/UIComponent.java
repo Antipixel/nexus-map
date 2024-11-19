@@ -2,7 +2,6 @@ package net.antipixel.nexus.ui;
 
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import net.runelite.api.ScriptEvent;
@@ -72,9 +71,11 @@ public abstract class UIComponent
 	{
 		// If there's no actions specified, ignore
 		if (this.actions.isEmpty())
+		{
 			return;
+		}
 
-		// Get the action action event object for this menu option
+		// Get the action event object for this menu option
 		MenuAction actionEvent = this.actions.get(e.getOp() - 1);
 
 		// Call the action listener for this option
@@ -89,7 +90,9 @@ public abstract class UIComponent
 	{
 		// If a hover event is specified, trigger it
 		if (this.hoverListener != null)
+		{
 			this.hoverListener.onComponentEvent(this);
+		}
 	}
 
 	/**
@@ -100,7 +103,9 @@ public abstract class UIComponent
 	{
 		// If a leave event is specified, trigger it
 		if (this.leaveListener != null)
+		{
 			this.leaveListener.onComponentEvent(this);
+		}
 	}
 
 	/**
@@ -109,7 +114,9 @@ public abstract class UIComponent
 	public void refreshEffect()
 	{
 		if (this.effect != null)
+		{
 			this.effect.apply(this);
+		}
 	}
 
 	/**
@@ -186,7 +193,7 @@ public abstract class UIComponent
 
 	/**
 	 * Gets the X position of the component, relative
-	 * to the the parent layer
+	 * to the parent layer
 	 * @return the x position
 	 */
 	public int getX()
@@ -196,7 +203,7 @@ public abstract class UIComponent
 
 	/**
 	 * Gets the Y position of the component, relative
-	 * to the the parent layer
+	 * to the parent layer
 	 * @return the y position
 	 */
 	public int getY()
@@ -222,8 +229,10 @@ public abstract class UIComponent
 	public void setOpacity(float opacity)
 	{
 		// Cap the opacity to 1.0
-		if (opacity > 1.0)
+		if (opacity > 1.0f)
+		{
 			opacity = 1.0f;
+		}
 
 		// Invert the percentage
 		float percentage = 1.0f - opacity;
@@ -260,7 +269,9 @@ public abstract class UIComponent
 	public void clearEffect()
 	{
 		if (this.effect != null)
+		{
 			this.effect.onRemoved(this);
+		}
 
 		this.effect = null;
 	}

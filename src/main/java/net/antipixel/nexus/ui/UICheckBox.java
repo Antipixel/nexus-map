@@ -25,7 +25,7 @@ public class UICheckBox extends UIComponent
 
 	private static final String OPTION_TOGGLE = "Toggle";
 
-	private UILabel label;
+	private final UILabel label;
 
 	@Getter
 	private boolean enabled;
@@ -73,7 +73,7 @@ public class UICheckBox extends UIComponent
 		UILabel label = (UILabel) src;
 		label.setColour(LABEL_COL_HOVER);
 
-		// Make sure the checkbox sprite is up to date
+		// Make sure the checkbox sprite is up-to-date
 		this.updateCheckboxSprite();
 	}
 
@@ -90,7 +90,7 @@ public class UICheckBox extends UIComponent
 		UILabel label = (UILabel) src;
 		label.setColour(LABEL_COL_DEFAULT);
 
-		// Make sure the checkbox sprite is up to date
+		// Make sure the checkbox sprite is up-to-date
 		this.updateCheckboxSprite();
 	}
 
@@ -129,7 +129,9 @@ public class UICheckBox extends UIComponent
 
 		// If there's a toggle listener registered, call it
 		if (this.toggleListener != null)
+		{
 			this.toggleListener.onComponentEvent(this);
+		}
 	}
 
 	/**

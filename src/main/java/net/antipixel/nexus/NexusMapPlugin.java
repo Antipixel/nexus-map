@@ -2,15 +2,33 @@ package net.antipixel.nexus;
 
 import com.google.gson.Gson;
 import com.google.inject.Provides;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 import net.antipixel.nexus.config.NexusConfig;
 import net.antipixel.nexus.config.TeleportNameMode;
 import net.antipixel.nexus.definition.IconDefinition;
 import net.antipixel.nexus.definition.RegionDefinition;
 import net.antipixel.nexus.definition.TeleportDefinition;
 import net.antipixel.nexus.sprites.SpriteDefinition;
-import net.antipixel.nexus.ui.*;
-import net.runelite.api.*;
-import net.runelite.api.events.*;
+import net.antipixel.nexus.ui.FadePulseEffect;
+import net.antipixel.nexus.ui.UIButton;
+import net.antipixel.nexus.ui.UICheckBox;
+import net.antipixel.nexus.ui.UIComponent;
+import net.antipixel.nexus.ui.UIFadeButton;
+import net.antipixel.nexus.ui.UIGraphic;
+import net.antipixel.nexus.ui.UIPage;
+import net.runelite.api.Client;
+import net.runelite.api.MenuEntry;
+import net.runelite.api.SoundEffectID;
+import net.runelite.api.SpriteID;
+import net.runelite.api.events.ClientTick;
+import net.runelite.api.events.MenuOptionClicked;
+import net.runelite.api.events.VarbitChanged;
+import net.runelite.api.events.WidgetLoaded;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetType;
 import net.runelite.client.callback.ClientThread;
@@ -26,14 +44,13 @@ import net.runelite.client.plugins.PluginManager;
 import javax.inject.Inject;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @PluginDescriptor(
-        name = "Nexus Menu Map",
-        description = "Replaces the player owned house teleport Nexus menu",
-        tags = {"poh", "portal", "teleport", "nexus"}
+	name = "Nexus Menu Map",
+	description = "Replaces the player owned house teleport Nexus menu",
+	tags = {"poh", "portal", "teleport", "nexus"}
 )
 public class NexusMapPlugin extends Plugin
 {
@@ -142,7 +159,7 @@ public class NexusMapPlugin extends Plugin
 	private Queue<Runnable> clientTickQueue;
 
 	@Override
-	protected void startUp() 
+	protected void startUp()
 	{
 		this.loadDefinitions();
 		this.buildTeleportDefinitionLookup();
@@ -161,7 +178,9 @@ public class NexusMapPlugin extends Plugin
 	{
 		// Invoke any queued methods
 		if (!this.clientTickQueue.isEmpty())
+		{
 			this.clientThread.invokeLater(this.clientTickQueue.remove());
+		}
 
 		// Update component effects
 		this.fadeEffect.onUpdate();
@@ -171,7 +190,8 @@ public class NexusMapPlugin extends Plugin
 	@Subscribe
 	public void onConfigChanged(ConfigChanged e)
 	{
-		switch (e.getKey()) {
+		switch (e.getKey())
+		{
 			case NexusConfig.KEY_TELEPORT_ICON_BORDER:
 				this.clientThread.invokeLater(this::updateIconBorderStyle);
 				break;
@@ -295,15 +315,20 @@ public class NexusMapPlugin extends Plugin
 		// WidgetLoaded event. By listening out for a menu option click
 		// event on either of the radio buttons, we can set a flag indicating
 		// that the widget reload was triggered by the switching of the mode
-		if (e.getWidget() != null && e.getWidget().getId() == ID_SCRY_RADIO_PANE)
+		if (e.getWidget() != null
+			&& e.getWidget().getId() == ID_SCRY_RADIO_PANE)
+		{
 			this.switchingModes = true;
+		}
 	}
 
 	@Subscribe
 	public void onVarbitChanged(VarbitChanged e)
 	{
 		if (e.getVarbitId() != VARBIT_NEXUS_MODE)
+		{
 			return;
+		}
 
 		// Update the action text in the menu
 		this.teleportAction = this.getModeAction();
@@ -345,7 +370,7 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private void setDefaultWidgetVisibility(boolean visible)
 	{
-		// Iterate though each of the non essential widgets
+		// Iterate though each of the non-essential widgets
 		for (Integer packedID : this.hiddenWidgetIDs)
 		{
 			// Update their visibility
@@ -366,7 +391,8 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private void resetFadeAnimation()
 	{
-		this.activeTeleportButtons.values().forEach((teleButton) -> {
+		this.activeTeleportButtons.values().forEach((teleButton) ->
+		{
 			if (config.fadeAnimation())
 			{
 				teleButton.setEffect(this.fadeEffect);
@@ -450,7 +476,8 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private boolean getInitialMapState()
 	{
-		switch (config.initialMode()) {
+		switch (config.initialMode())
+		{
 			case NEXUS_MAP:
 				return true;
 			case DEFAULT_MENU:
@@ -494,7 +521,9 @@ public class NexusMapPlugin extends Plugin
 
 				// If the text doesn't match the pattern, skip onto the next
 				if (!matcher.matches())
+				{
 					continue;
+				}
 
 				// Extract the pertinent information
 				shortcutKey = matcher.group(1);
@@ -511,7 +540,9 @@ public class NexusMapPlugin extends Plugin
 			// skip. This likely means a new teleport has been added to the Nexus that
 			// hasn't been updated into the definitions yet
 			if (!this.teleportDefinitions.containsKey(teleportName))
+			{
 				continue;
+			}
 
 			// Get the teleport definition from the lookup table
 			TeleportDefinition teleportDef = this.teleportDefinitions.get(teleportName);
@@ -532,7 +563,9 @@ public class NexusMapPlugin extends Plugin
 
 		// Add a page for each region
 		for (int i = 0; i < regionDefinitions.length; i++)
+		{
 			this.mapPages.add(new UIPage());
+		}
 	}
 
 	/**
@@ -580,7 +613,9 @@ public class NexusMapPlugin extends Plugin
 			// If there's no teleports defined for this region, skip onto the next
 			// before the icon widget is created and has its listeners attached
 			if (!regionDef.hasTeleports())
+			{
 				continue;
+			}
 
 			// Create the widget for the regions icon
 			Widget regionIcon = window.createChild(-1, WidgetType.GRAPHIC);
@@ -671,7 +706,8 @@ public class NexusMapPlugin extends Plugin
 
 			// Iterate through each of the *defined* teleports, not just
 			// the teleports that are available to the player
-			for (TeleportDefinition teleportDef : teleportDefs) {
+			for (TeleportDefinition teleportDef : teleportDefs)
+			{
 				// Create the teleport icon widget
 				Widget teleportWidget = window.createChild(-1, WidgetType.GRAPHIC);
 
@@ -685,7 +721,9 @@ public class NexusMapPlugin extends Plugin
 
 				// If enabled in config, apply fade pulsing effect
 				if (config.fadeAnimation())
+				{
 					teleportButton.setEffect(this.fadeEffect);
+				}
 
 				// Add the teleport button to this regions map page
 				this.mapPages.get(i).add(teleportButton);
@@ -715,11 +753,15 @@ public class NexusMapPlugin extends Plugin
 
 					// If the Better Teleport Menu plugin is active, add a rebind action
 					if (betterTeleportMenuActive)
+					{
 						teleportButton.addAction(ACTION_TEXT_HOTKEY, () -> triggerRebindDialog(teleport));
+					}
 
 					// Add to the list of active teleport buttons
 					this.activeTeleportButtons.put(teleportDef.getName(), teleportButton);
-				} else {
+				}
+				else
+				{
 					// If the spell isn't available to the player, display the
 					// deactivated spell icon instead
 					teleportButton.setSprites(teleportDef.getDisabledSprite());
@@ -753,13 +795,15 @@ public class NexusMapPlugin extends Plugin
 		}
 
 		if (config.displayShortcuts() && teleport.hasShortcutKey())
+		{
 			name = String.format("[%s] %s", teleport.getKeyShortcut(), name);
+		}
 
 		return name;
 	}
 
 	/**
-	 * Gets the teleport name with the original name appended in parenthesis
+	 * Gets the teleport name with the original name appended in parentheses
 	 * @param teleportDef the teleport definition
 	 * @return the parenthesised name/alias
 	 */
@@ -769,7 +813,7 @@ public class NexusMapPlugin extends Plugin
 	}
 
 	/**
-	 * Gets the teleport name with the alias appended in parenthesis
+	 * Gets the teleport name with the alias appended in parentheses
 	 * @param teleportDef the teleport definition
 	 * @return the parenthesised name/alias
 	 */
@@ -922,19 +966,19 @@ public class NexusMapPlugin extends Plugin
 	 * Teleports the player to the specified teleport location
 	 * @param teleport the teleport location
 	 */
-    private void triggerTeleport(Teleport teleport)
-    {
+	private void triggerTeleport(Teleport teleport)
+	{
 		// Get the appropriate widget parent for the teleport, depending
 		// on whether the teleport is of primary or alternate type
 		int packedID = teleport.isAlt() ? ID_KEYEVENTS_ALTERNATE : ID_KEYEVENTS_PRIMARY;
 
 		// Get the child index of the teleport
-    	final int widgetIndex = teleport.getChildIndex();
+		final int widgetIndex = teleport.getChildIndex();
 
-    	// Call a CS2 script which will trigger the widget's keypress event.
+		// Call a CS2 script which will trigger the widget's keypress event.
 		// Credit to Abex for discovering this clever trick.
 		this.clientThread.invokeLater(() -> client.runScript(SCRIPT_TRIGGER_KEY, packedID, widgetIndex));
-    }
+	}
 
 	/**
 	 * Triggers the rebind dialog in the Better Teleport Menu plugin
@@ -944,7 +988,9 @@ public class NexusMapPlugin extends Plugin
 	{
 		// If the Better Teleport Menu isn't active, abort
 		if (!this.isBetterTeleportMenuActive())
+		{
 			return;
+		}
 
 		// The Better Teleport Menu plugin listens for menu clicks on the event bus to
 		// detect the "Set Hotkey" option being selected on a teleport on the vanilla menu.
@@ -995,10 +1041,14 @@ public class NexusMapPlugin extends Plugin
 		// First check the teleport isn't using an alias. This can occur if the user
 		// has another plugin installed that is altering the name of the teleport.
 		if (this.availableTeleports.containsKey(teleportDefinition.getAlias()))
+		{
 			return this.availableTeleports.get(teleportDefinition.getAlias());
+		}
 
 		if (this.availableTeleports.containsKey(this.getParenthesisedName(teleportDefinition)))
+		{
 			return this.availableTeleports.get(this.getParenthesisedName(teleportDefinition));
+		}
 
 		return this.availableTeleports.get(teleportDefinition.getName());
 	}
@@ -1016,7 +1066,9 @@ public class NexusMapPlugin extends Plugin
 
 		// If the mode has yet to be defined, return false
 		if (mode == null)
+		{
 			return false;
+		}
 
 		// Otherwise return the value pulled from config
 		return mode;

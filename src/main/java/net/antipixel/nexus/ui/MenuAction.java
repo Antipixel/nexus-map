@@ -7,7 +7,7 @@ package net.antipixel.nexus.ui;
 public interface MenuAction
 {
 	/**
-	 * Invoked upon selection of the menu action that is is bound to
+	 * Invoked upon selection of the menu action that is bound to
 	 */
 	void onMenuAction();
 }

@@ -6,7 +6,7 @@ package net.antipixel.nexus.ui;
  */
 public interface ComponentEffect
 {
-    void onUpdate();
-    void apply(UIComponent component);
-    void onRemoved(UIComponent component);
+	void onUpdate();
+	void apply(UIComponent component);
+	void onRemoved(UIComponent component);
 }

@@ -12,4 +12,3 @@ public interface ComponentEventListener
 	 */
 	void onComponentEvent(UIComponent src);
 }
-
