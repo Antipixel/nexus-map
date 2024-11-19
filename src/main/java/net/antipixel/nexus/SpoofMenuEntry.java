@@ -110,19 +110,19 @@ public class SpoofMenuEntry implements MenuEntry
         return this;
     }
 
-	@Override
-	public int getWorldViewId()
-	{
-		return 0;
-	}
+    @Override
+    public int getWorldViewId()
+    {
+        return 0;
+    }
 
-	@Override
-	public MenuEntry setWorldViewId(int worldViewId)
-	{
-		return null;
-	}
+    @Override
+    public MenuEntry setWorldViewId(int worldViewId)
+    {
+        return null;
+    }
 
-	@Override
+    @Override
     public boolean isDeprioritized()
     {
         return false;
@@ -140,13 +140,13 @@ public class SpoofMenuEntry implements MenuEntry
         return this;
     }
 
-	@Override
-	public Consumer<MenuEntry> onClick()
-	{
-		return null;
-	}
+    @Override
+    public Consumer<MenuEntry> onClick()
+    {
+        return null;
+    }
 
-	@Override
+    @Override
     public boolean isItemOp() {
         return false;
     }
@@ -161,13 +161,13 @@ public class SpoofMenuEntry implements MenuEntry
         return 0;
     }
 
-	@Override
-	public MenuEntry setItemId(int itemId)
-	{
-		return null;
-	}
+    @Override
+    public MenuEntry setItemId(int itemId)
+    {
+        return null;
+    }
 
-	@Nullable
+    @Nullable
     @Override
     public Widget getWidget() {
         return this.widget;
@@ -191,23 +191,23 @@ public class SpoofMenuEntry implements MenuEntry
         return null;
     }
 
-	@Nullable
-	@Override
-	public Menu getSubMenu()
-	{
-		return null;
-	}
+    @Nullable
+    @Override
+    public Menu getSubMenu()
+    {
+        return null;
+    }
 
-	@Nonnull
-	@Override
-	public Menu createSubMenu()
-	{
-		return null;
-	}
+    @Nonnull
+    @Override
+    public Menu createSubMenu()
+    {
+        return null;
+    }
 
-	@Override
-	public void deleteSubMenu()
-	{
+    @Override
+    public void deleteSubMenu()
+    {
 
-	}
+    }
 }
