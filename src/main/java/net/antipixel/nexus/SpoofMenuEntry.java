@@ -1,5 +1,6 @@
 package net.antipixel.nexus;
 
+import javax.annotation.Nonnull;
 import net.runelite.api.*;
 import net.runelite.api.widgets.Widget;
 
@@ -109,7 +110,19 @@ public class SpoofMenuEntry implements MenuEntry
         return this;
     }
 
-    @Override
+	@Override
+	public int getWorldViewId()
+	{
+		return 0;
+	}
+
+	@Override
+	public MenuEntry setWorldViewId(int worldViewId)
+	{
+		return null;
+	}
+
+	@Override
     public boolean isDeprioritized()
     {
         return false;
@@ -127,18 +140,13 @@ public class SpoofMenuEntry implements MenuEntry
         return this;
     }
 
-    @Override
-    public MenuEntry setParent(MenuEntry parent) {
-        return null;
-    }
+	@Override
+	public Consumer<MenuEntry> onClick()
+	{
+		return null;
+	}
 
-    @Nullable
-    @Override
-    public MenuEntry getParent() {
-        return null;
-    }
-
-    @Override
+	@Override
     public boolean isItemOp() {
         return false;
     }
@@ -153,7 +161,13 @@ public class SpoofMenuEntry implements MenuEntry
         return 0;
     }
 
-    @Nullable
+	@Override
+	public MenuEntry setItemId(int itemId)
+	{
+		return null;
+	}
+
+	@Nullable
     @Override
     public Widget getWidget() {
         return this.widget;
@@ -176,4 +190,24 @@ public class SpoofMenuEntry implements MenuEntry
     public Actor getActor() {
         return null;
     }
+
+	@Nullable
+	@Override
+	public Menu getSubMenu()
+	{
+		return null;
+	}
+
+	@Nonnull
+	@Override
+	public Menu createSubMenu()
+	{
+		return null;
+	}
+
+	@Override
+	public void deleteSubMenu()
+	{
+
+	}
 }
