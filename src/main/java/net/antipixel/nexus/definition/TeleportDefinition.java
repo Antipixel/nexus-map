@@ -12,7 +12,7 @@ public class TeleportDefinition
 {
 	private int structID;
 	private String name;
-	private String alias;
+	private String[] aliases;
 	public int spriteX;
 	public int spriteY;
 	private int enabledSprite;
@@ -22,8 +22,8 @@ public class TeleportDefinition
 	 * Checks if this teleport has an alias defined
 	 * @return true if the teleport has an alias, otherwise false
 	 */
-	public boolean hasAlias()
+	public boolean hasAliases()
 	{
-		return this.alias != null;
+		return this.aliases != null && this.aliases.length > 0;
 	}
 }

@@ -47,7 +47,8 @@ public class Teleport
 	 */
 	public String getAlias()
 	{
-		return this.definition.getAlias();
+		// TODO: Using first alias only for now
+		return this.definition.hasAliases() ? this.definition.getAliases()[0] : null;
 	}
 
 	/**
@@ -56,7 +57,7 @@ public class Teleport
 	 */
 	public boolean hasAlias()
 	{
-		return this.definition.getAlias() != null;
+		return this.definition.hasAliases();
 	}
 
 	/**

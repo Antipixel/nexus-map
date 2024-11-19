@@ -263,9 +263,13 @@ public class NexusMapPlugin extends Plugin
 
 				// But also index it by its alias. This is for compatibility with plugins
 				// that change the vanilla name to the alias in the Nexus menu
-				if (teleportDef.hasAlias())
+				if (teleportDef.hasAliases())
 				{
-					this.teleportDefinitions.put(teleportDef.getAlias(), teleportDef);
+					for (String alias : teleportDef.getAliases())
+					{
+						this.teleportDefinitions.put(alias, teleportDef);
+					}
+					// TODO: Only sets the first alias (Specifically for Better Teleport)
 					this.teleportDefinitions.put(getParenthesisedName(teleportDef), teleportDef);
 				}
 			}
@@ -809,7 +813,8 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private String getParenthesisedName(TeleportDefinition teleportDef)
 	{
-		return String.format(PARENTHESISED_ALIAS_FORMAT, teleportDef.getAlias(), teleportDef.getName());
+		// TODO: Always use first alias for now
+		return String.format(PARENTHESISED_ALIAS_FORMAT, teleportDef.hasAliases() ? teleportDef.getAliases()[0] : null, teleportDef.getName());
 	}
 
 	/**
@@ -819,7 +824,8 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private String getParenthesisedAlias(TeleportDefinition teleportDef)
 	{
-		return String.format(PARENTHESISED_ALIAS_FORMAT, teleportDef.getName(), teleportDef.getAlias());
+		// TODO: Always use first alias for now
+		return String.format(PARENTHESISED_ALIAS_FORMAT, teleportDef.getName(), teleportDef.hasAliases() ? teleportDef.getAliases()[0] : null);
 	}
 
 	/**
@@ -1040,11 +1046,18 @@ public class NexusMapPlugin extends Plugin
 	{
 		// First check the teleport isn't using an alias. This can occur if the user
 		// has another plugin installed that is altering the name of the teleport.
-		if (this.availableTeleports.containsKey(teleportDefinition.getAlias()))
+		if (teleportDefinition.hasAliases())
 		{
-			return this.availableTeleports.get(teleportDefinition.getAlias());
+			for (String alias : teleportDefinition.getAliases())
+			{
+				if (this.availableTeleports.containsKey(alias))
+				{
+					return this.availableTeleports.get(alias);
+				}
+			}
 		}
 
+		// TODO: Only using first alias (Specifically for Better Teleport)
 		if (this.availableTeleports.containsKey(this.getParenthesisedName(teleportDefinition)))
 		{
 			return this.availableTeleports.get(this.getParenthesisedName(teleportDefinition));

@@ -14,7 +14,7 @@
       {
         "structID":459,
         "name":"Senntisten",
-        "alias":"Digsite",
+        "aliases":["Digsite", "Exam Centre"],
         "spriteX":281,
         "spriteY":165,
         "enabledSprite":342,
@@ -161,7 +161,7 @@
       {
         "structID": 461,
         "name":"Kharyrll",
-        "alias":"Canifis",
+        "aliases":["Canifis"],
         "spriteX":99,
         "spriteY":110,
         "enabledSprite":343,
@@ -192,7 +192,7 @@
       {
         "structID": 466,
         "name":"Annakarl",
-        "alias":"Demonic Ruins",
+        "aliases":["Demonic Ruins"],
         "spriteX":297,
         "spriteY":85,
         "enabledSprite":347,
@@ -201,7 +201,7 @@
       {
         "structID": 469,
         "name":"Ghorrock",
-        "alias":"Frozen Waste Plateau",
+        "aliases":["Frozen Waste Plateau", "Frozen Waste"],
         "spriteX":143,
         "spriteY":89,
         "enabledSprite":348,
@@ -210,7 +210,7 @@
       {
         "structID": 470,
         "name":"Carrallanger",
-        "alias":"Graveyard of Shadows",
+        "aliases":["Graveyard of Shadows"],
         "spriteX":241,
         "spriteY":197,
         "enabledSprite":346,
@@ -273,7 +273,7 @@
       {
         "structID": 460,
         "name":"Marim",
-        "alias":"Ape Atoll",
+        "aliases":["Ape Atoll"],
         "spriteX":431,
         "spriteY":231,
         "enabledSprite":357,
