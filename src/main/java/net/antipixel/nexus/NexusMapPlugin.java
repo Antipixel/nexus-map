@@ -494,10 +494,6 @@ public class NexusMapPlugin extends Plugin
 			return teleports;
 		}
 
-		// Compile the pattern that will match the teleport label
-		// and place the hotkey and teleport name into groups
-		Pattern pattern = Pattern.compile(TELE_NAME_PATTERN);
-
 		// Grab the children of the widget, each of which have a text
 		// attribute containing the teleport location name and key shortcut
 		Widget[] labels = labelsWidget.getDynamicChildren();
@@ -510,6 +506,10 @@ public class NexusMapPlugin extends Plugin
 		{
 			return teleports;
 		}
+
+		// Compile the pattern that will match the teleport label
+		// and place the hotkey and teleport name into groups
+		Pattern pattern = Pattern.compile(TELE_NAME_PATTERN);
 
 		for (int i = 0; i < labels.length; i++)
 		{
