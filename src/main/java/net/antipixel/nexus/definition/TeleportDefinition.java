@@ -31,7 +31,7 @@ public class TeleportDefinition
 
 	/**
 	 * Gets the key to be used to identify this TeleportDefinition
-	 * @return The IntergerBooleanPair key
+	 * @return The IntegerBooleanPair key
 	 */
 	public IntegerBooleanPair getKey()
 	{
