@@ -108,7 +108,7 @@ public class NexusMapPlugin extends Plugin
 	private static final String DEF_FILE_REGIONS = "RegionDef.json";
 	private static final String DEF_FILE_SPRITES = "SpriteDef.json";
 
-	private static final String TELE_NAME_PATTERN = "<col=ffffff>(.+)</col> :  (.+)";
+	private static final String TELE_NAME_PATTERN = "<col=ffffff>(.+)</col> : +(.+)";
 	private static final String PARENTHESISED_ALIAS_FORMAT = "%s (%s)";
 	private static final String SHORTCUT_COLOUR_TAG = "<col=ffffff>";
 	private static final String PLUGIN_NAME_BTM = "Better Teleport Menu";
@@ -517,7 +517,6 @@ public class NexusMapPlugin extends Plugin
 			Widget sprite = sprites[i];
 
 			String shortcutKey;
-			String teleportName;
 
 			// For teleports with a shortcut defined, the teleport widget text will
 			// contain the shortcut key sandwiched between colour tags. If these tags
@@ -535,13 +534,11 @@ public class NexusMapPlugin extends Plugin
 
 				// Extract the pertinent information
 				shortcutKey = matcher.group(1);
-				teleportName = matcher.group(2);
 			}
 			else
 			{
 				// No shortcut key defined
 				shortcutKey = null;
-				teleportName = label.getText();
 			}
 
 			IntegerBooleanPair key = new IntegerBooleanPair(sprite.getSpriteId(), alt);

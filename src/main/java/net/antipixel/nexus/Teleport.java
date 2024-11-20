@@ -57,7 +57,7 @@ public class Teleport
 	 */
 	public boolean hasAlias()
 	{
-		return this.definition.getAlias() != null;
+		return this.definition.hasAlias();
 	}
 
 	/**
