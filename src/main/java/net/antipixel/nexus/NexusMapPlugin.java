@@ -139,9 +139,9 @@ public class NexusMapPlugin extends Plugin
 
 	private RegionDefinition[] regionDefinitions;
 	private SpriteDefinition[] spriteDefinitions;
+
 	private Map<IntegerBooleanPair, TeleportDefinition> teleportDefinitions;
 	private Map<IntegerBooleanPair, Teleport> availableTeleports;
-
 	private Map<IntegerBooleanPair, UIButton> activeTeleportButtons;
 
 	private boolean mapEnabled;
