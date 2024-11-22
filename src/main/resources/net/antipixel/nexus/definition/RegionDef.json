@@ -3,13 +3,13 @@
     "id":0,
     "name":"Misthalin",
     "icon":{
-      "x":259,
-      "y":143,
+      "x":325,
+      "y":110,
       "spriteStandard":-18100,
-      "spriteHover":-18101
+      "spriteHover":-18150
     },
-    "indexSprite":2722,
-    "mapSprite":-18000,
+    "indexSprite":-18000,
+    "mapSprite":-18050,
     "teleportDefinitions":[
       {
         "structID":459,
@@ -59,81 +59,43 @@
     "id":1,
     "name":"Karamja",
     "icon":{
-      "x":202,
-      "y":190,
-      "spriteStandard":-18102,
-      "spriteHover":-18103
+      "x":265,
+      "y":164,
+      "spriteStandard":-18101,
+      "spriteHover":-18151
     },
-    "indexSprite":2723,
-    "mapSprite":-18001,
+    "indexSprite":-18001,
+    "mapSprite":-18051,
     "teleportDefinitions":[
 
     ]
   },
   {
     "id":2,
-    "name":"Asgarnia",
-    "icon":{
-      "x":212,
-      "y":123,
-      "spriteStandard":-18104,
-      "spriteHover":-18105
-    },
-    "indexSprite":2725,
-    "mapSprite":-18002,
-    "teleportDefinitions":[
-      {
-        "structID":467,
-        "name":"Troll Stronghold",
-        "spriteX":183,
-        "spriteY":54,
-        "enabledSprite":2139,
-        "disabledSprite":-18050
-      },
-      {
-        "structID": 1248,
-        "name":"Mind Altar",
-        "spriteX":248,
-        "spriteY":155,
-        "enabledSprite":1256,
-        "disabledSprite":1281
-      },
-      {
-        "structID": 453,
-        "name":"Falador",
-        "spriteX":247,
-        "spriteY":216,
-        "enabledSprite":33,
-        "disabledSprite":83
-      }
-    ]
-  },
-  {
-    "id":3,
     "name":"Kharidian Desert",
     "icon":{
-      "x":275,
-      "y":202,
-      "spriteStandard":-18106,
-      "spriteHover":-18107
+      "x":345,
+      "y":170,
+      "spriteStandard":-18103,
+      "spriteHover":-18153
     },
-    "indexSprite":2727,
-    "mapSprite":-18003,
+    "indexSprite":-18003,
+    "mapSprite":-18053,
     "teleportDefinitions":[
 
     ]
   },
   {
-    "id":4,
+    "id":3,
     "name":"Morytania",
     "icon":{
-      "x":318,
-      "y":142,
-      "spriteStandard":-18108,
-      "spriteHover":-18109
+      "x":384,
+      "y":110,
+      "spriteStandard":-18104,
+      "spriteHover":-18154
     },
-    "indexSprite":2730,
-    "mapSprite":-18004,
+    "indexSprite":-18004,
+    "mapSprite":-18054,
     "teleportDefinitions":[
       {
         "structID": 1250,
@@ -179,16 +141,16 @@
     ]
   },
   {
-    "id":5,
+    "id":4,
     "name":"Wilderness",
     "icon":{
-      "x":258,
-      "y":79,
-      "spriteStandard":-18110,
-      "spriteHover":-18111
+      "x":323,
+      "y":50,
+      "spriteStandard":-18105,
+      "spriteHover":-18155
     },
-    "indexSprite":2724,
-    "mapSprite":-18005,
+    "indexSprite":-18005,
+    "mapSprite":-18055,
     "teleportDefinitions":[
       {
         "structID": 466,
@@ -228,16 +190,16 @@
     ]
   },
   {
-    "id":6,
+    "id":5,
     "name":"Kandarin",
     "icon":{
-      "x":147,
-      "y":153,
-      "spriteStandard":-18112,
-      "spriteHover":-18113
+      "x":212,
+      "y":126,
+      "spriteStandard":-18106,
+      "spriteHover":-18156
     },
-    "indexSprite":2726,
-    "mapSprite":-18006,
+    "indexSprite":-18006,
+    "mapSprite":-18056,
     "teleportDefinitions":[
       {
         "structID": 465,
@@ -325,16 +287,16 @@
     ]
   },
   {
-    "id":7,
+    "id":6,
     "name":"Fremennik",
     "icon":{
-      "x":162,
-      "y":83,
-      "spriteStandard":-18114,
-      "spriteHover":-18115
+      "x":222,
+      "y":48,
+      "spriteStandard":-18107,
+      "spriteHover":-18157
     },
-    "indexSprite":2728,
-    "mapSprite":-18007,
+    "indexSprite":-18007,
+    "mapSprite":-18057,
     "teleportDefinitions":[
       {
         "structID": 462,
@@ -363,16 +325,54 @@
     ]
   },
   {
+    "id":7,
+    "name":"Asgarnia",
+    "icon":{
+      "x":274,
+      "y":91,
+      "spriteStandard":-18102,
+      "spriteHover":-18152
+    },
+    "indexSprite":-18002,
+    "mapSprite":-18052,
+    "teleportDefinitions":[
+      {
+        "structID":467,
+        "name":"Troll Stronghold",
+        "spriteX":183,
+        "spriteY":54,
+        "enabledSprite":2139,
+        "disabledSprite":-18201
+      },
+      {
+        "structID": 1248,
+        "name":"Mind Altar",
+        "spriteX":248,
+        "spriteY":155,
+        "enabledSprite":1256,
+        "disabledSprite":1281
+      },
+      {
+        "structID": 453,
+        "name":"Falador",
+        "spriteX":247,
+        "spriteY":216,
+        "enabledSprite":33,
+        "disabledSprite":83
+      }
+    ]
+  },
+  {
     "id":8,
     "name":"Tirannwn",
     "icon":{
-      "x":91,
-      "y":163,
-      "spriteStandard":-18116,
-      "spriteHover":-18117
+      "x":164,
+      "y":130,
+      "spriteStandard":-18108,
+      "spriteHover":-18158
     },
-    "indexSprite":2729,
-    "mapSprite":-18008,
+    "indexSprite":-18008,
+    "mapSprite":-18058,
     "teleportDefinitions":[
 
     ]
@@ -381,13 +381,13 @@
     "id":9,
     "name":"Kourend",
     "icon":{
-      "x":7,
-      "y":40,
-      "spriteStandard":-18118,
-      "spriteHover":-18119
+      "x":60,
+      "y":70,
+      "spriteStandard":-18109,
+      "spriteHover":-18159
     },
-    "indexSprite":-1,
-    "mapSprite":-18009,
+    "indexSprite":-18009,
+    "mapSprite":-18059,
     "teleportDefinitions":[
       {
         "structID": 463,
@@ -419,13 +419,13 @@
     "id":10,
     "name":"Varlamore",
     "icon":{
-      "x":7,
-      "y":100,
-      "spriteStandard":-18120,
-      "spriteHover":-18121
+      "x":45,
+      "y":157,
+      "spriteStandard":-18110,
+      "spriteHover":-18160
     },
-    "indexSprite":-1,
-    "mapSprite":-18010,
+    "indexSprite":-18010,
+    "mapSprite":-18060,
     "teleportDefinitions":[
       {
         "structID": 855,
