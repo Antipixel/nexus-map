@@ -1,439 +1,433 @@
 [
   {
-    "id":0,
-    "name":"Misthalin",
-    "icon":{
-      "x":325,
-      "y":110,
-      "spriteStandard":-18100,
-      "spriteHover":-18150
+    "id": 0,
+    "name": "Misthalin",
+    "icon": {
+      "x": 325,
+      "y": 110,
+      "spriteStandard": -18100,
+      "spriteHover": -18150
     },
-    "indexSprite":-18000,
-    "mapSprite":-18050,
-    "teleportDefinitions":[
+    "indexSprite": -18000,
+    "mapSprite": -18050,
+    "teleportDefinitions": [
       {
-        "structID":459,
-        "name":"Senntisten",
-        "alias":"Digsite",
-        "spriteX":281,
-        "spriteY":165,
-        "enabledSprite":342,
-        "disabledSprite":392
+        "structID": 459,
+        "name": "Senntisten",
+        "alias": "Digsite",
+        "spriteX": 274,
+        "spriteY": 130,
+        "enabledSprite": 342,
+        "disabledSprite": 392
       },
       {
-        "structID":450,
-        "name":"Varrock",
-        "spriteX":225,
-        "spriteY":128,
-        "enabledSprite":27,
-        "disabledSprite":77
+        "structID": 450,
+        "name": "Varrock",
+        "spriteX": 218,
+        "spriteY": 93,
+        "enabledSprite": 27,
+        "disabledSprite": 77
       },
       {
-        "structID":1246,
-        "name":"Draynor Manor",
-        "spriteX":172,
-        "spriteY":173,
-        "enabledSprite":1253,
-        "disabledSprite":1278
+        "structID": 1246,
+        "name": "Draynor Manor",
+        "spriteX": 165,
+        "spriteY": 138,
+        "enabledSprite": 1253,
+        "disabledSprite": 1278
       },
       {
-        "structID":451,
-        "name":"Grand Exchange",
-        "isAlt":true,
-        "spriteX":200,
-        "spriteY":107,
-        "enabledSprite":27,
-        "disabledSprite":77
+        "structID": 451,
+        "name": "Grand Exchange",
+        "isAlt": true,
+        "spriteX": 193,
+        "spriteY": 72,
+        "enabledSprite": 27,
+        "disabledSprite": 77
       },
       {
-        "structID":452,
-        "name":"Lumbridge",
-        "spriteX":221,
-        "spriteY":246,
-        "enabledSprite":30,
-        "disabledSprite":80
+        "structID": 452,
+        "name": "Lumbridge",
+        "spriteX": 214,
+        "spriteY": 211,
+        "enabledSprite": 30,
+        "disabledSprite": 80
       }
     ]
   },
   {
-    "id":1,
-    "name":"Karamja",
-    "icon":{
-      "x":265,
-      "y":164,
-      "spriteStandard":-18101,
-      "spriteHover":-18151
+    "id": 1,
+    "name": "Karamja",
+    "icon": {
+      "x": 265,
+      "y": 164,
+      "spriteStandard": -18101,
+      "spriteHover": -18151
     },
-    "indexSprite":-18001,
-    "mapSprite":-18051,
-    "teleportDefinitions":[
-
-    ]
+    "indexSprite": -18001,
+    "mapSprite": -18051,
+    "teleportDefinitions": []
   },
   {
-    "id":2,
-    "name":"Kharidian Desert",
-    "icon":{
-      "x":345,
-      "y":170,
-      "spriteStandard":-18103,
-      "spriteHover":-18153
+    "id": 2,
+    "name": "Kharidian Desert",
+    "icon": {
+      "x": 345,
+      "y": 170,
+      "spriteStandard": -18103,
+      "spriteHover": -18153
     },
-    "indexSprite":-18003,
-    "mapSprite":-18053,
-    "teleportDefinitions":[
-
-    ]
+    "indexSprite": -18003,
+    "mapSprite": -18053,
+    "teleportDefinitions": []
   },
   {
-    "id":3,
-    "name":"Morytania",
-    "icon":{
-      "x":384,
-      "y":110,
-      "spriteStandard":-18104,
-      "spriteHover":-18154
+    "id": 3,
+    "name": "Morytania",
+    "icon": {
+      "x": 384,
+      "y": 110,
+      "spriteStandard": -18104,
+      "spriteHover": -18154
     },
-    "indexSprite":-18004,
-    "mapSprite":-18054,
-    "teleportDefinitions":[
+    "indexSprite": -18004,
+    "mapSprite": -18054,
+    "teleportDefinitions": [
       {
         "structID": 1250,
-        "name":"Fenken\u0027 Castle",
-        "spriteX":134,
-        "spriteY":85,
-        "enabledSprite":1259,
-        "disabledSprite":1284
+        "name": "Fenken\u0027 Castle",
+        "spriteX": 127,
+        "spriteY": 50,
+        "enabledSprite": 1259,
+        "disabledSprite": 1284
       },
       {
         "structID": 1249,
-        "name":"Salve Graveyard",
-        "spriteX":79,
-        "spriteY":119,
-        "enabledSprite":1258,
-        "disabledSprite":1283
+        "name": "Salve Graveyard",
+        "spriteX": 72,
+        "spriteY": 84,
+        "enabledSprite": 1258,
+        "disabledSprite": 1283
       },
       {
         "structID": 1252,
-        "name":"Harmony Island",
-        "spriteX":419,
-        "spriteY":253,
-        "enabledSprite":1261,
-        "disabledSprite":1286
+        "name": "Harmony Island",
+        "spriteX": 412,
+        "spriteY": 218,
+        "enabledSprite": 1261,
+        "disabledSprite": 1286
       },
       {
         "structID": 461,
-        "name":"Kharyrll",
-        "alias":"Canifis",
-        "spriteX":99,
-        "spriteY":110,
-        "enabledSprite":343,
-        "disabledSprite":393
+        "name": "Kharyrll",
+        "alias": "Canifis",
+        "spriteX": 92,
+        "spriteY": 75,
+        "enabledSprite": 343,
+        "disabledSprite": 393
       },
       {
         "structID": 1254,
-        "name":"Barrows",
-        "spriteX":140,
-        "spriteY":203,
-        "enabledSprite":1262,
-        "disabledSprite":1287
+        "name": "Barrows",
+        "spriteX": 133,
+        "spriteY": 168,
+        "enabledSprite": 1262,
+        "disabledSprite": 1287
       }
     ]
   },
   {
-    "id":4,
-    "name":"Wilderness",
-    "icon":{
-      "x":323,
-      "y":50,
-      "spriteStandard":-18105,
-      "spriteHover":-18155
+    "id": 4,
+    "name": "Wilderness",
+    "icon": {
+      "x": 323,
+      "y": 50,
+      "spriteStandard": -18105,
+      "spriteHover": -18155
     },
-    "indexSprite":-18005,
-    "mapSprite":-18055,
-    "teleportDefinitions":[
+    "indexSprite": -18005,
+    "mapSprite": -18055,
+    "teleportDefinitions": [
       {
         "structID": 466,
-        "name":"Annakarl",
-        "alias":"Demonic Ruins",
-        "spriteX":297,
-        "spriteY":85,
-        "enabledSprite":347,
-        "disabledSprite":397
+        "name": "Annakarl",
+        "alias": "Demonic Ruins",
+        "spriteX": 290,
+        "spriteY": 50,
+        "enabledSprite": 347,
+        "disabledSprite": 397
       },
       {
         "structID": 469,
-        "name":"Ghorrock",
-        "alias":"Frozen Waste Plateau",
-        "spriteX":143,
-        "spriteY":89,
-        "enabledSprite":348,
-        "disabledSprite":398
+        "name": "Ghorrock",
+        "alias": "Frozen Waste Plateau",
+        "spriteX": 136,
+        "spriteY": 54,
+        "enabledSprite": 348,
+        "disabledSprite": 398
       },
       {
         "structID": 470,
-        "name":"Carrallanger",
-        "alias":"Graveyard of Shadows",
-        "spriteX":241,
-        "spriteY":197,
-        "enabledSprite":346,
-        "disabledSprite":396
+        "name": "Carrallanger",
+        "alias": "Graveyard of Shadows",
+        "spriteX": 234,
+        "spriteY": 162,
+        "enabledSprite": 346,
+        "disabledSprite": 396
       },
       {
         "structID": 1253,
-        "name":"Cemetery",
-        "spriteX":143,
-        "spriteY":160,
-        "enabledSprite":1264,
-        "disabledSprite":1289
+        "name": "Cemetery",
+        "spriteX": 136,
+        "spriteY": 125,
+        "enabledSprite": 1264,
+        "disabledSprite": 1289
       }
     ]
   },
   {
-    "id":5,
-    "name":"Kandarin",
-    "icon":{
-      "x":212,
-      "y":126,
-      "spriteStandard":-18106,
-      "spriteHover":-18156
+    "id": 5,
+    "name": "Kandarin",
+    "icon": {
+      "x": 212,
+      "y": 126,
+      "spriteStandard": -18106,
+      "spriteHover": -18156
     },
-    "indexSprite":-18006,
-    "mapSprite":-18056,
-    "teleportDefinitions":[
+    "indexSprite": -18006,
+    "mapSprite": -18056,
+    "teleportDefinitions": [
       {
         "structID": 465,
-        "name":"Fishing Guild",
-        "spriteX":194,
-        "spriteY":113,
-        "enabledSprite":555,
-        "disabledSprite":605
+        "name": "Fishing Guild",
+        "spriteX": 187,
+        "spriteY": 78,
+        "enabledSprite": 555,
+        "disabledSprite": 605
       },
       {
         "structID": 468,
-        "name":"Catherby",
-        "spriteX":304,
-        "spriteY":87,
-        "enabledSprite":556,
-        "disabledSprite":606
+        "name": "Catherby",
+        "spriteX": 297,
+        "spriteY": 52,
+        "enabledSprite": 556,
+        "disabledSprite": 606
       },
       {
         "structID": 454,
-        "name":"Camelot",
-        "spriteX":278,
-        "spriteY":72,
-        "enabledSprite":37,
-        "disabledSprite":87
+        "name": "Camelot",
+        "spriteX": 271,
+        "spriteY": 37,
+        "enabledSprite": 37,
+        "disabledSprite": 87
       },
       {
         "structID": 1255,
-        "name":"Ape Atoll Dungeon",
-        "spriteX":421,
-        "spriteY":275,
-        "enabledSprite":1263,
-        "disabledSprite":1288
+        "name": "Ape Atoll Dungeon",
+        "spriteX": 414,
+        "spriteY": 240,
+        "enabledSprite": 1263,
+        "disabledSprite": 1288
       },
       {
         "structID": 460,
-        "name":"Marim",
-        "alias":"Ape Atoll",
-        "spriteX":431,
-        "spriteY":231,
-        "enabledSprite":357,
-        "disabledSprite":407
+        "name": "Marim",
+        "alias": "Ape Atoll",
+        "spriteX": 424,
+        "spriteY": 196,
+        "enabledSprite": 357,
+        "disabledSprite": 407
       },
       {
         "structID": 458,
-        "name":"Yanille",
-        "isAlt":true,
-        "spriteX":188,
-        "spriteY":267,
-        "enabledSprite":55,
-        "disabledSprite":105
+        "name": "Yanille",
+        "isAlt": true,
+        "spriteX": 181,
+        "spriteY": 232,
+        "enabledSprite": 55,
+        "disabledSprite": 105
       },
       {
         "structID": 1251,
-        "name":"West Ardougne",
-        "spriteX":163,
-        "spriteY":158,
-        "enabledSprite":1260,
-        "disabledSprite":1285
+        "name": "West Ardougne",
+        "spriteX": 156,
+        "spriteY": 123,
+        "enabledSprite": 1260,
+        "disabledSprite": 1285
       },
       {
         "structID": 456,
-        "name":"Ardougne",
-        "spriteX":229,
-        "spriteY":153,
-        "enabledSprite":54,
-        "disabledSprite":104
+        "name": "Ardougne",
+        "spriteX": 222,
+        "spriteY": 118,
+        "enabledSprite": 54,
+        "disabledSprite": 104
       },
       {
         "structID": 457,
-        "name":"Watchtower",
-        "spriteX":173,
-        "spriteY":241,
-        "enabledSprite":55,
-        "disabledSprite":105
+        "name": "Watchtower",
+        "spriteX": 166,
+        "spriteY": 206,
+        "enabledSprite": 55,
+        "disabledSprite": 105
       },
       {
         "structID": 455,
-        "name":"Seers\u0027 Village",
+        "name": "Seers\u0027 Village",
         "isAlt":true,
-        "spriteX":256,
-        "spriteY":67,
-        "enabledSprite":37,
-        "disabledSprite":87
+        "spriteX": 249,
+        "spriteY": 32,
+        "enabledSprite": 37,
+        "disabledSprite": 87
       }
     ]
   },
   {
-    "id":6,
-    "name":"Fremennik",
-    "icon":{
-      "x":222,
-      "y":48,
-      "spriteStandard":-18107,
-      "spriteHover":-18157
+    "id": 6,
+    "name": "Fremennik",
+    "icon": {
+      "x": 222,
+      "y": 48,
+      "spriteStandard": -18107,
+      "spriteHover": -18157
     },
-    "indexSprite":-18007,
-    "mapSprite":-18057,
-    "teleportDefinitions":[
+    "indexSprite": -18007,
+    "mapSprite": -18057,
+    "teleportDefinitions": [
       {
         "structID": 462,
-        "name":"Lunar Isle",
-        "spriteX":42,
-        "spriteY":110,
-        "enabledSprite":544,
-        "disabledSprite":594
+        "name": "Lunar Isle",
+        "spriteX": 35,
+        "spriteY": 75,
+        "enabledSprite": 544,
+        "disabledSprite": 594
       },
       {
         "structID": 464,
-        "name":"Waterbirth Island",
-        "spriteX":255,
-        "spriteY":170,
-        "enabledSprite":545,
-        "disabledSprite":595
+        "name": "Waterbirth Island",
+        "spriteX": 248,
+        "spriteY": 135,
+        "enabledSprite": 545,
+        "disabledSprite": 595
       },
       {
         "structID": 592,
-        "name":"Weiss",
-        "spriteX":407,
-        "spriteY":67,
-        "enabledSprite":2418,
-        "disabledSprite":2419
+        "name": "Weiss",
+        "spriteX": 400,
+        "spriteY": 32,
+        "enabledSprite": 2418,
+        "disabledSprite": 2419
       }
     ]
   },
   {
-    "id":7,
-    "name":"Asgarnia",
-    "icon":{
-      "x":274,
-      "y":91,
-      "spriteStandard":-18102,
-      "spriteHover":-18152
+    "id": 7,
+    "name": "Asgarnia",
+    "icon": {
+      "x": 274,
+      "y": 91,
+      "spriteStandard": -18102,
+      "spriteHover": -18152
     },
-    "indexSprite":-18002,
-    "mapSprite":-18052,
-    "teleportDefinitions":[
+    "indexSprite": -18002,
+    "mapSprite": -18052,
+    "teleportDefinitions": [
       {
-        "structID":467,
-        "name":"Troll Stronghold",
-        "spriteX":183,
-        "spriteY":54,
-        "enabledSprite":2139,
-        "disabledSprite":-18201
+        "structID": 467,
+        "name": "Troll Stronghold",
+        "spriteX": 176,
+        "spriteY": 19,
+        "enabledSprite": 2139,
+        "disabledSprite": -18201
       },
       {
         "structID": 1248,
-        "name":"Mind Altar",
-        "spriteX":248,
-        "spriteY":155,
-        "enabledSprite":1256,
-        "disabledSprite":1281
+        "name": "Mind Altar",
+        "spriteX": 241,
+        "spriteY": 120,
+        "enabledSprite": 1256,
+        "disabledSprite": 1281
       },
       {
         "structID": 453,
-        "name":"Falador",
-        "spriteX":247,
-        "spriteY":216,
-        "enabledSprite":33,
-        "disabledSprite":83
+        "name": "Falador",
+        "spriteX": 240,
+        "spriteY": 181,
+        "enabledSprite": 33,
+        "disabledSprite": 83
       }
     ]
   },
   {
-    "id":8,
-    "name":"Tirannwn",
-    "icon":{
-      "x":164,
-      "y":130,
-      "spriteStandard":-18108,
-      "spriteHover":-18158
+    "id": 8,
+    "name": "Tirannwn",
+    "icon": {
+      "x": 164,
+      "y": 130,
+      "spriteStandard": -18108,
+      "spriteHover": -18158
     },
-    "indexSprite":-18008,
-    "mapSprite":-18058,
-    "teleportDefinitions":[
-
-    ]
+    "indexSprite": -18008,
+    "mapSprite": -18058,
+    "teleportDefinitions": []
   },
   {
-    "id":9,
-    "name":"Kourend",
-    "icon":{
-      "x":60,
-      "y":70,
-      "spriteStandard":-18109,
-      "spriteHover":-18159
+    "id": 9,
+    "name": "Kourend",
+    "icon": {
+      "x": 60,
+      "y": 70,
+      "spriteStandard": -18109,
+      "spriteHover": -18159
     },
-    "indexSprite":-18009,
-    "mapSprite":-18059,
-    "teleportDefinitions":[
+    "indexSprite": -18009,
+    "mapSprite": -18059,
+    "teleportDefinitions": [
       {
         "structID": 463,
-        "name":"Kourend Castle",
-        "spriteX":203,
-        "spriteY":247,
-        "enabledSprite":360,
-        "disabledSprite":410
+        "name": "Kourend Castle",
+        "spriteX": 196,
+        "spriteY": 212,
+        "enabledSprite": 360,
+        "disabledSprite": 410
       },
       {
         "structID": 2887,
-        "name":"Arceuus Library",
-        "spriteX":231,
-        "spriteY":247,
-        "enabledSprite":1252,
-        "disabledSprite":1277
+        "name": "Arceuus Library",
+        "spriteX": 224,
+        "spriteY": 212,
+        "enabledSprite": 1252,
+        "disabledSprite": 1277
       },
       {
         "structID": 1247,
-        "name":"Battlefront",
-        "spriteX":260,
-        "spriteY":247,
-        "enabledSprite":1255,
-        "disabledSprite":1280
+        "name": "Battlefront",
+        "spriteX": 253,
+        "spriteY": 212,
+        "enabledSprite": 1255,
+        "disabledSprite": 1280
       }
     ]
   },
   {
-    "id":10,
-    "name":"Varlamore",
-    "icon":{
-      "x":45,
-      "y":157,
-      "spriteStandard":-18110,
-      "spriteHover":-18160
+    "id": 10,
+    "name": "Varlamore",
+    "icon": {
+      "x": 45,
+      "y": 157,
+      "spriteStandard": -18110,
+      "spriteHover": -18160
     },
-    "indexSprite":-18010,
-    "mapSprite":-18060,
-    "teleportDefinitions":[
+    "indexSprite": -18010,
+    "mapSprite": -18060,
+    "teleportDefinitions": [
       {
         "structID": 855,
-        "name":"Civitas illa Fortis",
-        "spriteX":231,
-        "spriteY":247,
-        "enabledSprite":367,
-        "disabledSprite":417
+        "name": "Civitas illa Fortis",
+        "spriteX": 224,
+        "spriteY": 212,
+        "enabledSprite": 367,
+        "disabledSprite": 417
       }
     ]
   }

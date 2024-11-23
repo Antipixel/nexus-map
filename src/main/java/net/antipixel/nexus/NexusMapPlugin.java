@@ -75,8 +75,8 @@ public class NexusMapPlugin extends Plugin
 
 	/* Widget dimensions and positions */
 	private static final int TELE_ICON_SIZE = 24;
-	private static final int MAP_SPRITE_POS_X = 7;
-	private static final int MAP_SPRITE_POS_Y = 35;
+	private static final int MAP_SECTION_POS_X = 7;
+	private static final int MAP_SECTION_POS_Y = 35;
 	private static final int INDEX_MAP_SPRITE_WIDTH = 478;
 	private static final int INDEX_MAP_SPRITE_HEIGHT = 272;
 	private static final int REGION_MAP_SPRITE_WIDTH = 478;
@@ -587,7 +587,7 @@ public class NexusMapPlugin extends Plugin
 
 		// Wrap in a UIGraphic, set dimensions, position and sprite
 		UIGraphic indexBackingGraphic = new UIGraphic(backingWidget);
-		indexBackingGraphic.setPosition(MAP_SPRITE_POS_X, MAP_SPRITE_POS_Y);
+		indexBackingGraphic.setPosition(MAP_SECTION_POS_X, MAP_SECTION_POS_Y);
 		indexBackingGraphic.setSize(INDEX_MAP_SPRITE_WIDTH, INDEX_MAP_SPRITE_HEIGHT);
 		indexBackingGraphic.setSprite(REGION_MAP_MAIN);
 
@@ -609,7 +609,7 @@ public class NexusMapPlugin extends Plugin
 			// Wrap in UIGraphic, update the size and position to match that of
 			// the backing graphic. Set the sprite to that of the current region
 			this.indexRegionGraphics[i] = new UIGraphic(regionGraphic);
-			this.indexRegionGraphics[i].setPosition(MAP_SPRITE_POS_X, MAP_SPRITE_POS_Y);
+			this.indexRegionGraphics[i].setPosition(MAP_SECTION_POS_X, MAP_SECTION_POS_Y);
 			this.indexRegionGraphics[i].setSize(INDEX_MAP_SPRITE_WIDTH, INDEX_MAP_SPRITE_HEIGHT);
 			this.indexRegionGraphics[i].setSprite(regionDef.getIndexSprite());
 
@@ -632,7 +632,7 @@ public class NexusMapPlugin extends Plugin
 			// Wrap in UIBUtton, position the component. attach listeners, etc.
 			this.indexRegionIcons[i] = new UIButton(regionIcon);
 			this.indexRegionIcons[i].setName(regionDef.getName());
-			this.indexRegionIcons[i].setPosition(iconDef.getX() + MAP_SPRITE_POS_X, iconDef.getY() + MAP_SPRITE_POS_Y);
+			this.indexRegionIcons[i].setPosition(iconDef.getX() + MAP_SECTION_POS_X, iconDef.getY() + MAP_SECTION_POS_Y);
 			this.indexRegionIcons[i].setSize(MAP_ICON_WIDTH, MAP_ICON_HEIGHT);
 			this.indexRegionIcons[i].setSprites(iconDef.getSpriteStandard(), iconDef.getSpriteHover());
 			this.indexRegionIcons[i].setOnHoverListener((c) -> onIconHover(regionDef.getId()));
@@ -721,8 +721,8 @@ public class NexusMapPlugin extends Plugin
 				// the position and the visibility to hidden
 				UIButton teleportButton = new UIButton(teleportWidget);
 				teleportButton.setSize(TELE_ICON_SIZE, TELE_ICON_SIZE);
-				teleportButton.setX(teleportDef.getSpriteX());
-				teleportButton.setY(teleportDef.getSpriteY());
+				teleportButton.setX(teleportDef.getSpriteX() + MAP_SECTION_POS_X);
+				teleportButton.setY(teleportDef.getSpriteY() + MAP_SECTION_POS_Y);
 				teleportButton.setVisibility(false);
 
 				// If enabled in config, apply fade pulsing effect
@@ -925,7 +925,7 @@ public class NexusMapPlugin extends Plugin
 	{
 		// Move the map sprite for this region up by 2 pixels, and
 		// set the opacity to 75% opaque
-		this.indexRegionGraphics[regionID].setY(MAP_SPRITE_POS_Y - 2);
+		this.indexRegionGraphics[regionID].setY(MAP_SECTION_POS_Y - 2);
 		this.indexRegionGraphics[regionID].setOpacity(.75f);
 		this.indexRegionGraphics[regionID].getWidget().revalidate();
 	}
@@ -937,7 +937,7 @@ public class NexusMapPlugin extends Plugin
 	private void onIconLeave(int regionID)
 	{
 		// Restore the original position and set back to fully opaque
-		this.indexRegionGraphics[regionID].setY(MAP_SPRITE_POS_Y);
+		this.indexRegionGraphics[regionID].setY(MAP_SECTION_POS_Y);
 		this.indexRegionGraphics[regionID].setOpacity(1.0f);
 		this.indexRegionGraphics[regionID].getWidget().revalidate();
 	}
