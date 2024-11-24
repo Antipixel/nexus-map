@@ -30,7 +30,9 @@ public class TeleportDefinition
 	}
 
 	/**
-	 * Gets the key to be used to identify this TeleportDefinition
+	 * Gets the key to be used to identify this TeleportDefinition, based on enabledSprite and isAlt.
+	 * Alternate teleports share the same sprite ID as their primary counterpart,
+	 * but are stored under a separate widget in-game, allowing us to identify them this way.
 	 * @return The IntegerBooleanPair key
 	 */
 	public IntegerBooleanPair getKey()
