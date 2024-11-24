@@ -39,6 +39,7 @@
       {
         "structID":451,
         "name":"Grand Exchange",
+        "isAlt":true,
         "spriteX":200,
         "spriteY":107,
         "enabledSprite":27,
@@ -147,8 +148,8 @@
         "name":"Salve Graveyard",
         "spriteX":79,
         "spriteY":119,
-        "enabledSprite":1254,
-        "disabledSprite":1279
+        "enabledSprite":1258,
+        "disabledSprite":1283
       },
       {
         "structID": 1252,
@@ -282,6 +283,7 @@
       {
         "structID": 458,
         "name":"Yanille",
+        "isAlt":true,
         "spriteX":188,
         "spriteY":267,
         "enabledSprite":55,
@@ -314,6 +316,7 @@
       {
         "structID": 455,
         "name":"Seers\u0027 Village",
+        "isAlt":true,
         "spriteX":256,
         "spriteY":67,
         "enabledSprite":37,

@@ -68,7 +68,9 @@ public class NexusMapPlugin extends Plugin
 	private static final int ID_TELEPORT_LIST = 0x11000B;
 	private static final int ID_LOC_LABELS_PRIMARY = 0x11000C;
 	private static final int ID_SCROLLBAR = 0x11000E;
+	private static final int ID_SPRITES_PRIMARY = 0x11000F;
 	private static final int ID_LOC_LABELS_ALTERNATE = 0x110010;
+	private static final int ID_SPRITES_ALTERNATE = 0x110012;
 
 	/* Widget dimensions and positions */
 	private static final int TELE_ICON_SIZE = 24;
@@ -106,7 +108,7 @@ public class NexusMapPlugin extends Plugin
 	private static final String DEF_FILE_REGIONS = "RegionDef.json";
 	private static final String DEF_FILE_SPRITES = "SpriteDef.json";
 
-	private static final String TELE_NAME_PATTERN = "<col=ffffff>(.+)</col> :  (.+)";
+	private static final String TELE_NAME_PATTERN = "<col=ffffff>(.+)</col> : +(.+)";
 	private static final String PARENTHESISED_ALIAS_FORMAT = "%s (%s)";
 	private static final String SHORTCUT_COLOUR_TAG = "<col=ffffff>";
 	private static final String PLUGIN_NAME_BTM = "Better Teleport Menu";
@@ -137,14 +139,14 @@ public class NexusMapPlugin extends Plugin
 
 	private RegionDefinition[] regionDefinitions;
 	private SpriteDefinition[] spriteDefinitions;
-	private Map<String, TeleportDefinition> teleportDefinitions;
+
+	private Map<IntegerBooleanPair, TeleportDefinition> teleportDefinitions;
+	private Map<IntegerBooleanPair, Teleport> availableTeleports;
+	private Map<IntegerBooleanPair, UIButton> activeTeleportButtons;
 
 	private boolean mapEnabled;
 	private boolean switchingModes;
 	private String teleportAction;
-
-	private Map<String, Teleport> availableTeleports;
-	private Map<String, UIButton> activeTeleportButtons;
 
 	/* Widgets */
 	private List<Integer> hiddenWidgetIDs;
@@ -258,16 +260,7 @@ public class NexusMapPlugin extends Plugin
 		{
 			for (TeleportDefinition teleportDef : regionDef.getTeleportDefinitions())
 			{
-				// Place the teleport definition in the lookup table indexed by its name
-				this.teleportDefinitions.put(teleportDef.getName(), teleportDef);
-
-				// But also index it by its alias. This is for compatibility with plugins
-				// that change the vanilla name to the alias in the Nexus menu
-				if (teleportDef.hasAlias())
-				{
-					this.teleportDefinitions.put(teleportDef.getAlias(), teleportDef);
-					this.teleportDefinitions.put(getParenthesisedName(teleportDef), teleportDef);
-				}
+				this.teleportDefinitions.put(teleportDef.getKey(), teleportDef);
 			}
 		}
 	}
@@ -415,13 +408,13 @@ public class NexusMapPlugin extends Plugin
 		this.buildAvailableTeleportList();
 
 		// Update only the active teleports
-		for (String teleportName : this.activeTeleportButtons.keySet())
+		for (Map.Entry<IntegerBooleanPair, UIButton> entry : this.activeTeleportButtons.entrySet())
 		{
-			// Grab the active teleport using its name
-			UIButton teleportButton = this.activeTeleportButtons.get(teleportName);
+			// Grab the active teleport
+			UIButton teleportButton = entry.getValue();
 
 			// Update the widget name
-			TeleportDefinition teleportDef = this.teleportDefinitions.get(teleportName);
+			TeleportDefinition teleportDef = this.teleportDefinitions.get(entry.getKey());
 			Teleport teleport = this.getAvailableTeleport(teleportDef);
 			teleportButton.setName(this.generateTeleportName(teleport));
 		}
@@ -434,19 +427,10 @@ public class NexusMapPlugin extends Plugin
 	{
 		this.availableTeleports = new HashMap<>();
 
-		// Compile the pattern that will match the teleport label
-		// and place the hotkey and teleport name into groups
-		Pattern labelPattern = Pattern.compile(TELE_NAME_PATTERN);
-
-		// Get the parent widgets containing the label list, for both
-		// the primary type teleports and alternate type
-		Widget primaryParent = this.client.getWidget(ID_LOC_LABELS_PRIMARY);
-		Widget alternateParent = this.client.getWidget(ID_LOC_LABELS_ALTERNATE);
-
 		// Fetch all teleports for both the primary and alternate teleport widgets,
 		// appending the results of both to the available teleports maps
-		this.availableTeleports.putAll(this.getTeleportsFromLabelWidget(primaryParent, false, labelPattern));
-		this.availableTeleports.putAll(this.getTeleportsFromLabelWidget(alternateParent, true, labelPattern));
+		this.availableTeleports.putAll(this.getTeleportsFromWidgets(false));
+		this.availableTeleports.putAll(this.getTeleportsFromWidgets(true));
 	}
 
 	/**
@@ -492,32 +476,55 @@ public class NexusMapPlugin extends Plugin
 	 * Extracts information from a nexus portals teleport list and returns the information as a Teleport list,
 	 * containing the name, index, shortcut key and type of teleport (either primary or alternate)
 	 *
-	 * @param labelParent the widget containing a teleport list
-	 * @param alt         true if this widget contains alternate teleports, false if primary
-	 * @param pattern     a compiled pattern for matching the text contained in the list item widgets
-	 * @return a list containing all available teleports for the provided widget
+	 * @param alt         true if grabbing alternate teleports, false if primary
+	 * @return a list containing all available teleports
 	 */
-	private Map<String, Teleport> getTeleportsFromLabelWidget(Widget labelParent, boolean alt, Pattern pattern)
+	private Map<IntegerBooleanPair, Teleport> getTeleportsFromWidgets(boolean alt)
 	{
-		// Grab the children of the widget, each of which have a text
-		// attribute containing the teleport location name and key shortcut
-		Widget[] labelWidgets = labelParent.getDynamicChildren();
+		// Get the parent widgets containing the sprite/labels list
+		Widget labelsWidget = this.client.getWidget(alt ? ID_LOC_LABELS_ALTERNATE : ID_LOC_LABELS_PRIMARY);
+		Widget spritesWidget = this.client.getWidget(alt ? ID_SPRITES_ALTERNATE : ID_SPRITES_PRIMARY);
 
 		// Create a map in which to place the available teleport options
-		Map<String, Teleport> teleports = new HashMap<>();
+		Map<IntegerBooleanPair, Teleport> teleports = new HashMap<>();
 
-		for (Widget child : labelWidgets)
+		// Early return
+		if (labelsWidget == null || spritesWidget == null)
 		{
+			return teleports;
+		}
+
+		// Grab the children of the widget, each of which have a text
+		// attribute containing the teleport location name and key shortcut
+		Widget[] labels = labelsWidget.getDynamicChildren();
+
+		// Grab the children of the widget, each of which have a sprite
+		Widget[] sprites = spritesWidget.getDynamicChildren();
+
+		// Sanity check
+		if (labels.length == 0 || labels.length != sprites.length)
+		{
+			return teleports;
+		}
+
+		// Compile the pattern that will match the teleport label
+		// and place the hotkey and teleport name into groups
+		Pattern pattern = Pattern.compile(TELE_NAME_PATTERN);
+
+		for (int i = 0; i < labels.length; i++)
+		{
+			Widget label = labels[i];
+			Widget sprite = sprites[i];
+
 			String shortcutKey;
-			String teleportName;
 
 			// For teleports with a shortcut defined, the teleport widget text will
 			// contain the shortcut key sandwiched between colour tags. If these tags
 			// are present, the shortcut key and teleport name will need to be extracted.
-			if (child.getText().contains(SHORTCUT_COLOUR_TAG))
+			if (label.getText().contains(SHORTCUT_COLOUR_TAG))
 			{
 				// Create a pattern matcher with the widgets text content
-				Matcher matcher = pattern.matcher(child.getText());
+				Matcher matcher = pattern.matcher(label.getText());
 
 				// If the text doesn't match the pattern, skip onto the next
 				if (!matcher.matches())
@@ -527,26 +534,26 @@ public class NexusMapPlugin extends Plugin
 
 				// Extract the pertinent information
 				shortcutKey = matcher.group(1);
-				teleportName = matcher.group(2);
 			}
 			else
 			{
 				// No shortcut key defined
 				shortcutKey = null;
-				teleportName = child.getText();
 			}
 
-			// If a teleport by this name cannot be found in the teleport definitions,
+			IntegerBooleanPair key = new IntegerBooleanPair(sprite.getSpriteId(), alt);
+
+			// If a teleport by this spriteID cannot be found in the teleport definitions,
 			// skip. This likely means a new teleport has been added to the Nexus that
 			// hasn't been updated into the definitions yet
-			if (!this.teleportDefinitions.containsKey(teleportName))
+			if (!this.teleportDefinitions.containsKey(key))
 			{
 				continue;
 			}
 
 			// Get the teleport definition from the lookup table
-			TeleportDefinition teleportDef = this.teleportDefinitions.get(teleportName);
-			teleports.put(teleportName, new Teleport(teleportDef, child, shortcutKey, alt));
+			TeleportDefinition teleportDef = this.teleportDefinitions.get(key);
+			teleports.put(key, new Teleport(teleportDef, label, shortcutKey));
 		}
 
 		return teleports;
@@ -757,8 +764,7 @@ public class NexusMapPlugin extends Plugin
 						teleportButton.addAction(ACTION_TEXT_HOTKEY, () -> triggerRebindDialog(teleport));
 					}
 
-					// Add to the list of active teleport buttons
-					this.activeTeleportButtons.put(teleportDef.getName(), teleportButton);
+					this.activeTeleportButtons.put(teleportDef.getKey(), teleportButton);
 				}
 				else
 				{
@@ -1038,19 +1044,7 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private Teleport getAvailableTeleport(TeleportDefinition teleportDefinition)
 	{
-		// First check the teleport isn't using an alias. This can occur if the user
-		// has another plugin installed that is altering the name of the teleport.
-		if (this.availableTeleports.containsKey(teleportDefinition.getAlias()))
-		{
-			return this.availableTeleports.get(teleportDefinition.getAlias());
-		}
-
-		if (this.availableTeleports.containsKey(this.getParenthesisedName(teleportDefinition)))
-		{
-			return this.availableTeleports.get(this.getParenthesisedName(teleportDefinition));
-		}
-
-		return this.availableTeleports.get(teleportDefinition.getName());
+		return this.availableTeleports.get(teleportDefinition.getKey());
 	}
 
 	/**

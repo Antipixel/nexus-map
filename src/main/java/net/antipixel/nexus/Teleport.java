@@ -11,25 +11,21 @@ import net.runelite.api.widgets.Widget;
 @Getter
 public class Teleport
 {
-	private TeleportDefinition definition;
-	private Widget widget;
-	private String keyShortcut;
-	private boolean alt;
+	private final TeleportDefinition definition;
+	private final Widget widget;
+	private final String keyShortcut;
 
 	/**
 	 * Creates a new teleport instance
 	 * @param definition the teleport definition
 	 * @param widget the widget for this teleport option
 	 * @param key the keyboard shortcut
-	 * @param alt true if this teleport is an alternate type,
-	 *            for example the Grand Exchange is an alternate of Varrock
 	 */
-	public Teleport(TeleportDefinition definition, Widget widget, String key, boolean alt)
+	public Teleport(TeleportDefinition definition, Widget widget, String key)
 	{
 		this.definition = definition;
 		this.widget = widget;
 		this.keyShortcut = key;
-		this.alt = alt;
 	}
 
 	/**
@@ -39,6 +35,11 @@ public class Teleport
 	public String getName()
 	{
 		return this.definition.getName();
+	}
+
+	public boolean isAlt()
+	{
+		return this.definition.isAlt();
 	}
 
 	/**
@@ -56,7 +57,7 @@ public class Teleport
 	 */
 	public boolean hasAlias()
 	{
-		return this.definition.getAlias() != null;
+		return this.definition.hasAlias();
 	}
 
 	/**
