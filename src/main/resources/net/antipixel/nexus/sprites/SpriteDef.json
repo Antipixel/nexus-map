@@ -181,6 +181,18 @@
   },
   {
     "spriteId":-18201,
+    "fileName":"Spell_Troll_Teleport_Enabled.png"
+  },
+  {
+    "spriteId":-18202,
     "fileName":"Spell_Troll_Teleport_Disabled.png"
+  },
+  {
+    "spriteId":-18203,
+    "fileName":"Spell_Weiss_Teleport_Enabled.png"
+  },
+  {
+    "spriteId":-18204,
+    "fileName":"Spell_Weiss_Teleport_Disabled.png"
   }
 ]

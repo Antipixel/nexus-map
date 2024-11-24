@@ -316,7 +316,8 @@
         "spriteX": 400,
         "spriteY": 32,
         "enabledSprite": 2418,
-        "disabledSprite": 2419
+        "overrideEnabledSprite": -18203,
+        "disabledSprite": -18204
       }
     ]
   },
@@ -338,7 +339,8 @@
         "spriteX": 176,
         "spriteY": 19,
         "enabledSprite": 2139,
-        "disabledSprite": -18201
+        "overrideEnabledSprite": -18201,
+        "disabledSprite": -18202
       },
       {
         "structID": 1248,

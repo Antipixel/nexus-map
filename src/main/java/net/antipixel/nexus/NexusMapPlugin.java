@@ -741,7 +741,7 @@ public class NexusMapPlugin extends Plugin
 					Teleport teleport = this.getAvailableTeleport(teleportDef);
 
 					// Set the sprite to the active icon for this spell
-					teleportButton.setSprites(teleportDef.getEnabledSprite());
+					teleportButton.setSprites(teleportDef.getEnabledSpriteForDisplay());
 					teleportButton.setBorder(config.borderStyle());
 
 					// Create the teleport name, formatted with alias and optional shortcut key

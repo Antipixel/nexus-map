@@ -18,6 +18,8 @@ public class TeleportDefinition
 	public int spriteX;
 	public int spriteY;
 	private int enabledSprite;
+	/** See {@link #getEnabledSpriteForDisplay()} */
+	private Integer overrideEnabledSprite;
 	private int disabledSprite;
 
 	/**
@@ -38,5 +40,14 @@ public class TeleportDefinition
 	public IntegerBooleanPair getKey()
 	{
 		return new IntegerBooleanPair(this.enabledSprite, this.isAlt);
+	}
+
+	/**
+	 * Returns the sprite ID to use in the nexus map.
+	 * @return overrideEnabledSprite if defined, otherwise enabledSprite.
+	 */
+	public int getEnabledSpriteForDisplay()
+	{
+		return overrideEnabledSprite != null ? overrideEnabledSprite : enabledSprite;
 	}
 }
