@@ -1,198 +1,198 @@
 [
   {
-    "spriteId":-18000,
-    "fileName":"Map_Misthalin_Top.png"
+    "spriteId": -18000,
+    "fileName": "Map_Misthalin_Top.png"
   },
   {
-    "spriteId":-18050,
-    "fileName":"Map_Misthalin_Sub.png"
+    "spriteId": -18050,
+    "fileName": "Map_Misthalin_Sub.png"
   },
   {
-    "spriteId":-18100,
-    "fileName":"Icon_Misthalin_Std.png"
+    "spriteId": -18100,
+    "fileName": "Icon_Misthalin_Std.png"
   },
   {
-    "spriteId":-18150,
-    "fileName":"Icon_Misthalin_Hover.png"
+    "spriteId": -18150,
+    "fileName": "Icon_Misthalin_Hover.png"
   },
   {
-    "spriteId":-18001,
-    "fileName":"Map_Karamja_Top.png"
+    "spriteId": -18001,
+    "fileName": "Map_Karamja_Top.png"
   },
   {
-    "spriteId":-18051,
-    "fileName":"Map_Karamja_Sub.png"
+    "spriteId": -18051,
+    "fileName": "Map_Karamja_Sub.png"
   },
   {
-    "spriteId":-18151,
-    "fileName":"Icon_Karamja_Std.png"
+    "spriteId": -18101,
+    "fileName": "Icon_Karamja_Std.png"
   },
   {
-    "spriteId":-18151,
-    "fileName":"Icon_Karamja_Hover.png"
+    "spriteId": -18151,
+    "fileName": "Icon_Karamja_Hover.png"
   },
   {
-    "spriteId":-18002,
-    "fileName":"Map_Asgarnia_Top.png"
+    "spriteId": -18002,
+    "fileName": "Map_Asgarnia_Top.png"
   },
   {
-    "spriteId":-18052,
-    "fileName":"Map_Asgarnia_Sub.png"
+    "spriteId": -18052,
+    "fileName": "Map_Asgarnia_Sub.png"
   },
   {
-    "spriteId":-18102,
-    "fileName":"Icon_Asgarnia_Std.png"
+    "spriteId": -18102,
+    "fileName": "Icon_Asgarnia_Std.png"
   },
   {
-    "spriteId":-18152,
-    "fileName":"Icon_Asgarnia_Hover.png"
+    "spriteId": -18152,
+    "fileName": "Icon_Asgarnia_Hover.png"
   },
   {
-    "spriteId":-18003,
-    "fileName":"Map_Desert_Top.png"
+    "spriteId": -18003,
+    "fileName": "Map_Desert_Top.png"
   },
   {
-    "spriteId":-18053,
-    "fileName":"Map_Desert_Sub.png"
+    "spriteId": -18053,
+    "fileName": "Map_Desert_Sub.png"
   },
   {
-    "spriteId":-18103,
-    "fileName":"Icon_Desert_Std.png"
+    "spriteId": -18103,
+    "fileName": "Icon_Desert_Std.png"
   },
   {
-    "spriteId":-18153,
-    "fileName":"Icon_Desert_Hover.png"
+    "spriteId": -18153,
+    "fileName": "Icon_Desert_Hover.png"
   },
   {
-    "spriteId":-18004,
-    "fileName":"Map_Morytania_Top.png"
+    "spriteId": -18004,
+    "fileName": "Map_Morytania_Top.png"
   },
   {
-    "spriteId":-18054,
-    "fileName":"Map_Morytania_Sub.png"
+    "spriteId": -18054,
+    "fileName": "Map_Morytania_Sub.png"
   },
   {
-    "spriteId":-18104,
-    "fileName":"Icon_Morytania_Std.png"
+    "spriteId": -18104,
+    "fileName": "Icon_Morytania_Std.png"
   },
   {
-    "spriteId":-18154,
-    "fileName":"Icon_Morytania_Hover.png"
+    "spriteId": -18154,
+    "fileName": "Icon_Morytania_Hover.png"
   },
   {
-    "spriteId":-18005,
-    "fileName":"Map_Wilderness_Top.png"
+    "spriteId": -18005,
+    "fileName": "Map_Wilderness_Top.png"
   },
   {
-    "spriteId":-18055,
-    "fileName":"Map_Wilderness_Sub.png"
+    "spriteId": -18055,
+    "fileName": "Map_Wilderness_Sub.png"
   },
   {
-    "spriteId":-18105,
-    "fileName":"Icon_Wilderness_Std.png"
+    "spriteId": -18105,
+    "fileName": "Icon_Wilderness_Std.png"
   },
   {
-    "spriteId":-18155,
-    "fileName":"Icon_Wilderness_Hover.png"
+    "spriteId": -18155,
+    "fileName": "Icon_Wilderness_Hover.png"
   },
   {
-    "spriteId":-18006,
-    "fileName":"Map_Kandarin_Top.png"
+    "spriteId": -18006,
+    "fileName": "Map_Kandarin_Top.png"
   },
   {
-    "spriteId":-18056,
-    "fileName":"Map_Kandarin_Sub.png"
+    "spriteId": -18056,
+    "fileName": "Map_Kandarin_Sub.png"
   },
   {
-    "spriteId":-18106,
-    "fileName":"Icon_Kandarin_Std.png"
+    "spriteId": -18106,
+    "fileName": "Icon_Kandarin_Std.png"
   },
   {
-    "spriteId":-18156,
-    "fileName":"Icon_Kandarin_Hover.png"
+    "spriteId": -18156,
+    "fileName": "Icon_Kandarin_Hover.png"
   },
   {
-    "spriteId":-18007,
-    "fileName":"Map_Fremennik_Top.png"
+    "spriteId": -18007,
+    "fileName": "Map_Fremennik_Top.png"
   },
   {
-    "spriteId":-18057,
-    "fileName":"Map_Fremennik_Sub.png"
+    "spriteId": -18057,
+    "fileName": "Map_Fremennik_Sub.png"
   },
   {
-    "spriteId":-18107,
-    "fileName":"Icon_Fremennik_Std.png"
+    "spriteId": -18107,
+    "fileName": "Icon_Fremennik_Std.png"
   },
   {
-    "spriteId":-18157,
-    "fileName":"Icon_Fremennik_Hover.png"
+    "spriteId": -18157,
+    "fileName": "Icon_Fremennik_Hover.png"
   },
   {
-    "spriteId":-18008,
-    "fileName":"Map_Tirannwn_Top.png"
+    "spriteId": -18008,
+    "fileName": "Map_Tirannwn_Top.png"
   },
   {
-    "spriteId":-18058,
-    "fileName":"Map_Tirannwn_Sub.png"
+    "spriteId": -18058,
+    "fileName": "Map_Tirannwn_Sub.png"
   },
   {
-    "spriteId":-18108,
-    "fileName":"Icon_Tirannwn_Std.png"
+    "spriteId": -18108,
+    "fileName": "Icon_Tirannwn_Std.png"
   },
   {
-    "spriteId":-18158,
-    "fileName":"Icon_Tirannwn_Hover.png"
+    "spriteId": -18158,
+    "fileName": "Icon_Tirannwn_Hover.png"
   },
   {
-    "spriteId":-18009,
-    "fileName":"Map_Kourend_Top.png"
+    "spriteId": -18009,
+    "fileName": "Map_Kourend_Top.png"
   },
   {
-    "spriteId":-18059,
-    "fileName":"Map_Kourend_Sub.png"
+    "spriteId": -18059,
+    "fileName": "Map_Kourend_Sub.png"
   },
   {
-    "spriteId":-18109,
-    "fileName":"Icon_Kourend_Std.png"
+    "spriteId": -18109,
+    "fileName": "Icon_Kourend_Std.png"
   },
   {
-    "spriteId":-18159,
-    "fileName":"Icon_Kourend_Hover.png"
+    "spriteId": -18159,
+    "fileName": "Icon_Kourend_Hover.png"
   },
   {
-    "spriteId":-18010,
-    "fileName":"Map_Varlamore_Top.png"
+    "spriteId": -18010,
+    "fileName": "Map_Varlamore_Top.png"
   },
   {
-    "spriteId":-18060,
-    "fileName":"Map_Varlamore_Sub.png"
+    "spriteId": -18060,
+    "fileName": "Map_Varlamore_Sub.png"
   },
   {
-    "spriteId":-18110,
-    "fileName":"Icon_Varlamore_Std.png"
+    "spriteId": -18110,
+    "fileName": "Icon_Varlamore_Std.png"
   },
   {
-    "spriteId":-18160,
-    "fileName":"Icon_Varlamore_Hover.png"
+    "spriteId": -18160,
+    "fileName": "Icon_Varlamore_Hover.png"
   },
   {
-    "spriteId":-18200,
-    "fileName":"Backing_Map.png"
+    "spriteId": -18200,
+    "fileName": "Backing_Map.png"
   },
   {
-    "spriteId":-18201,
-    "fileName":"Spell_Troll_Teleport_Enabled.png"
+    "spriteId": -18201,
+    "fileName": "Spell_Troll_Teleport_Enabled.png"
   },
   {
-    "spriteId":-18202,
-    "fileName":"Spell_Troll_Teleport_Disabled.png"
+    "spriteId": -18202,
+    "fileName": "Spell_Troll_Teleport_Disabled.png"
   },
   {
-    "spriteId":-18203,
-    "fileName":"Spell_Weiss_Teleport_Enabled.png"
+    "spriteId": -18203,
+    "fileName": "Spell_Weiss_Teleport_Enabled.png"
   },
   {
-    "spriteId":-18204,
-    "fileName":"Spell_Weiss_Teleport_Disabled.png"
+    "spriteId": -18204,
+    "fileName": "Spell_Weiss_Teleport_Disabled.png"
   }
 ]
