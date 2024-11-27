@@ -388,24 +388,24 @@
       {
         "structID": 463,
         "name": "Kourend Castle",
-        "spriteX": 196,
-        "spriteY": 212,
+        "spriteX": 274,
+        "spriteY": 145,
         "enabledSprite": 360,
         "disabledSprite": 410
       },
       {
         "structID": 2887,
         "name": "Arceuus Library",
-        "spriteX": 224,
-        "spriteY": 212,
+        "spriteX": 268,
+        "spriteY": 58,
         "enabledSprite": 1252,
         "disabledSprite": 1277
       },
       {
         "structID": 1247,
         "name": "Battlefront",
-        "spriteX": 253,
-        "spriteY": 212,
+        "spriteX": 121,
+        "spriteY": 110,
         "enabledSprite": 1255,
         "disabledSprite": 1280
       }
@@ -426,8 +426,8 @@
       {
         "structID": 855,
         "name": "Civitas illa Fortis",
-        "spriteX": 224,
-        "spriteY": 212,
+        "spriteX": 333,
+        "spriteY": 103,
         "enabledSprite": 367,
         "disabledSprite": 417
       }
