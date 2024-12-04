@@ -393,7 +393,7 @@ public class NexusMapPlugin extends Plugin
 			}
 			else
 			{
-				// Hide with the "Show Map" text...
+				// Hide within the shadow of the "Show Map" text...
 				w.setPos(PORTAL_PANEL_HIDDEN_X, PORTAL_PANEL_HIDDEN_Y);
 			}
 			w.revalidate();
