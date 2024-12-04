@@ -1,6 +1,55 @@
 [
   {
     "id": 0,
+    "name": "Wilderness",
+    "icon": {
+      "x": 323,
+      "y": 50,
+      "spriteStandard": -18105,
+      "spriteHover": -18155
+    },
+    "indexSprite": -18005,
+    "mapSprite": -18055,
+    "teleportDefinitions": [
+      {
+        "structID": 466,
+        "name": "Annakarl",
+        "alias": "Demonic Ruins",
+        "spriteX": 290,
+        "spriteY": 50,
+        "enabledSprite": 347,
+        "disabledSprite": 397
+      },
+      {
+        "structID": 469,
+        "name": "Ghorrock",
+        "alias": "Frozen Waste Plateau",
+        "spriteX": 136,
+        "spriteY": 54,
+        "enabledSprite": 348,
+        "disabledSprite": 398
+      },
+      {
+        "structID": 470,
+        "name": "Carrallanger",
+        "alias": "Graveyard of Shadows",
+        "spriteX": 234,
+        "spriteY": 162,
+        "enabledSprite": 346,
+        "disabledSprite": 396
+      },
+      {
+        "structID": 1253,
+        "name": "Cemetery",
+        "spriteX": 136,
+        "spriteY": 125,
+        "enabledSprite": 1264,
+        "disabledSprite": 1289
+      }
+    ]
+  },
+  {
+    "id": 1,
     "name": "Misthalin",
     "icon": {
       "x": 325,
@@ -56,7 +105,7 @@
     ]
   },
   {
-    "id": 1,
+    "id": 2,
     "name": "Karamja",
     "icon": {
       "x": 265,
@@ -69,7 +118,7 @@
     "teleportDefinitions": []
   },
   {
-    "id": 2,
+    "id": 3,
     "name": "Kharidian Desert",
     "icon": {
       "x": 345,
@@ -82,7 +131,7 @@
     "teleportDefinitions": []
   },
   {
-    "id": 3,
+    "id": 4,
     "name": "Morytania",
     "icon": {
       "x": 384,
@@ -133,55 +182,6 @@
         "spriteY": 168,
         "enabledSprite": 1262,
         "disabledSprite": 1287
-      }
-    ]
-  },
-  {
-    "id": 4,
-    "name": "Wilderness",
-    "icon": {
-      "x": 323,
-      "y": 50,
-      "spriteStandard": -18105,
-      "spriteHover": -18155
-    },
-    "indexSprite": -18005,
-    "mapSprite": -18055,
-    "teleportDefinitions": [
-      {
-        "structID": 466,
-        "name": "Annakarl",
-        "alias": "Demonic Ruins",
-        "spriteX": 290,
-        "spriteY": 50,
-        "enabledSprite": 347,
-        "disabledSprite": 397
-      },
-      {
-        "structID": 469,
-        "name": "Ghorrock",
-        "alias": "Frozen Waste Plateau",
-        "spriteX": 136,
-        "spriteY": 54,
-        "enabledSprite": 348,
-        "disabledSprite": 398
-      },
-      {
-        "structID": 470,
-        "name": "Carrallanger",
-        "alias": "Graveyard of Shadows",
-        "spriteX": 234,
-        "spriteY": 162,
-        "enabledSprite": 346,
-        "disabledSprite": 396
-      },
-      {
-        "structID": 1253,
-        "name": "Cemetery",
-        "spriteX": 136,
-        "spriteY": 125,
-        "enabledSprite": 1264,
-        "disabledSprite": 1289
       }
     ]
   },
