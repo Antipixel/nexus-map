@@ -1,5 +1,6 @@
 package net.antipixel.nexus;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.inject.Provides;
 import java.util.ArrayDeque;
@@ -84,6 +85,12 @@ public class NexusMapPlugin extends Plugin
 	private static final int MAP_ICON_WIDTH = 50;
 	private static final int MAP_ICON_HEIGHT = 41;
 
+	/* Used to move around the inside of the window to help hide the dreaded pixel */
+	private static final int PORTAL_PANEL_DEFAULT_X = 0;
+	private static final int PORTAL_PANEL_DEFAULT_Y = 40;
+	private static final int PORTAL_PANEL_HIDDEN_X = 4;
+	private static final int PORTAL_PANEL_HIDDEN_Y = 14;
+
 	/* Script, Sprite IDs */
 	private static final int SCRIPT_TRIGGER_KEY = 1437;
 	private static final int REGION_MAP_MAIN = -18200;
@@ -150,7 +157,18 @@ public class NexusMapPlugin extends Plugin
 	private String teleportAction;
 
 	/* Widgets */
-	private List<Integer> hiddenWidgetIDs;
+	/**
+	 * A list of widgets that the plugin does not require
+	 * in order to function, for them to be hidden and shown as required
+	 */
+	private ImmutableList<Integer> hiddenWidgetIDs = ImmutableList.of(
+		ID_PORTAL_MODEL,
+		ID_SCRY_TEXT,
+		ID_SCRY_SELECT,
+		ID_SCROLLBOX_BORDER,
+		ID_TELEPORT_LIST,
+		ID_SCROLLBAR
+	);
 	private UIGraphic mapGraphic;
 	private UIGraphic[] indexRegionGraphics;
 	private UIButton[] indexRegionIcons;
@@ -166,7 +184,6 @@ public class NexusMapPlugin extends Plugin
 	{
 		this.loadDefinitions();
 		this.buildTeleportDefinitionLookup();
-		this.createHiddenWidgetList();
 
 		// Add the custom sprites to the sprite manager
 		this.spriteManager.addSpriteOverrides(spriteDefinitions);
@@ -285,20 +302,6 @@ public class NexusMapPlugin extends Plugin
 		return gson.fromJson(definitionReader, classType);
 	}
 
-	/**
-	 * Creates a list of widgets that the plugin does not require
-	 * in order to function, for them to be hidden and shown as required
-	 */
-	private void createHiddenWidgetList()
-	{
-		this.hiddenWidgetIDs = new ArrayList<>();
-
-		this.hiddenWidgetIDs.add(ID_PORTAL_MODEL);
-		this.hiddenWidgetIDs.add(ID_SCRY_TEXT);
-		this.hiddenWidgetIDs.add(ID_SCRY_SELECT);
-		this.hiddenWidgetIDs.add(ID_TELEPORTS_SECTION);
-	}
-
 	@Subscribe
 	public void onMenuOptionClicked(MenuOptionClicked e)
 	{
@@ -365,8 +368,35 @@ public class NexusMapPlugin extends Plugin
 		// Iterate though each of the non-essential widgets
 		for (Integer packedID : this.hiddenWidgetIDs)
 		{
-			// Update their visibility
-			this.client.getWidget(packedID).setHidden(!visible);
+			Widget w = this.client.getWidget(packedID);
+			if (w != null)
+			{
+				// Update their visibility
+				w.setHidden(!visible);
+			}
+		}
+
+		// The keyevent widgets need to be visible for keybinds to work.
+		// However, they leave a tiny annoying 1x1 pixel on the screen.
+		// Moving them around or changing their properties so they're unseen is difficult,
+		// as anything that causes them not to be rendered causes problems.
+		// I have resorted to moving the entire inside of the window so that the pixel
+		// is within the drop shadow of the "Show Map" button...
+		// TODO: This is absolutely, **incredibly** cursed, think of something better later...
+		Widget w = this.client.getWidget(ID_PORTAL_PANEL);
+		if (w != null)
+		{
+			if (visible)
+			{
+				// Default state as observed in-game
+				w.setPos(PORTAL_PANEL_DEFAULT_X, PORTAL_PANEL_DEFAULT_Y);
+			}
+			else
+			{
+				// Hide within the shadow of the "Show Map" text...
+				w.setPos(PORTAL_PANEL_HIDDEN_X, PORTAL_PANEL_HIDDEN_Y);
+			}
+			w.revalidate();
 		}
 	}
 
