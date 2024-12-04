@@ -376,7 +376,7 @@ public class NexusMapPlugin extends Plugin
 			}
 		}
 
-		// These widgets need to be visible for keyevents to work.
+		// The keyevent widgets need to be visible for keybinds to work.
 		// However, they leave a tiny annoying 1x1 pixel on the screen.
 		// Moving them around or changing their properties so they're unseen is difficult,
 		// as anything that causes them not to be rendered causes problems.
