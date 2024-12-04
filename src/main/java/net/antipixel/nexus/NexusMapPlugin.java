@@ -253,7 +253,6 @@ public class NexusMapPlugin extends Plugin
 		this.regionDefinitions = null;
 		this.spriteDefinitions = null;
 		this.teleportDefinitions.clear();
-		this.hiddenWidgetIDs.clear();
 	}
 
 	/**
