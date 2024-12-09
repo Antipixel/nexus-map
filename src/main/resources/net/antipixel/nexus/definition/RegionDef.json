@@ -187,6 +187,45 @@
   },
   {
     "id": 5,
+    "name": "Fremennik",
+    "icon": {
+      "x": 222,
+      "y": 48,
+      "spriteStandard": -18107,
+      "spriteHover": -18157
+    },
+    "indexSprite": -18007,
+    "mapSprite": -18057,
+    "teleportDefinitions": [
+      {
+        "structID": 462,
+        "name": "Lunar Isle",
+        "spriteX": 35,
+        "spriteY": 75,
+        "enabledSprite": 544,
+        "disabledSprite": 594
+      },
+      {
+        "structID": 464,
+        "name": "Waterbirth Island",
+        "spriteX": 248,
+        "spriteY": 135,
+        "enabledSprite": 545,
+        "disabledSprite": 595
+      },
+      {
+        "structID": 592,
+        "name": "Weiss",
+        "spriteX": 400,
+        "spriteY": 32,
+        "enabledSprite": 2418,
+        "overrideEnabledSprite": -18203,
+        "disabledSprite": -18204
+      }
+    ]
+  },
+  {
+    "id": 6,
     "name": "Kandarin",
     "icon": {
       "x": 212,
@@ -279,45 +318,6 @@
         "spriteY": 32,
         "enabledSprite": 37,
         "disabledSprite": 87
-      }
-    ]
-  },
-  {
-    "id": 6,
-    "name": "Fremennik",
-    "icon": {
-      "x": 222,
-      "y": 48,
-      "spriteStandard": -18107,
-      "spriteHover": -18157
-    },
-    "indexSprite": -18007,
-    "mapSprite": -18057,
-    "teleportDefinitions": [
-      {
-        "structID": 462,
-        "name": "Lunar Isle",
-        "spriteX": 35,
-        "spriteY": 75,
-        "enabledSprite": 544,
-        "disabledSprite": 594
-      },
-      {
-        "structID": 464,
-        "name": "Waterbirth Island",
-        "spriteX": 248,
-        "spriteY": 135,
-        "enabledSprite": 545,
-        "disabledSprite": 595
-      },
-      {
-        "structID": 592,
-        "name": "Weiss",
-        "spriteX": 400,
-        "spriteY": 32,
-        "enabledSprite": 2418,
-        "overrideEnabledSprite": -18203,
-        "disabledSprite": -18204
       }
     ]
   },
