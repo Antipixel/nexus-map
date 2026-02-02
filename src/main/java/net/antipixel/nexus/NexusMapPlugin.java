@@ -621,7 +621,7 @@ public class NexusMapPlugin extends Plugin
 	{
 		// Initialise the arrays for the map graphics and icons
 		this.indexRegionGraphics = new HashMap<>(regionDefinitions.size());
-		this.indexRegionIcons = new HashMap(regionDefinitions.size());
+		this.indexRegionIcons = new HashMap<>(regionDefinitions.size());
 
 		for (RegionDefinition regionDef : regionDefinitions.values())
 		{
@@ -916,7 +916,8 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private void displayMapPage(int regionID)
 	{
-		// Make sure all other map pages a hidden
+		// Make sure all other map pages are hidden
+		// Must be done in two steps as the map and back buttons are shared across pages
 		this.mapPages.values().forEach(page -> page.setVisibility(false));
 		this.mapPages.get(regionID).setVisibility(true);
 
