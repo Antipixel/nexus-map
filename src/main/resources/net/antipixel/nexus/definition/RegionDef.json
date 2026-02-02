@@ -7,16 +7,16 @@
       {
         "structID": -1,
         "name": "Respawn Point",
-        "spriteX": 426,
-        "spriteY": 246,
+        "spriteX": 1,
+        "spriteY": 1,
         "enabledSprite": 1257,
         "disabledSprite": 1282
       },
       {
         "structID": -1,
         "name": "Boat",
-        "spriteX": 452,
-        "spriteY": 246,
+        "spriteX": 26,
+        "spriteY": 1,
         "enabledSprite": 6922,
         "disabledSprite": 6947
       }
