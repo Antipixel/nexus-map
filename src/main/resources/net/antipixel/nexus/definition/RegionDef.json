@@ -202,7 +202,7 @@
       {
         "structID": 1249,
         "name": "Salve Graveyard",
-        "spriteX": 72,
+        "spriteX": 70,
         "spriteY": 84,
         "enabledSprite": 1258,
         "disabledSprite": 1283
@@ -219,7 +219,7 @@
         "structID": 461,
         "name": "Kharyrll",
         "alias": "Canifis",
-        "spriteX": 92,
+        "spriteX": 95,
         "spriteY": 75,
         "enabledSprite": 343,
         "disabledSprite": 393
