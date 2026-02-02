@@ -625,7 +625,7 @@ public class NexusMapPlugin extends Plugin
 
 		for (RegionDefinition regionDef : regionDefinitions.values())
 		{
-			int id = regionDef.getId();
+			final int id = regionDef.getId();
 			// Don't do anything if this is the index page
 			if (id == REGION_INDEX_ID)
 			{
@@ -666,9 +666,9 @@ public class NexusMapPlugin extends Plugin
 			button.setPosition(iconDef.getX() + MAP_SECTION_POS_X, iconDef.getY() + MAP_SECTION_POS_Y);
 			button.setSize(MAP_ICON_WIDTH, MAP_ICON_HEIGHT);
 			button.setSprites(iconDef.getSpriteStandard(), iconDef.getSpriteHover());
-			button.setOnHoverListener((c) -> onIconHover(regionDef.getId()));
-			button.setOnLeaveListener((c) -> onIconLeave(regionDef.getId()));
-			button.addAction(ACTION_TEXT_SELECT, () -> onIconClicked(regionDef.getId()));
+			button.setOnHoverListener((c) -> onIconHover(id));
+			button.setOnLeaveListener((c) -> onIconLeave(id));
+			button.addAction(ACTION_TEXT_SELECT, () -> onIconClicked(id));
 
 			this.indexRegionIcons.put(id, button);
 
