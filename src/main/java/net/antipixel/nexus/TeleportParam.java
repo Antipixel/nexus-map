@@ -2,6 +2,12 @@ package net.antipixel.nexus;
 
 import lombok.Getter;
 
+/*
+Script to get struct IDs in the dev shell:
+subscribe(PostStructComposition.class, ev ->
+	log.info("{} - {}", ev.getStructComposition().getId(), ev.getStructComposition().getStringValue(660)));
+*/
+
 /**
  * Parameter IDs for the Nexus teleport details struct
  * @author Antipixel

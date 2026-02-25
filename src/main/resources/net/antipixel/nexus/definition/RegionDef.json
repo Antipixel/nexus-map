@@ -1,5 +1,28 @@
 [
   {
+    "id": -1,
+    "name": "Index",
+    "mapSprite": -18200,
+    "teleportDefinitions": [
+      {
+        "structID": 6422,
+        "name": "Respawn Point",
+        "spriteX": 1,
+        "spriteY": 1,
+        "enabledSprite": 1257,
+        "disabledSprite": 1282
+      },
+      {
+        "structID": 6423,
+        "name": "Boat",
+        "spriteX": 26,
+        "spriteY": 1,
+        "enabledSprite": 6922,
+        "disabledSprite": 6947
+      }
+    ]
+  },
+  {
     "id": 0,
     "name": "Wilderness",
     "icon": {
@@ -45,6 +68,23 @@
         "spriteY": 125,
         "enabledSprite": 1264,
         "disabledSprite": 1289
+      },
+      {
+        "structID": 6417,
+        "name": "Dareeyak",
+        "alias": "Crazy Archaeologist",
+        "spriteX": 136,
+        "spriteY": 150,
+        "enabledSprite": 345,
+        "disabledSprite": 395
+      },
+      {
+        "structID": 6421,
+        "name": "Ice Plateau",
+        "spriteX": 136,
+        "spriteY": 29,
+        "enabledSprite": 557,
+        "disabledSprite": 607
       }
     ]
   },
@@ -101,6 +141,15 @@
         "spriteY": 211,
         "enabledSprite": 30,
         "disabledSprite": 80
+      },
+      {
+        "structID": 6415,
+        "name": "Paddewwa",
+        "alias": "Edgeville Dungeon",
+        "spriteX": 157,
+        "spriteY": 52,
+        "enabledSprite": 341,
+        "disabledSprite": 391
       }
     ]
   },
@@ -153,7 +202,7 @@
       {
         "structID": 1249,
         "name": "Salve Graveyard",
-        "spriteX": 72,
+        "spriteX": 70,
         "spriteY": 84,
         "enabledSprite": 1258,
         "disabledSprite": 1283
@@ -170,7 +219,7 @@
         "structID": 461,
         "name": "Kharyrll",
         "alias": "Canifis",
-        "spriteX": 92,
+        "spriteX": 95,
         "spriteY": 75,
         "enabledSprite": 343,
         "disabledSprite": 393
@@ -314,10 +363,34 @@
         "structID": 455,
         "name": "Seers\u0027 Village",
         "isAlt":true,
-        "spriteX": 249,
+        "spriteX": 246,
         "spriteY": 32,
         "enabledSprite": 37,
         "disabledSprite": 87
+      },
+      {
+        "structID": 6419,
+        "name": "Barbarian Outpost",
+        "spriteX": 157,
+        "spriteY": 1,
+        "enabledSprite": 547,
+        "disabledSprite": 597
+      },
+      {
+        "structID": 6420,
+        "name": "Port Khazard",
+        "spriteX": 211,
+        "spriteY": 187,
+        "enabledSprite": 549,
+        "disabledSprite": 599
+      },
+      {
+        "structID": 6418,
+        "name": "Ourania",
+        "spriteX": 117,
+        "spriteY": 154,
+        "enabledSprite": 586,
+        "disabledSprite": 636
       }
     ]
   },
@@ -345,7 +418,7 @@
       {
         "structID": 1248,
         "name": "Mind Altar",
-        "spriteX": 241,
+        "spriteX": 234,
         "spriteY": 120,
         "enabledSprite": 1256,
         "disabledSprite": 1281
@@ -357,6 +430,23 @@
         "spriteY": 181,
         "enabledSprite": 33,
         "disabledSprite": 83
+      },
+      {
+        "structID": 6416,
+        "name": "Lassar",
+        "alias": "Ice Mountain",
+        "spriteX": 259,
+        "spriteY": 125,
+        "enabledSprite": 344,
+        "disabledSprite": 394
+      },
+      {
+        "structID": 6414,
+        "name": "Trollheim",
+        "spriteX": 201,
+        "spriteY": 22,
+        "enabledSprite": 323,
+        "disabledSprite": 373
       }
     ]
   },

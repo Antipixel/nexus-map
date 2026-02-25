@@ -4,9 +4,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.inject.Provides;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Queue;
 import net.antipixel.nexus.config.NexusConfig;
@@ -25,7 +26,7 @@ import net.antipixel.nexus.ui.UIPage;
 import net.runelite.api.Client;
 import net.runelite.api.MenuEntry;
 import net.runelite.api.SoundEffectID;
-import net.runelite.api.SpriteID;
+import net.runelite.api.gameval.SpriteID;
 import net.runelite.api.events.ClientTick;
 import net.runelite.api.events.MenuOptionClicked;
 import net.runelite.api.events.VarbitChanged;
@@ -93,7 +94,7 @@ public class NexusMapPlugin extends Plugin
 
 	/* Script, Sprite IDs */
 	private static final int SCRIPT_TRIGGER_KEY = 1437;
-	private static final int REGION_MAP_MAIN = -18200;
+	private static final int REGION_INDEX_ID = -1;
 	private static final int VARBIT_NEXUS_MODE = 6671;
 
 	/* Menu actions */
@@ -145,7 +146,7 @@ public class NexusMapPlugin extends Plugin
 	@Inject
 	private Gson gson;
 
-	private RegionDefinition[] regionDefinitions;
+	private Map<Integer, RegionDefinition> regionDefinitions;
 	private SpriteDefinition[] spriteDefinitions;
 
 	private Map<IntegerBooleanPair, TeleportDefinition> teleportDefinitions;
@@ -170,11 +171,11 @@ public class NexusMapPlugin extends Plugin
 		ID_SCROLLBAR
 	);
 	private UIGraphic mapGraphic;
-	private UIGraphic[] indexRegionGraphics;
-	private UIButton[] indexRegionIcons;
+	private Map<Integer, UIGraphic> indexRegionGraphics;
+	private Map<Integer, UIButton> indexRegionIcons;
 
 	private UIPage indexPage;
-	private List<UIPage> mapPages;
+	private Map<Integer, UIPage> mapPages;
 
 	private FadePulseEffect fadeEffect;
 	private Queue<Runnable> clientTickQueue;
@@ -261,7 +262,13 @@ public class NexusMapPlugin extends Plugin
 	private void loadDefinitions()
 	{
 		// Load the definitions files for the regions and sprite override
-		this.regionDefinitions = loadDefinitionResource(RegionDefinition[].class, DEF_FILE_REGIONS, gson);
+		RegionDefinition[] regDefs = loadDefinitionResource(RegionDefinition[].class, DEF_FILE_REGIONS, gson);
+
+		// LinkedHashMap important to preserve order
+		this.regionDefinitions = new LinkedHashMap<>();
+		Arrays.stream(regDefs).sorted(Comparator.comparing(RegionDefinition::getId))
+			.forEach(def -> this.regionDefinitions.put(def.getId(), def));
+
 		this.spriteDefinitions = loadDefinitionResource(SpriteDefinition[].class, DEF_FILE_SPRITES, gson);
 	}
 
@@ -273,7 +280,7 @@ public class NexusMapPlugin extends Plugin
 		this.teleportDefinitions = new HashMap<>();
 
 		// Iterate through all regions looking for their teleport definitions
-		for (RegionDefinition regionDef : this.regionDefinitions)
+		for (RegionDefinition regionDef : this.regionDefinitions.values())
 		{
 			for (TeleportDefinition teleportDef : regionDef.getTeleportDefinitions())
 			{
@@ -346,8 +353,8 @@ public class NexusMapPlugin extends Plugin
 			this.createMenuPages();
 
 			// Create the custom widgets
-			this.createIndexMenu(window);
 			this.createMapGraphic(window);
+			this.createIndexMenu(window);
 			this.createBackButton(window);
 			this.createTeleportWidgets(window);
 			this.createToggleCheckbox(window);
@@ -593,14 +600,15 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private void createMenuPages()
 	{
-		this.indexPage = new UIPage();
-		this.mapPages = new ArrayList<>(regionDefinitions.length);
+		this.mapPages = new HashMap<>(regionDefinitions.size());
 
 		// Add a page for each region
-		for (int i = 0; i < regionDefinitions.length; i++)
+		for (RegionDefinition def : regionDefinitions.values())
 		{
-			this.mapPages.add(new UIPage());
+			this.mapPages.put(def.getId(), new UIPage());
 		}
+
+		this.indexPage = this.mapPages.get(REGION_INDEX_ID);
 	}
 
 	/**
@@ -611,39 +619,33 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private void createIndexMenu(Widget window)
 	{
-		// Create a graphic widget for the background image of the index page
-		Widget backingWidget = window.createChild(-1, WidgetType.GRAPHIC);
-
-		// Wrap in a UIGraphic, set dimensions, position and sprite
-		UIGraphic indexBackingGraphic = new UIGraphic(backingWidget);
-		indexBackingGraphic.setPosition(MAP_SECTION_POS_X, MAP_SECTION_POS_Y);
-		indexBackingGraphic.setSize(INDEX_MAP_SPRITE_WIDTH, INDEX_MAP_SPRITE_HEIGHT);
-		indexBackingGraphic.setSprite(REGION_MAP_MAIN);
-
 		// Initialise the arrays for the map graphics and icons
-		this.indexRegionGraphics = new UIGraphic[regionDefinitions.length];
-		this.indexRegionIcons = new UIButton[regionDefinitions.length];
+		this.indexRegionGraphics = new HashMap<>(regionDefinitions.size());
+		this.indexRegionIcons = new HashMap<>(regionDefinitions.size());
 
-		// Add the backing graphic to the index page
-		this.indexPage.add(indexBackingGraphic);
-
-		for (int i = 0; i < regionDefinitions.length; i++)
+		for (RegionDefinition regionDef : regionDefinitions.values())
 		{
-			// Get definition for the region
-			RegionDefinition regionDef = this.regionDefinitions[i];
+			final int id = regionDef.getId();
+			// Don't do anything if this is the index page
+			if (id == REGION_INDEX_ID)
+			{
+				continue;
+			}
 
 			// Create a widget for the region sprite graphic
 			Widget regionGraphic = window.createChild(-1, WidgetType.GRAPHIC);
 
 			// Wrap in UIGraphic, update the size and position to match that of
 			// the backing graphic. Set the sprite to that of the current region
-			this.indexRegionGraphics[i] = new UIGraphic(regionGraphic);
-			this.indexRegionGraphics[i].setPosition(MAP_SECTION_POS_X, MAP_SECTION_POS_Y);
-			this.indexRegionGraphics[i].setSize(INDEX_MAP_SPRITE_WIDTH, INDEX_MAP_SPRITE_HEIGHT);
-			this.indexRegionGraphics[i].setSprite(regionDef.getIndexSprite());
+			UIGraphic graphic = new UIGraphic(regionGraphic);
+			graphic.setPosition(MAP_SECTION_POS_X, MAP_SECTION_POS_Y);
+			graphic.setSize(INDEX_MAP_SPRITE_WIDTH, INDEX_MAP_SPRITE_HEIGHT);
+			graphic.setSprite(regionDef.getIndexSprite());
+
+			this.indexRegionGraphics.put(id, graphic);
 
 			// Add the component to the index page
-			this.indexPage.add(this.indexRegionGraphics[i]);
+			this.indexPage.add(graphic);
 
 			// If there's no teleports defined for this region, skip onto the next
 			// before the icon widget is created and has its listeners attached
@@ -659,17 +661,19 @@ public class NexusMapPlugin extends Plugin
 			IconDefinition iconDef = regionDef.getIcon();
 
 			// Wrap in UIBUtton, position the component. attach listeners, etc.
-			this.indexRegionIcons[i] = new UIButton(regionIcon);
-			this.indexRegionIcons[i].setName(regionDef.getName());
-			this.indexRegionIcons[i].setPosition(iconDef.getX() + MAP_SECTION_POS_X, iconDef.getY() + MAP_SECTION_POS_Y);
-			this.indexRegionIcons[i].setSize(MAP_ICON_WIDTH, MAP_ICON_HEIGHT);
-			this.indexRegionIcons[i].setSprites(iconDef.getSpriteStandard(), iconDef.getSpriteHover());
-			this.indexRegionIcons[i].setOnHoverListener((c) -> onIconHover(regionDef.getId()));
-			this.indexRegionIcons[i].setOnLeaveListener((c) -> onIconLeave(regionDef.getId()));
-			this.indexRegionIcons[i].addAction(ACTION_TEXT_SELECT, () -> onIconClicked(regionDef.getId()));
+			UIButton button = new UIButton(regionIcon);
+			button.setName(regionDef.getName());
+			button.setPosition(iconDef.getX() + MAP_SECTION_POS_X, iconDef.getY() + MAP_SECTION_POS_Y);
+			button.setSize(MAP_ICON_WIDTH, MAP_ICON_HEIGHT);
+			button.setSprites(iconDef.getSpriteStandard(), iconDef.getSpriteHover());
+			button.setOnHoverListener((c) -> onIconHover(id));
+			button.setOnLeaveListener((c) -> onIconLeave(id));
+			button.addAction(ACTION_TEXT_SELECT, () -> onIconClicked(id));
+
+			this.indexRegionIcons.put(id, button);
 
 			// Add to the index page
-			this.indexPage.add(this.indexRegionIcons[i]);
+			this.indexPage.add(button);
 		}
 	}
 
@@ -689,7 +693,7 @@ public class NexusMapPlugin extends Plugin
 		this.mapGraphic.setSize(REGION_MAP_SPRITE_WIDTH, REGION_MAP_SPRITE_HEIGHT);
 
 		// Add the map graphic to each of the map pages
-		this.mapPages.forEach(page -> page.add(this.mapGraphic));
+		this.mapPages.values().forEach(page -> page.add(this.mapGraphic));
 	}
 
 	/**
@@ -704,15 +708,16 @@ public class NexusMapPlugin extends Plugin
 
 		// Wrap as a button, set the position, sprite, etc.
 		UIButton backArrowButton = new UIFadeButton(backArrowWidget);
-		backArrowButton.setSprites(SpriteID.GE_BACK_ARROW_BUTTON);
+		backArrowButton.setSprites(SpriteID.GE_BACKBUTTON);
 		backArrowButton.setPosition(13, 41);
 		backArrowButton.setSize(30, 23);
 
 		// Assign the callback for the button
 		backArrowButton.addAction(ACTION_TEXT_BACK, this::onBackButtonPressed);
 
-		// Add the back arrow to each map page
-		this.mapPages.forEach(page -> page.add(backArrowButton));
+		// Add the back arrow to each map page, except index
+		this.mapPages.values().stream().filter(page -> this.indexPage != page)
+			.forEach(page -> page.add(backArrowButton));
 	}
 
 	/**
@@ -731,11 +736,8 @@ public class NexusMapPlugin extends Plugin
 		boolean betterTeleportMenuActive = this.isBetterTeleportMenuActive();
 
 		// Iterate through each of the map regions
-		for (int i = 0; i < regionDefinitions.length; i++)
+		for (RegionDefinition regionDef : regionDefinitions.values())
 		{
-			// Current map region
-			RegionDefinition regionDef = this.regionDefinitions[i];
-
 			// Get the definitions for the teleports within this map region
 			TeleportDefinition[] teleportDefs = regionDef.getTeleportDefinitions();
 
@@ -761,7 +763,7 @@ public class NexusMapPlugin extends Plugin
 				}
 
 				// Add the teleport button to this regions map page
-				this.mapPages.get(i).add(teleportButton);
+				this.mapPages.get(regionDef.getId()).add(teleportButton);
 
 				// Check that the teleport is available to the player
 				if (this.isTeleportAvailable(teleportDef))
@@ -891,8 +893,7 @@ public class NexusMapPlugin extends Plugin
 		else
 		{
 			// Hide all custom widgets and show the default widgets
-			this.indexPage.setVisibility(false);
-			this.mapPages.forEach(page -> page.setVisibility(false));
+			this.mapPages.values().forEach(page -> page.setVisibility(false));
 			this.setDefaultWidgetVisibility(true);
 		}
 
@@ -906,8 +907,7 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private void displayIndexPage()
 	{
-		this.indexPage.setVisibility(true);
-		this.mapPages.forEach(page -> page.setVisibility(false));
+		displayMapPage(REGION_INDEX_ID);
 	}
 
 	/**
@@ -916,15 +916,13 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private void displayMapPage(int regionID)
 	{
-		// Hide the index page
-		this.indexPage.setVisibility(false);
-
-		// Make sure all other map pages a hidden
-		this.mapPages.forEach(page -> page.setVisibility(false));
+		// Make sure all other map pages are hidden
+		// Must be done in two steps as the map and back buttons are shared across pages
+		this.mapPages.values().forEach(page -> page.setVisibility(false));
 		this.mapPages.get(regionID).setVisibility(true);
 
 		// Set the sprite to that of the specified region
-		this.mapGraphic.setSprite(regionDefinitions[regionID].getMapSprite());
+		this.mapGraphic.setSprite(regionDefinitions.get(regionID).getMapSprite());
 	}
 
 	/**
@@ -954,9 +952,10 @@ public class NexusMapPlugin extends Plugin
 	{
 		// Move the map sprite for this region up by 2 pixels, and
 		// set the opacity to 75% opaque
-		this.indexRegionGraphics[regionID].setY(MAP_SECTION_POS_Y - 2);
-		this.indexRegionGraphics[regionID].setOpacity(.75f);
-		this.indexRegionGraphics[regionID].getWidget().revalidate();
+		UIGraphic graphic = this.indexRegionGraphics.get(regionID);
+		graphic.setY(MAP_SECTION_POS_Y - 2);
+		graphic.setOpacity(.75f);
+		graphic.getWidget().revalidate();
 	}
 
 	/**
@@ -965,10 +964,11 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private void onIconLeave(int regionID)
 	{
+		UIGraphic graphic = this.indexRegionGraphics.get(regionID);
 		// Restore the original position and set back to fully opaque
-		this.indexRegionGraphics[regionID].setY(MAP_SECTION_POS_Y);
-		this.indexRegionGraphics[regionID].setOpacity(1.0f);
-		this.indexRegionGraphics[regionID].getWidget().revalidate();
+		graphic.setY(MAP_SECTION_POS_Y);
+		graphic.setOpacity(1.0f);
+		graphic.getWidget().revalidate();
 	}
 
 	/**
