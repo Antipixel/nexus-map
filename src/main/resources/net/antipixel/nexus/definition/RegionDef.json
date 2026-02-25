@@ -5,7 +5,7 @@
     "mapSprite": -18200,
     "teleportDefinitions": [
       {
-        "structID": -1,
+        "structID": 6422,
         "name": "Respawn Point",
         "spriteX": 1,
         "spriteY": 1,
@@ -13,7 +13,7 @@
         "disabledSprite": 1282
       },
       {
-        "structID": -1,
+        "structID": 6423,
         "name": "Boat",
         "spriteX": 26,
         "spriteY": 1,
@@ -70,7 +70,7 @@
         "disabledSprite": 1289
       },
       {
-        "structID": -1,
+        "structID": 6417,
         "name": "Dareeyak",
         "alias": "Crazy Archaeologist",
         "spriteX": 136,
@@ -79,7 +79,7 @@
         "disabledSprite": 395
       },
       {
-        "structID": -1,
+        "structID": 6421,
         "name": "Ice Plateau",
         "spriteX": 136,
         "spriteY": 29,
@@ -143,7 +143,7 @@
         "disabledSprite": 80
       },
       {
-        "structID": 452,
+        "structID": 6415,
         "name": "Paddewwa",
         "alias": "Edgeville Dungeon",
         "spriteX": 157,
@@ -369,7 +369,7 @@
         "disabledSprite": 87
       },
       {
-        "structID": -1,
+        "structID": 6419,
         "name": "Barbarian Outpost",
         "spriteX": 157,
         "spriteY": 1,
@@ -377,7 +377,7 @@
         "disabledSprite": 597
       },
       {
-        "structID": -1,
+        "structID": 6420,
         "name": "Port Khazard",
         "spriteX": 211,
         "spriteY": 187,
@@ -385,8 +385,8 @@
         "disabledSprite": 599
       },
       {
-        "structID": -1,
-        "name": "Ourania Altar",
+        "structID": 6418,
+        "name": "Ourania",
         "spriteX": 117,
         "spriteY": 154,
         "enabledSprite": 586,
@@ -432,7 +432,7 @@
         "disabledSprite": 83
       },
       {
-        "structID": -1,
+        "structID": 6416,
         "name": "Lassar",
         "alias": "Ice Mountain",
         "spriteX": 259,
@@ -441,7 +441,7 @@
         "disabledSprite": 394
       },
       {
-        "structID": -1,
+        "structID": 6414,
         "name": "Trollheim",
         "spriteX": 201,
         "spriteY": 22,
