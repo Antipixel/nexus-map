@@ -19,6 +19,15 @@
         "spriteY": 1,
         "enabledSprite": 6922,
         "disabledSprite": 6947
+      },
+      {
+        "structID": 1187,
+        "name": "Last Boat",
+        "isAlt": true,
+        "spriteX": 51,
+        "spriteY": 1,
+        "enabledSprite": 6922,
+        "disabledSprite": 6947
       }
     ]
   },
