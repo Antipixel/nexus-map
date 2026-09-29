@@ -1011,7 +1011,10 @@ public class NexusMapPlugin extends Plugin
 
 		// Call a CS2 script which will trigger the widget's keypress event.
 		// Credit to Abex for discovering this clever trick.
-		this.clientThread.invokeLater(() -> client.runScript(SCRIPT_TRIGGER_KEY, packedID, widgetIndex));
+		this.clientThread.invokeLater(() -> client.createScriptEventBuilder(SCRIPT_TRIGGER_KEY, packedID, widgetIndex)
+			.build()
+			.setCanSendPackets(true)
+			.run());
 	}
 
 	/**
