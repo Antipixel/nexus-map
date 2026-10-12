@@ -7,9 +7,11 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.function.Consumer;
 import net.antipixel.nexus.config.NexusConfig;
 import net.antipixel.nexus.config.TeleportNameMode;
@@ -155,7 +157,7 @@ public class NexusMapPlugin extends Plugin
 	private Map<IntegerBooleanPair, Teleport> availableTeleports;
 	private Map<IntegerBooleanPair, UIButton> activeTeleportButtons;
 	private Map<IntegerBooleanPair, UIButton> owActiveTeleportButtons;
-	private Map<UIButton, TeleportDefinition> owAllButtons;
+	private Set<UIButton> owAllButtons;
 
 	private boolean mapEnabled;
 	private boolean switchingModes;
@@ -197,7 +199,7 @@ public class NexusMapPlugin extends Plugin
 
 		this.activeTeleportButtons = new HashMap<>();
 		this.owActiveTeleportButtons = new HashMap<>();
-		this.owAllButtons = new HashMap<>();
+		this.owAllButtons = new HashSet<>();
 		this.clientTickQueue = new ArrayDeque<>();
 		this.fadeEffect = new FadePulseEffect(FADE_EFFECT_MIN_OPACITY, FADE_EFFECT_SPEED);
 	}
@@ -871,11 +873,11 @@ public class NexusMapPlugin extends Plugin
 
 		if (isOverworld)
 		{
-			owAllButtons.put(teleportButton, teleportDef);
+			owAllButtons.add(teleportButton);
 			if (this.isTeleportAvailable(teleportDef))
 			{
-				teleportButton.setOnHoverListener(c -> applyOWHover(teleportButton, true));
-				teleportButton.setOnLeaveListener(c -> applyOWHover(teleportButton, false));
+				teleportButton.setOnHoverListener(c -> applyOWHover(teleportDef, true));
+				teleportButton.setOnLeaveListener(c -> applyOWHover(teleportDef, false));
 			}
 		}
 	}
@@ -1003,7 +1005,7 @@ public class NexusMapPlugin extends Plugin
 		{
 			boolean isOW = config.overworldMode();
 			this.indexRegionIcons.values().forEach(b -> b.setVisibility(!isOW));
-			this.owAllButtons.keySet().forEach(b -> b.setVisibility(isOW));
+			this.owAllButtons.forEach(b -> b.setVisibility(isOW));
 		}
 	}
 
@@ -1205,10 +1207,10 @@ public class NexusMapPlugin extends Plugin
 
 	/**
 	 * Applies the hover effect for the given Overworld teleport button
-	 * @param button the button
+	 * @param teleportDefinition the teleport definition
 	 * @param hover if true, move the hover widget to the button and set the proper sprite, otherwise hide the widget
 	 */
-	private void applyOWHover(UIButton button, boolean hover)
+	private void applyOWHover(TeleportDefinition teleportDefinition, boolean hover)
 	{
 		if (!hover)
 		{
@@ -1217,13 +1219,13 @@ public class NexusMapPlugin extends Plugin
 		}
 
 		// Get the associated teleport
-		TeleportDefinition td = this.owAllButtons.get(button);
-		boolean available = isTeleportAvailable(td);
-		this.owHoverWidget.setSprites(available ? td.getEnabledSpriteForDisplay() : td.getDisabledSprite());
+		boolean available = isTeleportAvailable(teleportDefinition);
+		this.owHoverWidget.setSprites(available ?
+			teleportDefinition.getEnabledSpriteForDisplay() : teleportDefinition.getDisabledSprite());
 
 		int sizeOffset = (TELE_ICON_SIZE - TELE_OW_ICON_SIZE) / 2;
-		this.owHoverWidget.setX(button.getX() - sizeOffset);
-		this.owHoverWidget.setY(button.getY() - sizeOffset);
+		this.owHoverWidget.setX(MAP_SECTION_POS_X + teleportDefinition.getOverworld().getSpriteX() - sizeOffset);
+		this.owHoverWidget.setY(MAP_SECTION_POS_Y + teleportDefinition.getOverworld().getSpriteY() - sizeOffset);
 		this.owHoverWidget.getWidget().revalidate();
 		this.owHoverWidget.setVisibility(true);
 	}
