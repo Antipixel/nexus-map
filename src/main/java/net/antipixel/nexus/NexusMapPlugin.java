@@ -78,6 +78,7 @@ public class NexusMapPlugin extends Plugin
 
 	/* Widget dimensions and positions */
 	private static final int TELE_ICON_SIZE = 24;
+	private static final int TELE_OW_ICON_SIZE = 12;
 	private static final int MAP_SECTION_POS_X = 7;
 	private static final int MAP_SECTION_POS_Y = 35;
 	private static final int INDEX_MAP_SPRITE_WIDTH = 478;
@@ -153,7 +154,8 @@ public class NexusMapPlugin extends Plugin
 	private Map<IntegerBooleanPair, TeleportDefinition> teleportDefinitions;
 	private Map<IntegerBooleanPair, Teleport> availableTeleports;
 	private Map<IntegerBooleanPair, UIButton> activeTeleportButtons;
-	private Map<IntegerBooleanPair, UIButton> owTeleportButtons;
+	private Map<IntegerBooleanPair, UIButton> owActiveTeleportButtons;
+	private Map<UIButton, TeleportDefinition> owAllButtons;
 
 	private boolean mapEnabled;
 	private boolean switchingModes;
@@ -182,6 +184,8 @@ public class NexusMapPlugin extends Plugin
 	private FadePulseEffect fadeEffect;
 	private Queue<Runnable> clientTickQueue;
 
+	private UIButton owHoverWidget;
+
 	@Override
 	protected void startUp()
 	{
@@ -192,7 +196,8 @@ public class NexusMapPlugin extends Plugin
 		this.spriteManager.addSpriteOverrides(spriteDefinitions);
 
 		this.activeTeleportButtons = new HashMap<>();
-		this.owTeleportButtons = new HashMap<>();
+		this.owActiveTeleportButtons = new HashMap<>();
+		this.owAllButtons = new HashMap<>();
 		this.clientTickQueue = new ArrayDeque<>();
 		this.fadeEffect = new FadePulseEffect(FADE_EFFECT_MIN_OPACITY, FADE_EFFECT_SPEED);
 	}
@@ -209,7 +214,7 @@ public class NexusMapPlugin extends Plugin
 		// Update component effects
 		this.fadeEffect.onUpdate();
 		this.activeTeleportButtons.values().forEach(UIComponent::refreshEffect);
-		this.owTeleportButtons.values().forEach(UIComponent::refreshEffect);
+		this.owActiveTeleportButtons.values().forEach(UIComponent::refreshEffect);
 	}
 
 	@Subscribe
@@ -228,7 +233,7 @@ public class NexusMapPlugin extends Plugin
 				this.clientThread.invokeLater(this::updateTeleportButtonNames);
 				break;
 			case NexusConfig.KEY_OVERWORLD_MODE:
-				this.indexRegionIcons.values().forEach(b -> b.setVisibility(config.overworldMode()));
+				this.displayIndexPage();
 				break;
 			default:
 				// Hotkey config changes from the Better Teleport Menu plugin
@@ -367,6 +372,11 @@ public class NexusMapPlugin extends Plugin
 			this.createToggleCheckbox(window);
 
 			this.updateMapState(window);
+
+			this.owHoverWidget = new UIButton(window.createChild(-1, WidgetType.GRAPHIC));
+			this.owHoverWidget.setVisibility(false);
+			this.owHoverWidget.setSize(TELE_ICON_SIZE, TELE_ICON_SIZE);
+			this.owHoverWidget.setBorder(config.borderStyle());
 		}
 	}
 
@@ -419,7 +429,8 @@ public class NexusMapPlugin extends Plugin
 	private void updateIconBorderStyle()
 	{
 		this.activeTeleportButtons.values().forEach((button) -> button.setBorder(config.borderStyle()));
-		this.owTeleportButtons.values().forEach((button) -> button.setBorder(config.borderStyle()));
+		this.owActiveTeleportButtons.values().forEach((button) -> button.setBorder(config.borderStyle()));
+		this.owHoverWidget.setBorder(config.borderStyle());
 	}
 
 	/**
@@ -440,7 +451,7 @@ public class NexusMapPlugin extends Plugin
 		};
 
 		this.activeTeleportButtons.values().forEach(resetFade);
-		this.owTeleportButtons.values().forEach(resetFade);
+		this.owActiveTeleportButtons.values().forEach(resetFade);
 	}
 
 	/**
@@ -466,9 +477,9 @@ public class NexusMapPlugin extends Plugin
 			teleportButton.setName(tpName);
 
 			// If the button also exists in overworld buttons, update it too
-			if (this.owTeleportButtons.containsKey(entry.getKey()))
+			if (this.owActiveTeleportButtons.containsKey(entry.getKey()))
 			{
-				this.owTeleportButtons.get(entry.getKey()).setName(tpName);
+				this.owActiveTeleportButtons.get(entry.getKey()).setName(tpName);
 			}
 		}
 	}
@@ -748,7 +759,7 @@ public class NexusMapPlugin extends Plugin
 	{
 		// Clear the current list of active teleport buttons to avoid duplicates
 		this.activeTeleportButtons.clear();
-		this.owTeleportButtons.clear();
+		this.owActiveTeleportButtons.clear();
 
 		// Check for the Better Teleport Menu plugin, if installed and active,
 		// add rebind options to the teleport button menus
@@ -778,7 +789,6 @@ public class NexusMapPlugin extends Plugin
 
 	private void createSingleTeleport(Widget window, TeleportDefinition teleportDef, int regionId, boolean isOverworld, boolean betterTeleportMenuActive)
 	{
-		boolean globalTp = regionId == REGION_INDEX_ID && !isOverworld;
 		int iconSize = TELE_ICON_SIZE;
 		int spriteX = teleportDef.getSpriteX();
 		int spriteY = teleportDef.getSpriteY();
@@ -793,12 +803,12 @@ public class NexusMapPlugin extends Plugin
 				// No overworld definition
 				return;
 			}
-			iconSize = 12;
-			spriteX = ow.getX();
-			spriteY = ow.getY();
-			spriteE = -17998;
-			spriteD = -17999;
-			mapToAdd = this.owTeleportButtons;
+			iconSize = TELE_OW_ICON_SIZE;
+			spriteX = ow.getSpriteX();
+			spriteY = ow.getSpriteY();
+			spriteE = ow.getEnabledSprite();
+			spriteD = ow.getDisabledSprite();
+			mapToAdd = this.owActiveTeleportButtons;
 		}
 
 		// Create the teleport icon widget
@@ -842,7 +852,7 @@ public class NexusMapPlugin extends Plugin
 			this.teleportAction = this.getModeAction();
 
 			// Add the menu options and listener, activate listeners
-			teleportButton.addAction(teleportAction, () -> triggerTeleport(teleport, globalTp ? null : isOverworld));
+			teleportButton.addAction(teleportAction, () -> triggerTeleport(teleport));
 
 			// If the Better Teleport Menu plugin is active, add a rebind action
 			if (betterTeleportMenuActive)
@@ -857,6 +867,16 @@ public class NexusMapPlugin extends Plugin
 			// If the spell isn't available to the player, display the
 			// deactivated spell icon instead
 			teleportButton.setSprites(spriteD);
+		}
+
+		if (isOverworld)
+		{
+			owAllButtons.put(teleportButton, teleportDef);
+			if (this.isTeleportAvailable(teleportDef))
+			{
+				teleportButton.setOnHoverListener(c -> applyOWHover(teleportButton, true));
+				teleportButton.setOnLeaveListener(c -> applyOWHover(teleportButton, false));
+			}
 		}
 	}
 
@@ -977,6 +997,14 @@ public class NexusMapPlugin extends Plugin
 
 		// Set the sprite to that of the specified region
 		this.mapGraphic.setSprite(regionDefinitions.get(regionID).getMapSprite());
+
+		// Depending on overworld mode, we need to set some visibility flags
+		if (regionID == REGION_INDEX_ID)
+		{
+			boolean isOW = config.overworldMode();
+			this.indexRegionIcons.values().forEach(b -> b.setVisibility(!isOW));
+			this.owAllButtons.keySet().forEach(b -> b.setVisibility(isOW));
+		}
 	}
 
 	/**
@@ -1054,14 +1082,8 @@ public class NexusMapPlugin extends Plugin
 	 * Teleports the player to the specified teleport location
 	 * @param teleport the teleport location
 	 */
-	private void triggerTeleport(Teleport teleport, Boolean isOverworld)
+	private void triggerTeleport(Teleport teleport)
 	{
-		// Current overworld mode from config must match the definition that was used for this teleport
-		if (isOverworld != null && isOverworld != config.overworldMode())
-		{
-			return;
-		}
-
 		// Get the appropriate widget parent for the teleport, depending
 		// on whether the teleport is of primary or alternate type
 		int packedID = teleport.isAlt() ? ID_KEYEVENTS_ALTERNATE : ID_KEYEVENTS_PRIMARY;
@@ -1179,5 +1201,30 @@ public class NexusMapPlugin extends Plugin
 
 		// Return "Teleport" or "Scry", depending on the mode
 		return (mode == 1) ? ACTION_TEXT_SCRY : ACTION_TEXT_TELE;
+	}
+
+	/**
+	 * Applies the hover effect for the given Overworld teleport button
+	 * @param button the button
+	 * @param hover if true, move the hover widget to the button and set the proper sprite, otherwise hide the widget
+	 */
+	private void applyOWHover(UIButton button, boolean hover)
+	{
+		if (!hover)
+		{
+			this.owHoverWidget.setVisibility(false);
+			return;
+		}
+
+		// Get the associated teleport
+		TeleportDefinition td = this.owAllButtons.get(button);
+		boolean available = isTeleportAvailable(td);
+		this.owHoverWidget.setSprites(available ? td.getEnabledSpriteForDisplay() : td.getDisabledSprite());
+
+		int sizeOffset = (TELE_ICON_SIZE - TELE_OW_ICON_SIZE) / 2;
+		this.owHoverWidget.setX(button.getX() - sizeOffset);
+		this.owHoverWidget.setY(button.getY() - sizeOffset);
+		this.owHoverWidget.getWidget().revalidate();
+		this.owHoverWidget.setVisibility(true);
 	}
 }

@@ -118,8 +118,10 @@
         "enabledSprite": 342,
         "disabledSprite": 392,
         "overworld": {
-          "x": 382,
-          "y": 122
+          "spriteX": 362,
+          "spriteY": 122,
+          "enabledSprite": -18209,
+          "disabledSprite": -18205
         }
       },
       {
@@ -130,8 +132,10 @@
         "enabledSprite": 27,
         "disabledSprite": 77,
         "overworld": {
-          "x": 360,
-          "y": 109
+          "spriteX": 347,
+          "spriteY": 111,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
         }
       },
       {
@@ -149,7 +153,13 @@
         "spriteX": 193,
         "spriteY": 72,
         "enabledSprite": 27,
-        "disabledSprite": 77
+        "disabledSprite": 77,
+        "overworld": {
+          "spriteX": 338,
+          "spriteY": 99,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 452,

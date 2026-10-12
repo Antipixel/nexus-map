@@ -28,8 +28,10 @@ public class TeleportDefinition
 	@Value
 	public static class OverworldSprite
 	{
-		public int x;
-		public int y;
+		int spriteX;
+		int spriteY;
+		int enabledSprite;
+		int disabledSprite;
 	}
 
 	/**
