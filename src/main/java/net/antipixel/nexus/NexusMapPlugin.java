@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Queue;
+import java.util.function.Consumer;
 import net.antipixel.nexus.config.NexusConfig;
 import net.antipixel.nexus.config.TeleportNameMode;
 import net.antipixel.nexus.definition.IconDefinition;
@@ -152,6 +153,7 @@ public class NexusMapPlugin extends Plugin
 	private Map<IntegerBooleanPair, TeleportDefinition> teleportDefinitions;
 	private Map<IntegerBooleanPair, Teleport> availableTeleports;
 	private Map<IntegerBooleanPair, UIButton> activeTeleportButtons;
+	private Map<IntegerBooleanPair, UIButton> owTeleportButtons;
 
 	private boolean mapEnabled;
 	private boolean switchingModes;
@@ -190,6 +192,7 @@ public class NexusMapPlugin extends Plugin
 		this.spriteManager.addSpriteOverrides(spriteDefinitions);
 
 		this.activeTeleportButtons = new HashMap<>();
+		this.owTeleportButtons = new HashMap<>();
 		this.clientTickQueue = new ArrayDeque<>();
 		this.fadeEffect = new FadePulseEffect(FADE_EFFECT_MIN_OPACITY, FADE_EFFECT_SPEED);
 	}
@@ -206,6 +209,7 @@ public class NexusMapPlugin extends Plugin
 		// Update component effects
 		this.fadeEffect.onUpdate();
 		this.activeTeleportButtons.values().forEach(UIComponent::refreshEffect);
+		this.owTeleportButtons.values().forEach(UIComponent::refreshEffect);
 	}
 
 	@Subscribe
@@ -222,6 +226,9 @@ public class NexusMapPlugin extends Plugin
 			case NexusConfig.KEY_DISPLAY_SHORTCUTS:
 			case NexusConfig.KEY_TELEPORT_NAME:
 				this.clientThread.invokeLater(this::updateTeleportButtonNames);
+				break;
+			case NexusConfig.KEY_OVERWORLD_MODE:
+				this.indexRegionIcons.values().forEach(b -> b.setVisibility(config.overworldMode()));
 				break;
 			default:
 				// Hotkey config changes from the Better Teleport Menu plugin
@@ -412,6 +419,7 @@ public class NexusMapPlugin extends Plugin
 	private void updateIconBorderStyle()
 	{
 		this.activeTeleportButtons.values().forEach((button) -> button.setBorder(config.borderStyle()));
+		this.owTeleportButtons.values().forEach((button) -> button.setBorder(config.borderStyle()));
 	}
 
 	/**
@@ -419,7 +427,7 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private void resetFadeAnimation()
 	{
-		this.activeTeleportButtons.values().forEach((teleButton) ->
+		Consumer<UIButton> resetFade = (teleButton) ->
 		{
 			if (config.fadeAnimation())
 			{
@@ -429,7 +437,10 @@ public class NexusMapPlugin extends Plugin
 			{
 				teleButton.clearEffect();
 			}
-		});
+		};
+
+		this.activeTeleportButtons.values().forEach(resetFade);
+		this.owTeleportButtons.values().forEach(resetFade);
 	}
 
 	/**
@@ -451,7 +462,14 @@ public class NexusMapPlugin extends Plugin
 			// Update the widget name
 			TeleportDefinition teleportDef = this.teleportDefinitions.get(entry.getKey());
 			Teleport teleport = this.getAvailableTeleport(teleportDef);
-			teleportButton.setName(this.generateTeleportName(teleport));
+			String tpName = this.generateTeleportName(teleport);
+			teleportButton.setName(tpName);
+
+			// If the button also exists in overworld buttons, update it too
+			if (this.owTeleportButtons.containsKey(entry.getKey()))
+			{
+				this.owTeleportButtons.get(entry.getKey()).setName(tpName);
+			}
 		}
 	}
 
@@ -689,7 +707,7 @@ public class NexusMapPlugin extends Plugin
 
 		// Wrap the widget in a UIGraphic
 		this.mapGraphic = new UIGraphic(mapWidget);
-		this.mapGraphic.setPosition(7, 35);
+		this.mapGraphic.setPosition(MAP_SECTION_POS_X, MAP_SECTION_POS_Y);
 		this.mapGraphic.setSize(REGION_MAP_SPRITE_WIDTH, REGION_MAP_SPRITE_HEIGHT);
 
 		// Add the map graphic to each of the map pages
@@ -709,7 +727,7 @@ public class NexusMapPlugin extends Plugin
 		// Wrap as a button, set the position, sprite, etc.
 		UIButton backArrowButton = new UIFadeButton(backArrowWidget);
 		backArrowButton.setSprites(SpriteID.GE_BACKBUTTON);
-		backArrowButton.setPosition(13, 41);
+		backArrowButton.setPosition(MAP_SECTION_POS_X + 5, MAP_SECTION_POS_Y + 6);
 		backArrowButton.setSize(30, 23);
 
 		// Assign the callback for the button
@@ -730,6 +748,7 @@ public class NexusMapPlugin extends Plugin
 	{
 		// Clear the current list of active teleport buttons to avoid duplicates
 		this.activeTeleportButtons.clear();
+		this.owTeleportButtons.clear();
 
 		// Check for the Better Teleport Menu plugin, if installed and active,
 		// add rebind options to the teleport button menus
@@ -738,6 +757,8 @@ public class NexusMapPlugin extends Plugin
 		// Iterate through each of the map regions
 		for (RegionDefinition regionDef : regionDefinitions.values())
 		{
+			int regionId = regionDef.getId();
+
 			// Get the definitions for the teleports within this map region
 			TeleportDefinition[] teleportDefs = regionDef.getTeleportDefinitions();
 
@@ -745,64 +766,97 @@ public class NexusMapPlugin extends Plugin
 			// the teleports that are available to the player
 			for (TeleportDefinition teleportDef : teleportDefs)
 			{
-				// Create the teleport icon widget
-				Widget teleportWidget = window.createChild(-1, WidgetType.GRAPHIC);
-
-				// Create a button wrapper for the teleport widget. Set the dimensions,
-				// the position and the visibility to hidden
-				UIButton teleportButton = new UIButton(teleportWidget);
-				teleportButton.setSize(TELE_ICON_SIZE, TELE_ICON_SIZE);
-				teleportButton.setX(teleportDef.getSpriteX() + MAP_SECTION_POS_X);
-				teleportButton.setY(teleportDef.getSpriteY() + MAP_SECTION_POS_Y);
-				teleportButton.setVisibility(false);
-
-				// If enabled in config, apply fade pulsing effect
-				if (config.fadeAnimation())
+				createSingleTeleport(window, teleportDef, regionId, false, betterTeleportMenuActive);
+				if (regionId != REGION_INDEX_ID)
 				{
-					teleportButton.setEffect(this.fadeEffect);
-				}
-
-				// Add the teleport button to this regions map page
-				this.mapPages.get(regionDef.getId()).add(teleportButton);
-
-				// Check that the teleport is available to the player
-				if (this.isTeleportAvailable(teleportDef))
-				{
-					// Grab the teleport from the list of available teleports
-					Teleport teleport = this.getAvailableTeleport(teleportDef);
-
-					// Set the sprite to the active icon for this spell
-					teleportButton.setSprites(teleportDef.getEnabledSpriteForDisplay());
-					teleportButton.setBorder(config.borderStyle());
-
-					// Create the teleport name, formatted with alias and optional shortcut key
-					String teleportName = this.generateTeleportName(teleport);
-
-					// Assign the teleport name
-					teleportButton.setName(teleportName);
-
-					// Set the teleport action type, which will either be Teleport
-					// or Scry, depending on the value of the VarBit
-					this.teleportAction = this.getModeAction();
-
-					// Add the menu options and listener, activate listeners
-					teleportButton.addAction(teleportAction, () -> triggerTeleport(teleport));
-
-					// If the Better Teleport Menu plugin is active, add a rebind action
-					if (betterTeleportMenuActive)
-					{
-						teleportButton.addAction(ACTION_TEXT_HOTKEY, () -> triggerRebindDialog(teleport));
-					}
-
-					this.activeTeleportButtons.put(teleportDef.getKey(), teleportButton);
-				}
-				else
-				{
-					// If the spell isn't available to the player, display the
-					// deactivated spell icon instead
-					teleportButton.setSprites(teleportDef.getDisabledSprite());
+					// The overworld version of this teleport
+					createSingleTeleport(window, teleportDef, REGION_INDEX_ID, true, betterTeleportMenuActive);
 				}
 			}
+		}
+	}
+
+	private void createSingleTeleport(Widget window, TeleportDefinition teleportDef, int regionId, boolean isOverworld, boolean betterTeleportMenuActive)
+	{
+		boolean globalTp = regionId == REGION_INDEX_ID && !isOverworld;
+		int iconSize = TELE_ICON_SIZE;
+		int spriteX = teleportDef.getSpriteX();
+		int spriteY = teleportDef.getSpriteY();
+		int spriteE = teleportDef.getEnabledSpriteForDisplay();
+		int spriteD = teleportDef.getDisabledSprite();
+		var mapToAdd = this.activeTeleportButtons;
+		if (isOverworld)
+		{
+			var ow = teleportDef.getOverworld();
+			if (ow == null)
+			{
+				// No overworld definition
+				return;
+			}
+			iconSize = 12;
+			spriteX = ow.getX();
+			spriteY = ow.getY();
+			spriteE = -17998;
+			spriteD = -17999;
+			mapToAdd = this.owTeleportButtons;
+		}
+
+		// Create the teleport icon widget
+		Widget teleportWidget = window.createChild(-1, WidgetType.GRAPHIC);
+
+		// Create a button wrapper for the teleport widget. Set the dimensions,
+		// the position and the visibility to hidden
+		UIButton teleportButton = new UIButton(teleportWidget);
+		teleportButton.setSize(iconSize, iconSize);
+		teleportButton.setX(spriteX + MAP_SECTION_POS_X);
+		teleportButton.setY(spriteY + MAP_SECTION_POS_Y);
+		teleportButton.setVisibility(false);
+
+		// If enabled in config, apply fade pulsing effect
+		if (config.fadeAnimation())
+		{
+			teleportButton.setEffect(this.fadeEffect);
+		}
+
+		// Add the teleport button to this regions map page
+		this.mapPages.get(regionId).add(teleportButton);
+
+		// Check that the teleport is available to the player
+		if (this.isTeleportAvailable(teleportDef))
+		{
+			// Grab the teleport from the list of available teleports
+			Teleport teleport = this.getAvailableTeleport(teleportDef);
+
+			// Set the sprite to the active icon for this spell
+			teleportButton.setSprites(spriteE);
+			teleportButton.setBorder(config.borderStyle());
+
+			// Create the teleport name, formatted with alias and optional shortcut key
+			String teleportName = this.generateTeleportName(teleport);
+
+			// Assign the teleport name
+			teleportButton.setName(teleportName);
+
+			// Set the teleport action type, which will either be Teleport
+			// or Scry, depending on the value of the VarBit
+			this.teleportAction = this.getModeAction();
+
+			// Add the menu options and listener, activate listeners
+			teleportButton.addAction(teleportAction, () -> triggerTeleport(teleport, globalTp ? null : isOverworld));
+
+			// If the Better Teleport Menu plugin is active, add a rebind action
+			if (betterTeleportMenuActive)
+			{
+				teleportButton.addAction(ACTION_TEXT_HOTKEY, () -> triggerRebindDialog(teleport));
+			}
+
+			mapToAdd.put(teleportDef.getKey(), teleportButton);
+		}
+		else
+		{
+			// If the spell isn't available to the player, display the
+			// deactivated spell icon instead
+			teleportButton.setSprites(spriteD);
 		}
 	}
 
@@ -1000,8 +1054,14 @@ public class NexusMapPlugin extends Plugin
 	 * Teleports the player to the specified teleport location
 	 * @param teleport the teleport location
 	 */
-	private void triggerTeleport(Teleport teleport)
+	private void triggerTeleport(Teleport teleport, Boolean isOverworld)
 	{
+		// Current overworld mode from config must match the definition that was used for this teleport
+		if (isOverworld != null && isOverworld != config.overworldMode())
+		{
+			return;
+		}
+
 		// Get the appropriate widget parent for the teleport, depending
 		// on whether the teleport is of primary or alternate type
 		int packedID = teleport.isAlt() ? ID_KEYEVENTS_ALTERNATE : ID_KEYEVENTS_PRIMARY;

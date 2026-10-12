@@ -18,6 +18,7 @@ public interface NexusConfig extends Config
 	String KEY_TELEPORT_NAME = "teleportName";
 	String KEY_TELEPORT_ICON_BORDER = "teleportIconBorder";
 	String KEY_TELEPORT_FADE_ANIM = "teleportFade";
+	String KEY_OVERWORLD_MODE = "overworldMode";
 
 	@ConfigSection(
 			name = "Appearance",
@@ -72,14 +73,26 @@ public interface NexusConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = KEY_TELEPORT_FADE_ANIM,
-			name = "Teleport Icon Fade Animation",
-			description = "Fade animation for the teleport icons",
-			position = 4,
-			section = CONFIG_SECTION_APPEARANCE
+		keyName = KEY_TELEPORT_FADE_ANIM,
+		name = "Teleport Icon Fade Animation",
+		description = "Fade animation for the teleport icons",
+		position = 4,
+		section = CONFIG_SECTION_APPEARANCE
 	)
 	default boolean fadeAnimation()
 	{
 		return true;
+	}
+
+	@ConfigItem(
+		keyName = KEY_OVERWORLD_MODE,
+		name = "All teleports on overworld",
+		description = "Teleports are all on the overworld menu, no sub-menus",
+		position = 5,
+		section = CONFIG_SECTION_APPEARANCE
+	)
+	default boolean overworldMode()
+	{
+		return false;
 	}
 }

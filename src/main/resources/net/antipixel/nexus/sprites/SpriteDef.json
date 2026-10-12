@@ -1,5 +1,13 @@
 [
   {
+    "spriteId": -17998,
+    "fileName": "orb2_enabled.png"
+  },
+  {
+    "spriteId": -17999,
+    "fileName": "orb2_disabled.png"
+  },
+  {
     "spriteId": -18000,
     "fileName": "Map_Misthalin_Top.png"
   },

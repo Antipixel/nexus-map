@@ -116,7 +116,11 @@
         "spriteX": 274,
         "spriteY": 130,
         "enabledSprite": 342,
-        "disabledSprite": 392
+        "disabledSprite": 392,
+        "overworld": {
+          "x": 382,
+          "y": 122
+        }
       },
       {
         "structID": 450,
@@ -124,7 +128,11 @@
         "spriteX": 218,
         "spriteY": 93,
         "enabledSprite": 27,
-        "disabledSprite": 77
+        "disabledSprite": 77,
+        "overworld": {
+          "x": 360,
+          "y": 109
+        }
       },
       {
         "structID": 1246,

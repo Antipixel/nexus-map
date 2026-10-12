@@ -7,7 +7,7 @@ public class NexusPluginTest
 {
 	public static void main(String[] args) throws Exception
 	{
-		ExternalPluginManager.loadBuiltin(NexusMapPlugin.class);
+		//ExternalPluginManager.loadBuiltin(NexusMapPlugin.class);
 		RuneLite.main(args);
 	}
 }
