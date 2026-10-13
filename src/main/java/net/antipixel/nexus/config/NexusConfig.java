@@ -87,7 +87,9 @@ public interface NexusConfig extends Config
 	@ConfigItem(
 		keyName = KEY_OVERWORLD_MODE,
 		name = "All Teleports on Overworld",
-		description = "Teleports are all on the overworld, no per-region menus, setting Icon Border to 'White' is recommended",
+		description = "<html>Teleports are all on the overworld, no per-region menus" +
+			"<br>Setting Icon Border to 'White' is recommended" +
+			"<br><b>Warning:</b> Will conflict with the 'Zoom Out Nexus' plugin<html>",
 		position = 5,
 		section = CONFIG_SECTION_APPEARANCE
 	)
