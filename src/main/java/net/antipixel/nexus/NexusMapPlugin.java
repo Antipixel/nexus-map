@@ -156,8 +156,11 @@ public class NexusMapPlugin extends Plugin
 	private Map<IntegerBooleanPair, TeleportDefinition> teleportDefinitions;
 	private Map<IntegerBooleanPair, Teleport> availableTeleports;
 	private Map<IntegerBooleanPair, UIButton> activeTeleportButtons;
+
+	// Overworld button stuff
 	private Map<IntegerBooleanPair, UIButton> owActiveTeleportButtons;
 	private Set<UIButton> owAllButtons;
+	private UIButton owHoverWidget;
 
 	private boolean mapEnabled;
 	private boolean switchingModes;
@@ -185,8 +188,6 @@ public class NexusMapPlugin extends Plugin
 
 	private FadePulseEffect fadeEffect;
 	private Queue<Runnable> clientTickQueue;
-
-	private UIButton owHoverWidget;
 
 	@Override
 	protected void startUp()
@@ -791,18 +792,14 @@ public class NexusMapPlugin extends Plugin
 
 	private void createSingleTeleport(Widget window, TeleportDefinition teleportDef, int regionId, boolean isOverworld, boolean betterTeleportMenuActive)
 	{
-		int iconSize = TELE_ICON_SIZE;
-		int spriteX = teleportDef.getSpriteX();
-		int spriteY = teleportDef.getSpriteY();
-		int spriteE = teleportDef.getEnabledSpriteForDisplay();
-		int spriteD = teleportDef.getDisabledSprite();
-		var mapToAdd = this.activeTeleportButtons;
+		int iconSize, spriteX, spriteY, spriteE, spriteD;
+		Map<IntegerBooleanPair, UIButton> mapToAddActiveTeleport;
 		if (isOverworld)
 		{
 			var ow = teleportDef.getOverworld();
+			// Bail if no overworld definition for this teleport
 			if (ow == null)
 			{
-				// No overworld definition
 				return;
 			}
 			iconSize = TELE_OW_ICON_SIZE;
@@ -810,7 +807,16 @@ public class NexusMapPlugin extends Plugin
 			spriteY = ow.getSpriteY();
 			spriteE = ow.getEnabledSprite();
 			spriteD = ow.getDisabledSprite();
-			mapToAdd = this.owActiveTeleportButtons;
+			mapToAddActiveTeleport = this.owActiveTeleportButtons;
+		}
+		else
+		{
+			iconSize = TELE_ICON_SIZE;
+			spriteX = teleportDef.getSpriteX();
+			spriteY = teleportDef.getSpriteY();
+			spriteE = teleportDef.getEnabledSpriteForDisplay();
+			spriteD = teleportDef.getDisabledSprite();
+			mapToAddActiveTeleport = this.activeTeleportButtons;
 		}
 
 		// Create the teleport icon widget
@@ -862,7 +868,7 @@ public class NexusMapPlugin extends Plugin
 				teleportButton.addAction(ACTION_TEXT_HOTKEY, () -> triggerRebindDialog(teleport));
 			}
 
-			mapToAdd.put(teleportDef.getKey(), teleportButton);
+			mapToAddActiveTeleport.put(teleportDef.getKey(), teleportButton);
 		}
 		else
 		{
