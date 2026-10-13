@@ -236,7 +236,12 @@ public class NexusMapPlugin extends Plugin
 				this.clientThread.invokeLater(this::updateTeleportButtonNames);
 				break;
 			case NexusConfig.KEY_OVERWORLD_MODE:
-				this.clientThread.invokeLater(() -> this.updateMapState(this.client.getWidget(ID_PORTAL_WINDOW)));
+				this.clientThread.invokeLater(() ->
+				{
+					this.updateMapState(this.client.getWidget(ID_PORTAL_WINDOW));
+					// Ensure no leftover hover state when changing the config while within a region submenu
+					this.indexRegionGraphics.keySet().forEach(this::onIconLeave);
+				});
 				break;
 			default:
 				// Hotkey config changes from the Better Teleport Menu plugin
