@@ -235,7 +235,7 @@ public class NexusMapPlugin extends Plugin
 				this.clientThread.invokeLater(this::updateTeleportButtonNames);
 				break;
 			case NexusConfig.KEY_OVERWORLD_MODE:
-				this.displayIndexPage();
+				this.clientThread.invokeLater(() -> this.updateMapState(this.client.getWidget(ID_PORTAL_WINDOW)));
 				break;
 			default:
 				// Hotkey config changes from the Better Teleport Menu plugin
@@ -959,6 +959,12 @@ public class NexusMapPlugin extends Plugin
 	 */
 	private void updateMapState(Widget window)
 	{
+		// Plugin not initialized yet or nexus widget not loaded
+		if (this.mapPages == null || window == null)
+		{
+			return;
+		}
+
 		// If the map is enabled, display the custom widgets
 		if (this.mapEnabled)
 		{
