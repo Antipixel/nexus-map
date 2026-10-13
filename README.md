@@ -7,3 +7,7 @@ interactive map of the game world.
 Shortcut keys still work as usual.
 
 ![Nexus Map Example](nexus_map.png)
+
+You can also toggle a setting to display all teleports as small orbs on the overworld screen instead, speeding up navigation.
+
+![Nexus Map Overworld Teleports Example](nexus_map_ow.png)
