@@ -87,7 +87,7 @@ public interface NexusConfig extends Config
 	@ConfigItem(
 		keyName = KEY_OVERWORLD_MODE,
 		name = "All Teleports on Overworld",
-		description = "Teleports are all on the overworld, no per-region menus",
+		description = "Teleports are all on the overworld, no per-region menus, setting Icon Border to 'White' is recommended",
 		position = 5,
 		section = CONFIG_SECTION_APPEARANCE
 	)
