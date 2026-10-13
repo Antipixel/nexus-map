@@ -1,5 +1,6 @@
 package net.antipixel.nexus.definition;
 
+import lombok.Value;
 import lombok.Getter;
 import net.antipixel.nexus.IntegerBooleanPair;
 
@@ -21,6 +22,17 @@ public class TeleportDefinition
 	/** See {@link #getEnabledSpriteForDisplay()} */
 	private Integer overrideEnabledSprite;
 	private int disabledSprite;
+
+	private OverworldSprite overworld;
+
+	@Value
+	public static class OverworldSprite
+	{
+		int spriteX;
+		int spriteY;
+		int enabledSprite;
+		int disabledSprite;
+	}
 
 	/**
 	 * Checks if this teleport has an alias defined

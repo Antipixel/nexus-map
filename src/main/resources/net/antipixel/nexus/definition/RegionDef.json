@@ -50,7 +50,13 @@
         "spriteX": 290,
         "spriteY": 50,
         "enabledSprite": 347,
-        "disabledSprite": 397
+        "disabledSprite": 397,
+        "overworld": {
+          "spriteX": 357,
+          "spriteY": 44,
+          "enabledSprite": -18209,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 469,
@@ -59,7 +65,13 @@
         "spriteX": 136,
         "spriteY": 54,
         "enabledSprite": 348,
-        "disabledSprite": 398
+        "disabledSprite": 398,
+        "overworld": {
+          "spriteX": 320,
+          "spriteY": 49,
+          "enabledSprite": -18209,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 470,
@@ -68,7 +80,13 @@
         "spriteX": 234,
         "spriteY": 162,
         "enabledSprite": 346,
-        "disabledSprite": 396
+        "disabledSprite": 396,
+        "overworld": {
+          "spriteX": 346,
+          "spriteY": 70,
+          "enabledSprite": -18209,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 1253,
@@ -76,7 +94,13 @@
         "spriteX": 136,
         "spriteY": 125,
         "enabledSprite": 1264,
-        "disabledSprite": 1289
+        "disabledSprite": 1289,
+        "overworld": {
+          "spriteX": 321,
+          "spriteY": 66,
+          "enabledSprite": -18212,
+          "disabledSprite": -18206
+        }
       },
       {
         "structID": 6417,
@@ -85,7 +109,13 @@
         "spriteX": 136,
         "spriteY": 150,
         "enabledSprite": 345,
-        "disabledSprite": 395
+        "disabledSprite": 395,
+        "overworld": {
+          "spriteX": 321,
+          "spriteY": 79,
+          "enabledSprite": -18209,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 6421,
@@ -93,7 +123,13 @@
         "spriteX": 136,
         "spriteY": 29,
         "enabledSprite": 557,
-        "disabledSprite": 607
+        "disabledSprite": 607,
+        "overworld": {
+          "spriteX": 320,
+          "spriteY": 36,
+          "enabledSprite": -18210,
+          "disabledSprite": -18205
+        }
       }
     ]
   },
@@ -116,7 +152,13 @@
         "spriteX": 274,
         "spriteY": 130,
         "enabledSprite": 342,
-        "disabledSprite": 392
+        "disabledSprite": 392,
+        "overworld": {
+          "spriteX": 362,
+          "spriteY": 122,
+          "enabledSprite": -18209,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 450,
@@ -124,7 +166,13 @@
         "spriteX": 218,
         "spriteY": 93,
         "enabledSprite": 27,
-        "disabledSprite": 77
+        "disabledSprite": 77,
+        "overworld": {
+          "spriteX": 347,
+          "spriteY": 115,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 1246,
@@ -132,7 +180,13 @@
         "spriteX": 165,
         "spriteY": 138,
         "enabledSprite": 1253,
-        "disabledSprite": 1278
+        "disabledSprite": 1278,
+        "overworld": {
+          "spriteX": 336,
+          "spriteY": 132,
+          "enabledSprite": -18211,
+          "disabledSprite": -18206
+        }
       },
       {
         "structID": 451,
@@ -141,7 +195,13 @@
         "spriteX": 193,
         "spriteY": 72,
         "enabledSprite": 27,
-        "disabledSprite": 77
+        "disabledSprite": 77,
+        "overworld": {
+          "spriteX": 338,
+          "spriteY": 103,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 452,
@@ -149,7 +209,13 @@
         "spriteX": 214,
         "spriteY": 211,
         "enabledSprite": 30,
-        "disabledSprite": 80
+        "disabledSprite": 80,
+        "overworld": {
+          "spriteX": 342,
+          "spriteY": 147,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 6415,
@@ -158,7 +224,13 @@
         "spriteX": 157,
         "spriteY": 52,
         "enabledSprite": 341,
-        "disabledSprite": 391
+        "disabledSprite": 391,
+        "overworld": {
+          "spriteX": 323,
+          "spriteY": 101,
+          "enabledSprite": -18209,
+          "disabledSprite": -18205
+        }
       }
     ]
   },
@@ -206,7 +278,13 @@
         "spriteX": 127,
         "spriteY": 50,
         "enabledSprite": 1259,
-        "disabledSprite": 1284
+        "disabledSprite": 1284,
+        "overworld": {
+          "spriteX": 408,
+          "spriteY": 99,
+          "enabledSprite": -18211,
+          "disabledSprite": -18206
+        }
       },
       {
         "structID": 1249,
@@ -214,7 +292,13 @@
         "spriteX": 70,
         "spriteY": 84,
         "enabledSprite": 1258,
-        "disabledSprite": 1283
+        "disabledSprite": 1283,
+        "overworld": {
+          "spriteX": 382,
+          "spriteY": 105,
+          "enabledSprite": -18211,
+          "disabledSprite": -18206
+        }
       },
       {
         "structID": 1252,
@@ -222,7 +306,13 @@
         "spriteX": 412,
         "spriteY": 218,
         "enabledSprite": 1261,
-        "disabledSprite": 1286
+        "disabledSprite": 1286,
+        "overworld": {
+          "spriteX": 442,
+          "spriteY": 203,
+          "enabledSprite": -18211,
+          "disabledSprite": -18206
+        }
       },
       {
         "structID": 461,
@@ -231,7 +321,13 @@
         "spriteX": 95,
         "spriteY": 75,
         "enabledSprite": 343,
-        "disabledSprite": 393
+        "disabledSprite": 393,
+        "overworld": {
+          "spriteX": 395,
+          "spriteY": 103,
+          "enabledSprite": -18209,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 1254,
@@ -239,7 +335,13 @@
         "spriteX": 133,
         "spriteY": 168,
         "enabledSprite": 1262,
-        "disabledSprite": 1287
+        "disabledSprite": 1287,
+        "overworld": {
+          "spriteX": 404,
+          "spriteY": 134,
+          "enabledSprite": -18211,
+          "disabledSprite": -18206
+        }
       }
     ]
   },
@@ -261,7 +363,13 @@
         "spriteX": 35,
         "spriteY": 75,
         "enabledSprite": 544,
-        "disabledSprite": 594
+        "disabledSprite": 594,
+        "overworld": {
+          "spriteX": 152,
+          "spriteY": 36,
+          "enabledSprite": -18210,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 464,
@@ -269,7 +377,13 @@
         "spriteX": 248,
         "spriteY": 135,
         "enabledSprite": 545,
-        "disabledSprite": 595
+        "disabledSprite": 595,
+        "overworld": {
+          "spriteX": 229,
+          "spriteY": 60,
+          "enabledSprite": -18210,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 592,
@@ -278,7 +392,13 @@
         "spriteY": 32,
         "enabledSprite": 2418,
         "overrideEnabledSprite": -18203,
-        "disabledSprite": -18204
+        "disabledSprite": -18204,
+        "overworld": {
+          "spriteX": 299,
+          "spriteY": 32,
+          "enabledSprite": -18214,
+          "disabledSprite": -18207
+        }
       }
     ]
   },
@@ -300,7 +420,13 @@
         "spriteX": 187,
         "spriteY": 78,
         "enabledSprite": 555,
-        "disabledSprite": 605
+        "disabledSprite": 605,
+        "overworld": {
+          "spriteX": 242,
+          "spriteY": 117,
+          "enabledSprite": -18210,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 468,
@@ -308,7 +434,13 @@
         "spriteX": 297,
         "spriteY": 52,
         "enabledSprite": 556,
-        "disabledSprite": 606
+        "disabledSprite": 606,
+        "overworld": {
+          "spriteX": 278,
+          "spriteY": 106,
+          "enabledSprite": -18210,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 454,
@@ -316,7 +448,13 @@
         "spriteX": 271,
         "spriteY": 37,
         "enabledSprite": 37,
-        "disabledSprite": 87
+        "disabledSprite": 87,
+        "overworld": {
+          "spriteX": 265,
+          "spriteY": 105,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 1255,
@@ -324,7 +462,13 @@
         "spriteX": 414,
         "spriteY": 240,
         "enabledSprite": 1263,
-        "disabledSprite": 1288
+        "disabledSprite": 1288,
+        "overworld": {
+          "spriteX": 270,
+          "spriteY": 229,
+          "enabledSprite": -18211,
+          "disabledSprite": -18206
+        }
       },
       {
         "structID": 460,
@@ -333,7 +477,13 @@
         "spriteX": 424,
         "spriteY": 196,
         "enabledSprite": 357,
-        "disabledSprite": 407
+        "disabledSprite": 407,
+        "overworld": {
+          "spriteX": 275,
+          "spriteY": 216,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 458,
@@ -342,7 +492,13 @@
         "spriteX": 181,
         "spriteY": 232,
         "enabledSprite": 55,
-        "disabledSprite": 105
+        "disabledSprite": 105,
+        "overworld": {
+          "spriteX": 238,
+          "spriteY": 167,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 1251,
@@ -350,7 +506,13 @@
         "spriteX": 156,
         "spriteY": 123,
         "enabledSprite": 1260,
-        "disabledSprite": 1285
+        "disabledSprite": 1285,
+        "overworld": {
+          "spriteX": 228,
+          "spriteY": 133,
+          "enabledSprite": -18211,
+          "disabledSprite": -18206
+        }
       },
       {
         "structID": 456,
@@ -358,7 +520,13 @@
         "spriteX": 222,
         "spriteY": 118,
         "enabledSprite": 54,
-        "disabledSprite": 104
+        "disabledSprite": 104,
+        "overworld": {
+          "spriteX": 250,
+          "spriteY": 132,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 457,
@@ -366,7 +534,13 @@
         "spriteX": 166,
         "spriteY": 206,
         "enabledSprite": 55,
-        "disabledSprite": 105
+        "disabledSprite": 105,
+        "overworld": {
+          "spriteX": 231,
+          "spriteY": 155,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 455,
@@ -375,7 +549,13 @@
         "spriteX": 246,
         "spriteY": 32,
         "enabledSprite": 37,
-        "disabledSprite": 87
+        "disabledSprite": 87,
+        "overworld": {
+          "spriteX": 252,
+          "spriteY": 104,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 6419,
@@ -383,7 +563,13 @@
         "spriteX": 157,
         "spriteY": 1,
         "enabledSprite": 547,
-        "disabledSprite": 597
+        "disabledSprite": 597,
+        "overworld": {
+          "spriteX": 229,
+          "spriteY": 94,
+          "enabledSprite": -18210,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 6420,
@@ -391,7 +577,13 @@
         "spriteX": 211,
         "spriteY": 187,
         "enabledSprite": 549,
-        "disabledSprite": 599
+        "disabledSprite": 599,
+        "overworld": {
+          "spriteX": 245,
+          "spriteY": 147,
+          "enabledSprite": -18210,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 6418,
@@ -399,7 +591,13 @@
         "spriteX": 117,
         "spriteY": 154,
         "enabledSprite": 586,
-        "disabledSprite": 636
+        "disabledSprite": 636,
+        "overworld": {
+          "spriteX": 215,
+          "spriteY": 143,
+          "enabledSprite": -18210,
+          "disabledSprite": -18205
+        }
       }
     ]
   },
@@ -422,7 +620,13 @@
         "spriteY": 19,
         "enabledSprite": 2139,
         "overrideEnabledSprite": -18201,
-        "disabledSprite": -18202
+        "disabledSprite": -18202,
+        "overworld": {
+          "spriteX": 289,
+          "spriteY": 63,
+          "enabledSprite": -18213,
+          "disabledSprite": -18207
+        }
       },
       {
         "structID": 1248,
@@ -430,7 +634,13 @@
         "spriteX": 234,
         "spriteY": 120,
         "enabledSprite": 1256,
-        "disabledSprite": 1281
+        "disabledSprite": 1281,
+        "overworld": {
+          "spriteX": 295,
+          "spriteY": 102,
+          "enabledSprite": -18211,
+          "disabledSprite": -18206
+        }
       },
       {
         "structID": 453,
@@ -438,7 +648,13 @@
         "spriteX": 240,
         "spriteY": 181,
         "enabledSprite": 33,
-        "disabledSprite": 83
+        "disabledSprite": 83,
+        "overworld": {
+          "spriteX": 302,
+          "spriteY": 124,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 6416,
@@ -447,7 +663,13 @@
         "spriteX": 259,
         "spriteY": 125,
         "enabledSprite": 344,
-        "disabledSprite": 394
+        "disabledSprite": 394,
+        "overworld": {
+          "spriteX": 308,
+          "spriteY": 103,
+          "enabledSprite": -18209,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 6414,
@@ -455,7 +677,13 @@
         "spriteX": 201,
         "spriteY": 22,
         "enabledSprite": 323,
-        "disabledSprite": 373
+        "disabledSprite": 373,
+        "overworld": {
+          "spriteX": 302,
+          "spriteY": 64,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
+        }
       }
     ]
   },
@@ -490,7 +718,13 @@
         "spriteX": 274,
         "spriteY": 145,
         "enabledSprite": 360,
-        "disabledSprite": 410
+        "disabledSprite": 410,
+        "overworld": {
+          "spriteX": 93,
+          "spriteY": 79,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
+        }
       },
       {
         "structID": 2887,
@@ -498,7 +732,13 @@
         "spriteX": 268,
         "spriteY": 58,
         "enabledSprite": 1252,
-        "disabledSprite": 1277
+        "disabledSprite": 1277,
+        "overworld": {
+          "spriteX": 91,
+          "spriteY": 45,
+          "enabledSprite": -18211,
+          "disabledSprite": -18206
+        }
       },
       {
         "structID": 1247,
@@ -506,7 +746,13 @@
         "spriteX": 121,
         "spriteY": 110,
         "enabledSprite": 1255,
-        "disabledSprite": 1280
+        "disabledSprite": 1280,
+        "overworld": {
+          "spriteX": 47,
+          "spriteY": 74,
+          "enabledSprite": -18211,
+          "disabledSprite": -18206
+        }
       }
     ]
   },
@@ -528,7 +774,13 @@
         "spriteX": 333,
         "spriteY": 103,
         "enabledSprite": 367,
-        "disabledSprite": 417
+        "disabledSprite": 417,
+        "overworld": {
+          "spriteX": 99,
+          "spriteY": 177,
+          "enabledSprite": -18208,
+          "disabledSprite": -18205
+        }
       }
     ]
   }

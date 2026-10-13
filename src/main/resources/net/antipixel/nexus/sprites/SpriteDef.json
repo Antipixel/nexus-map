@@ -194,5 +194,45 @@
   {
     "spriteId": -18204,
     "fileName": "Spell_Weiss_Teleport_Disabled.png"
+  },
+  {
+    "spriteId": -18205,
+    "fileName": "small_orb_disabled.png"
+  },
+  {
+    "spriteId": -18206,
+    "fileName": "small_orb_disabled_t.png"
+  },
+  {
+    "spriteId": -18207,
+    "fileName": "small_orb_disabled_s.png"
+  },
+  {
+    "spriteId": -18208,
+    "fileName": "small_orb_reg.png"
+  },
+  {
+    "spriteId": -18209,
+    "fileName": "small_orb_ancient.png"
+  },
+  {
+    "spriteId": -18210,
+    "fileName": "small_orb_lunar.png"
+  },
+  {
+    "spriteId": -18211,
+    "fileName": "small_orb_arc.png"
+  },
+  {
+    "spriteId": -18212,
+    "fileName": "small_orb_arc_w.png"
+  },
+  {
+    "spriteId": -18213,
+    "fileName": "small_orb_special_troll.png"
+  },
+  {
+    "spriteId": -18214,
+    "fileName": "small_orb_special_weiss.png"
   }
 ]

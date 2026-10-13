@@ -18,11 +18,12 @@ public interface NexusConfig extends Config
 	String KEY_TELEPORT_NAME = "teleportName";
 	String KEY_TELEPORT_ICON_BORDER = "teleportIconBorder";
 	String KEY_TELEPORT_FADE_ANIM = "teleportFade";
+	String KEY_OVERWORLD_MODE = "overworldMode";
 
 	@ConfigSection(
-			name = "Appearance",
-			description = "Modify the appearance of the map",
-			position = 3
+		name = "Appearance",
+		description = "Modify the appearance of the map",
+		position = 3
 	)
 	String CONFIG_SECTION_APPEARANCE = "Appearance";
 
@@ -49,10 +50,10 @@ public interface NexusConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = KEY_TELEPORT_NAME,
-			name = "Teleport Name",
-			description = "Configures how the name of each teleport is to be displayed",
-			position = 2
+		keyName = KEY_TELEPORT_NAME,
+		name = "Teleport Name",
+		description = "Configures how the name of each teleport is to be displayed",
+		position = 2
 	)
 	default TeleportNameMode teleportName()
 	{
@@ -60,11 +61,11 @@ public interface NexusConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = KEY_TELEPORT_ICON_BORDER,
-			name = "Teleport Icon Border",
-			description = "Select the border style for the teleport icons",
-			position = 3,
-			section = CONFIG_SECTION_APPEARANCE
+		keyName = KEY_TELEPORT_ICON_BORDER,
+		name = "Teleport Icon Border",
+		description = "Select the border style for the teleport icons",
+		position = 3,
+		section = CONFIG_SECTION_APPEARANCE
 	)
 	default BorderStyle borderStyle()
 	{
@@ -72,14 +73,28 @@ public interface NexusConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = KEY_TELEPORT_FADE_ANIM,
-			name = "Teleport Icon Fade Animation",
-			description = "Fade animation for the teleport icons",
-			position = 4,
-			section = CONFIG_SECTION_APPEARANCE
+		keyName = KEY_TELEPORT_FADE_ANIM,
+		name = "Teleport Icon Fade Animation",
+		description = "Fade animation for the teleport icons",
+		position = 4,
+		section = CONFIG_SECTION_APPEARANCE
 	)
 	default boolean fadeAnimation()
 	{
 		return true;
+	}
+
+	@ConfigItem(
+		keyName = KEY_OVERWORLD_MODE,
+		name = "All Teleports on Overworld",
+		description = "Teleports are all on the overworld, no per-region menus" +
+			"<br>Setting Icon Border to 'White' is recommended" +
+			"<br><b>Warning:</b> Will conflict with the 'Zoom Out Nexus' plugin",
+		position = 5,
+		section = CONFIG_SECTION_APPEARANCE
+	)
+	default boolean overworldMode()
+	{
+		return false;
 	}
 }
