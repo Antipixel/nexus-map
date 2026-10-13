@@ -80,7 +80,7 @@ public class NexusMapPlugin extends Plugin
 
 	/* Widget dimensions and positions */
 	private static final int TELE_ICON_SIZE = 24;
-	private static final int TELE_OW_ICON_SIZE = 12;
+	private static final int TELE_OW_ICON_SIZE = 14;
 	private static final int MAP_SECTION_POS_X = 7;
 	private static final int MAP_SECTION_POS_Y = 35;
 	private static final int INDEX_MAP_SPRITE_WIDTH = 478;
