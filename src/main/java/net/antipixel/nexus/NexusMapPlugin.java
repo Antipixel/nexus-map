@@ -240,7 +240,10 @@ public class NexusMapPlugin extends Plugin
 				{
 					this.updateMapState(this.client.getWidget(ID_PORTAL_WINDOW));
 					// Ensure no leftover hover state when changing the config while within a region submenu
-					this.indexRegionGraphics.keySet().forEach(this::onIconLeave);
+					if (this.indexRegionGraphics != null)
+					{
+						this.indexRegionGraphics.keySet().forEach(this::onIconLeave);
+					}
 				});
 				break;
 			default:
