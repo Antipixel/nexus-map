@@ -52,8 +52,8 @@
         "enabledSprite": 347,
         "disabledSprite": 397,
         "overworld": {
-          "spriteX": 357,
-          "spriteY": 44,
+          "spriteX": 356,
+          "spriteY": 43,
           "enabledSprite": -18209,
           "disabledSprite": -18205
         }
@@ -67,8 +67,8 @@
         "enabledSprite": 348,
         "disabledSprite": 398,
         "overworld": {
-          "spriteX": 320,
-          "spriteY": 49,
+          "spriteX": 319,
+          "spriteY": 50,
           "enabledSprite": -18209,
           "disabledSprite": -18205
         }
@@ -82,8 +82,8 @@
         "enabledSprite": 346,
         "disabledSprite": 396,
         "overworld": {
-          "spriteX": 346,
-          "spriteY": 70,
+          "spriteX": 345,
+          "spriteY": 69,
           "enabledSprite": -18209,
           "disabledSprite": -18205
         }
@@ -96,7 +96,7 @@
         "enabledSprite": 1264,
         "disabledSprite": 1289,
         "overworld": {
-          "spriteX": 321,
+          "spriteX": 320,
           "spriteY": 66,
           "enabledSprite": -18212,
           "disabledSprite": -18206
@@ -111,8 +111,8 @@
         "enabledSprite": 345,
         "disabledSprite": 395,
         "overworld": {
-          "spriteX": 321,
-          "spriteY": 79,
+          "spriteX": 320,
+          "spriteY": 81,
           "enabledSprite": -18209,
           "disabledSprite": -18205
         }
@@ -125,8 +125,8 @@
         "enabledSprite": 557,
         "disabledSprite": 607,
         "overworld": {
-          "spriteX": 320,
-          "spriteY": 36,
+          "spriteX": 319,
+          "spriteY": 35,
           "enabledSprite": -18210,
           "disabledSprite": -18205
         }
@@ -154,8 +154,8 @@
         "enabledSprite": 342,
         "disabledSprite": 392,
         "overworld": {
-          "spriteX": 362,
-          "spriteY": 122,
+          "spriteX": 361,
+          "spriteY": 121,
           "enabledSprite": -18209,
           "disabledSprite": -18205
         }
@@ -168,7 +168,7 @@
         "enabledSprite": 27,
         "disabledSprite": 77,
         "overworld": {
-          "spriteX": 347,
+          "spriteX": 346,
           "spriteY": 115,
           "enabledSprite": -18208,
           "disabledSprite": -18205
@@ -182,8 +182,8 @@
         "enabledSprite": 1253,
         "disabledSprite": 1278,
         "overworld": {
-          "spriteX": 336,
-          "spriteY": 132,
+          "spriteX": 335,
+          "spriteY": 131,
           "enabledSprite": -18211,
           "disabledSprite": -18206
         }
@@ -198,7 +198,7 @@
         "disabledSprite": 77,
         "overworld": {
           "spriteX": 338,
-          "spriteY": 103,
+          "spriteY": 101,
           "enabledSprite": -18208,
           "disabledSprite": -18205
         }
@@ -211,8 +211,8 @@
         "enabledSprite": 30,
         "disabledSprite": 80,
         "overworld": {
-          "spriteX": 342,
-          "spriteY": 147,
+          "spriteX": 341,
+          "spriteY": 146,
           "enabledSprite": -18208,
           "disabledSprite": -18205
         }
@@ -227,7 +227,7 @@
         "disabledSprite": 391,
         "overworld": {
           "spriteX": 323,
-          "spriteY": 101,
+          "spriteY": 100,
           "enabledSprite": -18209,
           "disabledSprite": -18205
         }
@@ -280,8 +280,8 @@
         "enabledSprite": 1259,
         "disabledSprite": 1284,
         "overworld": {
-          "spriteX": 408,
-          "spriteY": 99,
+          "spriteX": 411,
+          "spriteY": 98,
           "enabledSprite": -18211,
           "disabledSprite": -18206
         }
@@ -294,8 +294,8 @@
         "enabledSprite": 1258,
         "disabledSprite": 1283,
         "overworld": {
-          "spriteX": 382,
-          "spriteY": 105,
+          "spriteX": 381,
+          "spriteY": 104,
           "enabledSprite": -18211,
           "disabledSprite": -18206
         }
@@ -308,8 +308,8 @@
         "enabledSprite": 1261,
         "disabledSprite": 1286,
         "overworld": {
-          "spriteX": 442,
-          "spriteY": 203,
+          "spriteX": 441,
+          "spriteY": 202,
           "enabledSprite": -18211,
           "disabledSprite": -18206
         }
@@ -323,8 +323,8 @@
         "enabledSprite": 343,
         "disabledSprite": 393,
         "overworld": {
-          "spriteX": 395,
-          "spriteY": 103,
+          "spriteX": 396,
+          "spriteY": 102,
           "enabledSprite": -18209,
           "disabledSprite": -18205
         }
@@ -337,8 +337,8 @@
         "enabledSprite": 1262,
         "disabledSprite": 1287,
         "overworld": {
-          "spriteX": 404,
-          "spriteY": 134,
+          "spriteX": 403,
+          "spriteY": 133,
           "enabledSprite": -18211,
           "disabledSprite": -18206
         }
@@ -365,7 +365,7 @@
         "enabledSprite": 544,
         "disabledSprite": 594,
         "overworld": {
-          "spriteX": 152,
+          "spriteX": 151,
           "spriteY": 36,
           "enabledSprite": -18210,
           "disabledSprite": -18205
@@ -379,7 +379,7 @@
         "enabledSprite": 545,
         "disabledSprite": 595,
         "overworld": {
-          "spriteX": 229,
+          "spriteX": 228,
           "spriteY": 60,
           "enabledSprite": -18210,
           "disabledSprite": -18205
@@ -394,8 +394,8 @@
         "overrideEnabledSprite": -18203,
         "disabledSprite": -18204,
         "overworld": {
-          "spriteX": 299,
-          "spriteY": 32,
+          "spriteX": 298,
+          "spriteY": 31,
           "enabledSprite": -18214,
           "disabledSprite": -18207
         }
@@ -422,7 +422,7 @@
         "enabledSprite": 555,
         "disabledSprite": 605,
         "overworld": {
-          "spriteX": 242,
+          "spriteX": 241,
           "spriteY": 117,
           "enabledSprite": -18210,
           "disabledSprite": -18205
@@ -437,7 +437,7 @@
         "disabledSprite": 606,
         "overworld": {
           "spriteX": 278,
-          "spriteY": 106,
+          "spriteY": 104,
           "enabledSprite": -18210,
           "disabledSprite": -18205
         }
@@ -450,8 +450,8 @@
         "enabledSprite": 37,
         "disabledSprite": 87,
         "overworld": {
-          "spriteX": 265,
-          "spriteY": 105,
+          "spriteX": 263,
+          "spriteY": 103,
           "enabledSprite": -18208,
           "disabledSprite": -18205
         }
@@ -464,7 +464,7 @@
         "enabledSprite": 1263,
         "disabledSprite": 1288,
         "overworld": {
-          "spriteX": 270,
+          "spriteX": 269,
           "spriteY": 229,
           "enabledSprite": -18211,
           "disabledSprite": -18206
@@ -479,8 +479,8 @@
         "enabledSprite": 357,
         "disabledSprite": 407,
         "overworld": {
-          "spriteX": 275,
-          "spriteY": 216,
+          "spriteX": 274,
+          "spriteY": 214,
           "enabledSprite": -18208,
           "disabledSprite": -18205
         }
@@ -508,8 +508,8 @@
         "enabledSprite": 1260,
         "disabledSprite": 1285,
         "overworld": {
-          "spriteX": 228,
-          "spriteY": 133,
+          "spriteX": 227,
+          "spriteY": 132,
           "enabledSprite": -18211,
           "disabledSprite": -18206
         }
@@ -522,7 +522,7 @@
         "enabledSprite": 54,
         "disabledSprite": 104,
         "overworld": {
-          "spriteX": 250,
+          "spriteX": 249,
           "spriteY": 132,
           "enabledSprite": -18208,
           "disabledSprite": -18205
@@ -536,8 +536,8 @@
         "enabledSprite": 55,
         "disabledSprite": 105,
         "overworld": {
-          "spriteX": 231,
-          "spriteY": 155,
+          "spriteX": 229,
+          "spriteY": 153,
           "enabledSprite": -18208,
           "disabledSprite": -18205
         }
@@ -551,8 +551,8 @@
         "enabledSprite": 37,
         "disabledSprite": 87,
         "overworld": {
-          "spriteX": 252,
-          "spriteY": 104,
+          "spriteX": 248,
+          "spriteY": 102,
           "enabledSprite": -18208,
           "disabledSprite": -18205
         }
@@ -565,8 +565,8 @@
         "enabledSprite": 547,
         "disabledSprite": 597,
         "overworld": {
-          "spriteX": 229,
-          "spriteY": 94,
+          "spriteX": 228,
+          "spriteY": 93,
           "enabledSprite": -18210,
           "disabledSprite": -18205
         }
@@ -579,7 +579,7 @@
         "enabledSprite": 549,
         "disabledSprite": 599,
         "overworld": {
-          "spriteX": 245,
+          "spriteX": 244,
           "spriteY": 147,
           "enabledSprite": -18210,
           "disabledSprite": -18205
@@ -593,8 +593,8 @@
         "enabledSprite": 586,
         "disabledSprite": 636,
         "overworld": {
-          "spriteX": 215,
-          "spriteY": 143,
+          "spriteX": 213,
+          "spriteY": 142,
           "enabledSprite": -18210,
           "disabledSprite": -18205
         }
@@ -622,8 +622,8 @@
         "overrideEnabledSprite": -18201,
         "disabledSprite": -18202,
         "overworld": {
-          "spriteX": 289,
-          "spriteY": 63,
+          "spriteX": 287,
+          "spriteY": 62,
           "enabledSprite": -18213,
           "disabledSprite": -18207
         }
@@ -636,8 +636,8 @@
         "enabledSprite": 1256,
         "disabledSprite": 1281,
         "overworld": {
-          "spriteX": 295,
-          "spriteY": 102,
+          "spriteX": 293,
+          "spriteY": 101,
           "enabledSprite": -18211,
           "disabledSprite": -18206
         }
@@ -650,8 +650,8 @@
         "enabledSprite": 33,
         "disabledSprite": 83,
         "overworld": {
-          "spriteX": 302,
-          "spriteY": 124,
+          "spriteX": 301,
+          "spriteY": 123,
           "enabledSprite": -18208,
           "disabledSprite": -18205
         }
@@ -666,7 +666,7 @@
         "disabledSprite": 394,
         "overworld": {
           "spriteX": 308,
-          "spriteY": 103,
+          "spriteY": 102,
           "enabledSprite": -18209,
           "disabledSprite": -18205
         }
@@ -680,7 +680,7 @@
         "disabledSprite": 373,
         "overworld": {
           "spriteX": 302,
-          "spriteY": 64,
+          "spriteY": 63,
           "enabledSprite": -18208,
           "disabledSprite": -18205
         }
@@ -720,8 +720,8 @@
         "enabledSprite": 360,
         "disabledSprite": 410,
         "overworld": {
-          "spriteX": 93,
-          "spriteY": 79,
+          "spriteX": 92,
+          "spriteY": 78,
           "enabledSprite": -18208,
           "disabledSprite": -18205
         }
@@ -734,7 +734,7 @@
         "enabledSprite": 1252,
         "disabledSprite": 1277,
         "overworld": {
-          "spriteX": 91,
+          "spriteX": 90,
           "spriteY": 45,
           "enabledSprite": -18211,
           "disabledSprite": -18206
@@ -748,8 +748,8 @@
         "enabledSprite": 1255,
         "disabledSprite": 1280,
         "overworld": {
-          "spriteX": 47,
-          "spriteY": 74,
+          "spriteX": 46,
+          "spriteY": 73,
           "enabledSprite": -18211,
           "disabledSprite": -18206
         }
@@ -776,8 +776,8 @@
         "enabledSprite": 367,
         "disabledSprite": 417,
         "overworld": {
-          "spriteX": 99,
-          "spriteY": 177,
+          "spriteX": 98,
+          "spriteY": 176,
           "enabledSprite": -18208,
           "disabledSprite": -18205
         }
