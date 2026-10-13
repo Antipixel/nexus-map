@@ -436,8 +436,8 @@
         "enabledSprite": 556,
         "disabledSprite": 606,
         "overworld": {
-          "spriteX": 281,
-          "spriteY": 108,
+          "spriteX": 278,
+          "spriteY": 106,
           "enabledSprite": -18210,
           "disabledSprite": -18205
         }
@@ -450,8 +450,8 @@
         "enabledSprite": 37,
         "disabledSprite": 87,
         "overworld": {
-          "spriteX": 268,
-          "spriteY": 107,
+          "spriteX": 265,
+          "spriteY": 105,
           "enabledSprite": -18208,
           "disabledSprite": -18205
         }
@@ -523,7 +523,7 @@
         "disabledSprite": 104,
         "overworld": {
           "spriteX": 250,
-          "spriteY": 133,
+          "spriteY": 132,
           "enabledSprite": -18208,
           "disabledSprite": -18205
         }
@@ -551,8 +551,8 @@
         "enabledSprite": 37,
         "disabledSprite": 87,
         "overworld": {
-          "spriteX": 255,
-          "spriteY": 106,
+          "spriteX": 252,
+          "spriteY": 104,
           "enabledSprite": -18208,
           "disabledSprite": -18205
         }
