@@ -749,7 +749,7 @@ public class NexusMapPlugin extends Plugin
 		// Wrap as a button, set the position, sprite, etc.
 		UIButton backArrowButton = new UIFadeButton(backArrowWidget);
 		backArrowButton.setSprites(SpriteID.GE_BACKBUTTON);
-		backArrowButton.setPosition(MAP_SECTION_POS_X + 5, MAP_SECTION_POS_Y + 6);
+		backArrowButton.setPosition(MAP_SECTION_POS_X + 6, MAP_SECTION_POS_Y + 6);
 		backArrowButton.setSize(30, 23);
 
 		// Assign the callback for the button
