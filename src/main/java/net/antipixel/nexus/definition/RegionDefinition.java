@@ -17,6 +17,7 @@ public class RegionDefinition
 	private int mapSprite;
 
 	private TeleportDefinition[] teleportDefinitions;
+	private NeighbourDefinition[] neighbourDefinitions;
 
 	/**
 	 * Checks if this region has teleports defined for it

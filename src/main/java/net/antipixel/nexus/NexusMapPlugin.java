@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 import net.antipixel.nexus.config.NexusConfig;
 import net.antipixel.nexus.config.TeleportNameMode;
 import net.antipixel.nexus.definition.IconDefinition;
+import net.antipixel.nexus.definition.NeighbourDefinition;
 import net.antipixel.nexus.definition.RegionDefinition;
 import net.antipixel.nexus.definition.TeleportDefinition;
 import net.antipixel.nexus.sprites.SpriteDefinition;
@@ -694,27 +695,40 @@ public class NexusMapPlugin extends Plugin
 				continue;
 			}
 
-			// Create the widget for the regions icon
-			Widget regionIcon = window.createChild(-1, WidgetType.GRAPHIC);
-
-			// Get the definition for the regions icon
-			IconDefinition iconDef = regionDef.getIcon();
-
-			// Wrap in UIBUtton, position the component. attach listeners, etc.
-			UIButton button = new UIButton(regionIcon);
-			button.setName(regionDef.getName());
-			button.setPosition(iconDef.getX() + MAP_SECTION_POS_X, iconDef.getY() + MAP_SECTION_POS_Y);
-			button.setSize(MAP_ICON_WIDTH, MAP_ICON_HEIGHT);
-			button.setSprites(iconDef.getSpriteStandard(), iconDef.getSpriteHover());
-			button.setOnHoverListener((c) -> onIconHover(id));
-			button.setOnLeaveListener((c) -> onIconLeave(id));
-			button.addAction(ACTION_TEXT_SELECT, () -> onIconClicked(id));
+			UIButton button = createRegionIcon(window, regionDef);
 
 			this.indexRegionIcons.put(id, button);
 
 			// Add to the index page
 			this.indexPage.add(button);
 		}
+	}
+
+	/**
+	 * Creates a clickable icon that displays a region's page
+	 *
+	 * @param window the layer on which to create the widget
+	 * @param regionDef the RegionDefinition to build the icon from
+	 */
+	private UIButton createRegionIcon(Widget window, RegionDefinition regionDef)
+	{
+		// Create the widget for the regions icon
+		Widget regionIcon = window.createChild(-1, WidgetType.GRAPHIC);
+
+		// Get the definition for the regions icon
+		IconDefinition iconDef = regionDef.getIcon();
+
+		// Wrap in UIBUtton, position the component. attach listeners, etc.
+		UIButton button = new UIButton(regionIcon);
+		button.setName(regionDef.getName());
+		button.setPosition(iconDef.getX() + MAP_SECTION_POS_X, iconDef.getY() + MAP_SECTION_POS_Y);
+		button.setSize(MAP_ICON_WIDTH, MAP_ICON_HEIGHT);
+		button.setSprites(iconDef.getSpriteStandard(), iconDef.getSpriteHover());
+		button.setOnHoverListener((c) -> onIconHover(regionDef.getId()));
+		button.setOnLeaveListener((c) -> onIconLeave(regionDef.getId()));
+		button.addAction(ACTION_TEXT_SELECT, () -> onIconClicked(regionDef.getId()));
+
+		return button;
 	}
 
 	/**
@@ -794,6 +808,26 @@ public class NexusMapPlugin extends Plugin
 					// The overworld version of this teleport
 					createSingleTeleport(window, teleportDef, REGION_INDEX_ID, true, betterTeleportMenuActive);
 				}
+			}
+
+			// Add buttons to quickly swap to a neighbouring region's page
+			NeighbourDefinition[] neighbours = regionDef.getNeighbourDefinitions();
+			for (NeighbourDefinition neighbour : neighbours)
+			{
+				RegionDefinition neighbourRegion = regionDefinitions.get(neighbour.getRegionId());
+				// Don't bother making icons for regions that don't have any teleports.
+				if (neighbourRegion.getTeleportDefinitions().length == 0)
+				{
+					continue;
+				}
+
+				UIButton neighbourButton = createRegionIcon(window, neighbourRegion);
+				neighbourButton.setPosition(
+					neighbour.getX() + MAP_SECTION_POS_X,
+					neighbour.getY() + MAP_SECTION_POS_Y
+				);
+
+				this.mapPages.get(regionId).add(neighbourButton);
 			}
 		}
 	}
