@@ -709,6 +709,7 @@ public class NexusMapPlugin extends Plugin
 	 *
 	 * @param window the layer on which to create the widget
 	 * @param regionDef the RegionDefinition to build the icon from
+	 * @param isOnIndexPage if true, put the map sprite hover listeners for the index page on this button
 	 */
 	private UIButton createRegionIcon(Widget window, RegionDefinition regionDef, boolean isOnIndexPage)
 	{
