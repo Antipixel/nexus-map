@@ -695,7 +695,7 @@ public class NexusMapPlugin extends Plugin
 				continue;
 			}
 
-			UIButton button = createRegionIcon(window, regionDef);
+			UIButton button = createRegionIcon(window, regionDef, true);
 
 			this.indexRegionIcons.put(id, button);
 
@@ -710,7 +710,7 @@ public class NexusMapPlugin extends Plugin
 	 * @param window the layer on which to create the widget
 	 * @param regionDef the RegionDefinition to build the icon from
 	 */
-	private UIButton createRegionIcon(Widget window, RegionDefinition regionDef)
+	private UIButton createRegionIcon(Widget window, RegionDefinition regionDef, boolean isOnIndexPage)
 	{
 		// Create the widget for the regions icon
 		Widget regionIcon = window.createChild(-1, WidgetType.GRAPHIC);
@@ -724,8 +724,13 @@ public class NexusMapPlugin extends Plugin
 		button.setPosition(iconDef.getX() + MAP_SECTION_POS_X, iconDef.getY() + MAP_SECTION_POS_Y);
 		button.setSize(MAP_ICON_WIDTH, MAP_ICON_HEIGHT);
 		button.setSprites(iconDef.getSpriteStandard(), iconDef.getSpriteHover());
-		button.setOnHoverListener((c) -> onIconHover(regionDef.getId()));
-		button.setOnLeaveListener((c) -> onIconLeave(regionDef.getId()));
+		// These listeners control the region popping up on the index page. We don't need to do this if the icon is
+		// being used as a neighbour link on a sub page.
+		if (isOnIndexPage)
+		{
+			button.setOnHoverListener((c) -> onIconHover(regionDef.getId()));
+			button.setOnLeaveListener((c) -> onIconLeave(regionDef.getId()));
+		}
 		button.addAction(ACTION_TEXT_SELECT, () -> onIconClicked(regionDef.getId()));
 
 		return button;
@@ -821,7 +826,7 @@ public class NexusMapPlugin extends Plugin
 					continue;
 				}
 
-				UIButton neighbourButton = createRegionIcon(window, neighbourRegion);
+				UIButton neighbourButton = createRegionIcon(window, neighbourRegion, false);
 				neighbourButton.setPosition(
 					neighbour.getX() + MAP_SECTION_POS_X,
 					neighbour.getY() + MAP_SECTION_POS_Y
