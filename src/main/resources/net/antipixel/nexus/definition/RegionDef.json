@@ -29,7 +29,8 @@
         "enabledSprite": 6922,
         "disabledSprite": 6947
       }
-    ]
+    ],
+    "neighbourDefinitions": []
   },
   {
     "id": 0,
@@ -130,6 +131,33 @@
           "enabledSprite": -18210,
           "disabledSprite": -18205
         }
+      }
+    ],
+    "neighbourDefinitions": [
+      {
+        "regionId": 1,
+        "x": 223,
+        "y": 230
+      },
+      {
+        "regionId": 4,
+        "x": 365,
+        "y": 226
+      },
+      {
+        "regionId": 5,
+        "x": 2,
+        "y": 154
+      },
+      {
+        "regionId": 6,
+        "x": 16,
+        "y": 224
+      },
+      {
+        "regionId": 7,
+        "x": 78,
+        "y": 199
       }
     ]
   },
@@ -232,6 +260,38 @@
           "disabledSprite": -18205
         }
       }
+    ],
+    "neighbourDefinitions": [
+      {
+        "regionId": 0,
+        "x": 227,
+        "y": 5
+      },
+      {
+        "regionId": 2,
+        "x": 30,
+        "y": 220
+      },
+      {
+        "regionId": 3,
+        "x": 270,
+        "y": 180
+      },
+      {
+        "regionId": 4,
+        "x": 370,
+        "y": 100
+      },
+      {
+        "regionId": 6,
+        "x": 5,
+        "y": 60
+      },
+      {
+        "regionId": 7,
+        "x": 85,
+        "y": 120
+      }
     ]
   },
   {
@@ -245,7 +305,8 @@
     },
     "indexSprite": -18001,
     "mapSprite": -18051,
-    "teleportDefinitions": []
+    "teleportDefinitions": [],
+    "neighbourDefinitions": []
   },
   {
     "id": 3,
@@ -258,7 +319,8 @@
     },
     "indexSprite": -18003,
     "mapSprite": -18053,
-    "teleportDefinitions": []
+    "teleportDefinitions": [],
+    "neighbourDefinitions": []
   },
   {
     "id": 4,
@@ -343,6 +405,18 @@
           "disabledSprite": -18206
         }
       }
+    ],
+    "neighbourDefinitions": [
+      {
+        "regionId": 1,
+        "x": 12,
+        "y": 70
+      },
+      {
+        "regionId": 3,
+        "x": 15,
+        "y": 200
+      }
     ]
   },
   {
@@ -399,6 +473,23 @@
           "enabledSprite": -18214,
           "disabledSprite": -18207
         }
+      }
+    ],
+    "neighbourDefinitions": [
+      {
+        "regionId": 6,
+        "x": 143,
+        "y": 205
+      },
+      {
+        "regionId": 7,
+        "x": 408,
+        "y": 185
+      },
+      {
+        "regionId": 9,
+        "x": 0,
+        "y": 134
       }
     ]
   },
@@ -599,6 +690,38 @@
           "disabledSprite": -18205
         }
       }
+    ],
+    "neighbourDefinitions": [
+      {
+        "regionId": 2,
+        "x": 279,
+        "y": 197
+      },
+      {
+        "regionId": 5,
+        "x": 74,
+        "y": 2
+      },
+      {
+        "regionId": 7,
+        "x": 362,
+        "y": 91
+      },
+      {
+        "regionId": 8,
+        "x": 9,
+        "y": 136
+      },
+      {
+        "regionId": 9,
+        "x": 0,
+        "y": 42
+      },
+      {
+        "regionId": 10,
+        "x": 0,
+        "y": 213
+      }
     ]
   },
   {
@@ -685,6 +808,33 @@
           "disabledSprite": -18205
         }
       }
+    ],
+    "neighbourDefinitions": [
+      {
+        "regionId": 0,
+        "x": 313,
+        "y": 20
+      },
+      {
+        "regionId": 1,
+        "x": 323,
+        "y": 140
+      },
+      {
+        "regionId": 3,
+        "x": 413,
+        "y": 227
+      },
+      {
+        "regionId": 5,
+        "x": 93,
+        "y": 25
+      },
+      {
+        "regionId": 6,
+        "x": 73,
+        "y": 150
+      }
     ]
   },
   {
@@ -698,7 +848,8 @@
     },
     "indexSprite": -18008,
     "mapSprite": -18058,
-    "teleportDefinitions": []
+    "teleportDefinitions": [],
+    "neighbourDefinitions": []
   },
   {
     "id": 9,
@@ -754,6 +905,23 @@
           "disabledSprite": -18206
         }
       }
+    ],
+    "neighbourDefinitions": [
+      {
+        "regionId": 5,
+        "x": 428,
+        "y": 56
+      },
+      {
+        "regionId": 6,
+        "x": 428,
+        "y": 229
+      },
+      {
+        "regionId": 10,
+        "x": 74,
+        "y": 229
+      }
     ]
   },
   {
@@ -781,6 +949,18 @@
           "enabledSprite": -18208,
           "disabledSprite": -18205
         }
+      }
+    ],
+    "neighbourDefinitions": [
+      {
+        "regionId": 6,
+        "x": 428,
+        "y": 162
+      },
+      {
+        "regionId": 9,
+        "x": 114,
+        "y": 2
       }
     ]
   }
