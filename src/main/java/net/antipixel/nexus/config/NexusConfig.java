@@ -18,6 +18,7 @@ public interface NexusConfig extends Config
 	String KEY_TELEPORT_NAME = "teleportName";
 	String KEY_TELEPORT_ICON_BORDER = "teleportIconBorder";
 	String KEY_TELEPORT_FADE_ANIM = "teleportFade";
+	String KEY_NEIGHBOUR_REGIONS = "showNeighbourRegions";
 	String KEY_OVERWORLD_MODE = "overworldMode";
 
 	@ConfigSection(
@@ -85,12 +86,24 @@ public interface NexusConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = KEY_NEIGHBOUR_REGIONS,
+		name = "Show Neighbour Regions",
+		description = "Show neighbouring region buttons in the per-region menus, making navigation easier",
+		position = 5,
+		section = CONFIG_SECTION_APPEARANCE
+	)
+	default boolean showNeighbourRegions()
+	{
+		return true;
+	}
+
+	@ConfigItem(
 		keyName = KEY_OVERWORLD_MODE,
 		name = "All Teleports on Overworld",
 		description = "Teleports are all on the overworld, no per-region menus" +
 			"<br>Setting Icon Border to 'White' is recommended" +
 			"<br><b>Warning:</b> Will conflict with the 'Zoom Out Nexus' plugin",
-		position = 5,
+		position = 6,
 		section = CONFIG_SECTION_APPEARANCE
 	)
 	default boolean overworldMode()

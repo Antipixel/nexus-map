@@ -7,11 +7,9 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 import java.util.function.Consumer;
 import net.antipixel.nexus.config.NexusConfig;
 import net.antipixel.nexus.config.TeleportNameMode;
@@ -127,6 +125,12 @@ public class NexusMapPlugin extends Plugin
 	private static final String SHORTCUT_COLOUR_TAG = "<col=ffffff>";
 	private static final String PLUGIN_NAME_BTM = "Better Teleport Menu";
 
+	// Used to control the visibility of subsets of a UIPage
+	private static final int COMPONENT_SET_DEFAULT = 0;
+	private static final int COMPONENT_SET_INDEX_REGION_BUTTONS = 1;
+	private static final int COMPONENT_SET_INDEX_OW_TELEPORTS = 2;
+	private static final int COMPONENT_SET_SUBREGION_NEIGHBOUR_BUTTONS = 3;
+
 	@Inject
 	private Client client;
 
@@ -160,7 +164,6 @@ public class NexusMapPlugin extends Plugin
 
 	// Overworld button stuff
 	private Map<IntegerBooleanPair, UIButton> owActiveTeleportButtons;
-	private Set<UIButton> owAllButtons;
 	private UIButton owHoverWidget;
 
 	private boolean mapEnabled;
@@ -201,7 +204,6 @@ public class NexusMapPlugin extends Plugin
 
 		this.activeTeleportButtons = new HashMap<>();
 		this.owActiveTeleportButtons = new HashMap<>();
-		this.owAllButtons = new HashSet<>();
 		this.clientTickQueue = new ArrayDeque<>();
 		this.fadeEffect = new FadePulseEffect(FADE_EFFECT_MIN_OPACITY, FADE_EFFECT_SPEED);
 	}
@@ -236,6 +238,7 @@ public class NexusMapPlugin extends Plugin
 			case NexusConfig.KEY_TELEPORT_NAME:
 				this.clientThread.invokeLater(this::updateTeleportButtonNames);
 				break;
+			case NexusConfig.KEY_NEIGHBOUR_REGIONS:
 			case NexusConfig.KEY_OVERWORLD_MODE:
 				this.clientThread.invokeLater(() ->
 				{
@@ -686,7 +689,7 @@ public class NexusMapPlugin extends Plugin
 			this.indexRegionGraphics.put(id, graphic);
 
 			// Add the component to the index page
-			this.indexPage.add(graphic);
+			this.indexPage.add(graphic, COMPONENT_SET_DEFAULT);
 
 			// If there's no teleports defined for this region, skip onto the next
 			// before the icon widget is created and has its listeners attached
@@ -700,7 +703,7 @@ public class NexusMapPlugin extends Plugin
 			this.indexRegionIcons.put(id, button);
 
 			// Add to the index page
-			this.indexPage.add(button);
+			this.indexPage.add(button, COMPONENT_SET_INDEX_REGION_BUTTONS);
 		}
 	}
 
@@ -753,7 +756,7 @@ public class NexusMapPlugin extends Plugin
 		this.mapGraphic.setSize(REGION_MAP_SPRITE_WIDTH, REGION_MAP_SPRITE_HEIGHT);
 
 		// Add the map graphic to each of the map pages
-		this.mapPages.values().forEach(page -> page.add(this.mapGraphic));
+		this.mapPages.values().forEach(page -> page.add(this.mapGraphic, COMPONENT_SET_DEFAULT));
 	}
 
 	/**
@@ -777,7 +780,7 @@ public class NexusMapPlugin extends Plugin
 
 		// Add the back arrow to each map page, except index
 		this.mapPages.values().stream().filter(page -> this.indexPage != page)
-			.forEach(page -> page.add(backArrowButton));
+			.forEach(page -> page.add(backArrowButton, COMPONENT_SET_DEFAULT));
 	}
 
 	/**
@@ -833,7 +836,7 @@ public class NexusMapPlugin extends Plugin
 					neighbour.getY() + MAP_SECTION_POS_Y
 				);
 
-				this.mapPages.get(regionId).add(neighbourButton);
+				this.mapPages.get(regionId).add(neighbourButton, COMPONENT_SET_SUBREGION_NEIGHBOUR_BUTTONS);
 			}
 		}
 	}
@@ -885,7 +888,7 @@ public class NexusMapPlugin extends Plugin
 		}
 
 		// Add the teleport button to this regions map page
-		this.mapPages.get(regionId).add(teleportButton);
+		this.mapPages.get(regionId).add(teleportButton, COMPONENT_SET_DEFAULT);
 
 		// Check that the teleport is available to the player
 		if (this.isTeleportAvailable(teleportDef))
@@ -927,7 +930,7 @@ public class NexusMapPlugin extends Plugin
 
 		if (isOverworld)
 		{
-			owAllButtons.add(teleportButton);
+			this.indexPage.add(teleportButton, COMPONENT_SET_INDEX_OW_TELEPORTS);
 			if (this.isTeleportAvailable(teleportDef))
 			{
 				teleportButton.setOnHoverListener(c -> applyOWHover(teleportDef, true));
@@ -1055,18 +1058,17 @@ public class NexusMapPlugin extends Plugin
 		// Make sure all other map pages are hidden
 		// Must be done in two steps as the map and back buttons are shared across pages
 		this.mapPages.values().forEach(page -> page.setVisibility(false));
-		this.mapPages.get(regionID).setVisibility(true);
+
+		var regionPage = this.mapPages.get(regionID);
+		regionPage.setVisibility(true);
+
+		boolean isOW = config.overworldMode();
+		regionPage.setVisibility(!isOW, COMPONENT_SET_INDEX_REGION_BUTTONS);
+		regionPage.setVisibility(isOW, COMPONENT_SET_INDEX_OW_TELEPORTS);
+		regionPage.setVisibility(config.showNeighbourRegions(), COMPONENT_SET_SUBREGION_NEIGHBOUR_BUTTONS);
 
 		// Set the sprite to that of the specified region
 		this.mapGraphic.setSprite(regionDefinitions.get(regionID).getMapSprite());
-
-		// Depending on overworld mode, we need to set some visibility flags
-		if (regionID == REGION_INDEX_ID)
-		{
-			boolean isOW = config.overworldMode();
-			this.indexRegionIcons.values().forEach(b -> b.setVisibility(!isOW));
-			this.owAllButtons.forEach(b -> b.setVisibility(isOW));
-		}
 	}
 
 	/**
